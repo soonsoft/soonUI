@@ -1,0 +1,27 @@
+div.hover-view-panel {
+    position: absolute;
+    width: 160px;
+    min-height: 24px;
+    max-height: 160px;
+    border-style: solid;
+    border-width: 2px;
+    background-color: #3C3F41;
+    font-size: 12px;
+    display: none;
+    overflow:auto;
+    z-index: 10000;
+}
+
+    div.hover-view-panel span {
+        line-height:24px;
+        margin-left:3px;
+        margin-right:3px;
+    }
+
+    div.hover-view-panel p {
+        padding:0px;
+        margin:0px;
+    }
+
+    div.hover-view-panel a {
+    }

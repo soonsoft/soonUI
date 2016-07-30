@@ -1,0 +1,42 @@
+div.message-box {
+    display: none;
+    position: absolute;
+    top: 88px;
+    left: 0px;
+    min-height: 80px;
+    height: auto;
+    width: 320px;
+    color: #FFFFFF;
+    overflow:hidden;
+    z-index:999999;
+}
+
+    div.message-box p {
+        line-height: 16px;
+        text-overflow: ellipsis;
+        text-align: justify;
+        text-justify: distribute;
+        margin-left: 10px;
+        margin-right: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 0px;
+    }
+
+div.message-box-error {
+    background-color: #CC0033;
+}
+
+    div.message-box a {
+        color:#F1F1F1;
+    }
+
+    div.message-box a:hover {
+        color: #FFFFFF;
+    }
+
+div.message-box a.close-button{
+    right: 5px;
+    top: 5px;
+    color: #FFFFFF;
+}
