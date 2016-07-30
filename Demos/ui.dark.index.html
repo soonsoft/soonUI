@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>磁贴</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        #body {
+            background-color: #3C3F41;
+        }
+        
+        div#dynamicBG {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.tiles.js"></script>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tiles.css" rel="stylesheet" />
+    <script type="text/javascript" src="../Scripts/UI/ui.color.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.effect.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div id="contentPanel" style="height:100%;position:relative;">
+            <div id="tilesBack" class="tile-back" style="background-color: transparent; z-index:1000;"></div>
+            <div id="dynamicBG"></div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        ui.themeChanged(function (e, info) {
+                            if (pageLogic.wave) {
+                                pageLogic.wave.changeColor(info.Color);
+                            }
+                            if (pageLogic.brilliant) {
+                                pageLogic.brilliant.changeColor(info.Color,
+                                    ui.color.overlay(info.Color, "#333333", .4));
+                            }
+                        });
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        var dynamicDiv = $("#dynamicBG"),
+                            canvas = null;
+                        if (ui.core.isSupportCanvas()) {
+                            $("#staticBG").css("display", "none");
+                            canvas = $("<canvas style='width:100%; height: 100%' />");
+                            dynamicDiv.append(canvas);
+                            //pageLogic.brilliant = ui.createEffects(canvas, "brilliant", {
+                            //    lightColor: ui.theme.getCurrentColor(),
+                            //    darkColor: ui.color.overlay(ui.theme.getCurrentColor(), "#333333", .4)
+                            //});
+                            //pageLogic.brilliant.start();
+                            pageLogic.wave = ui.createEffects(canvas, "wave", {
+                                speed: 0.01,
+                                waterHeight: 1.6,
+                                level: 0.07,
+                                color: ui.theme.getCurrentColor(),
+                                bgColor: "#3C3F41"
+                            });
+                            pageLogic.wave.start();
+                        }
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            
+                            if (pageLogic.wave) {
+                                pageLogic.wave.resize(width, height);
+                            }
+                            
+                            $("#tilesBack").css("height", height + "px");
+                            if (pageLogic.tiles) {
+                                pageLogic.tiles.resetDisplayHeight(height - 48 - 40);
+                            }
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        tilesUpdateLogic.updateTilesNames.push("messaging", "weibo", "qq");
+                        
+                        var options = [];
+                        var tilesOption = {
+                            tiles: [
+                                { name: "messaging", type: "wide", bgColor: "#8800CC", title: "消息", icon: "../Content/icons/messaging.png", link: null },
+                                { name: "weibo", type: "wide", bgColor: "#FFCC00", title: "微博", icon: "../Content/icons/cloud.png", link: null },
+                                { name: "qq", type: "wide", bgColor: "#0099CC", title: "QQ", icon: "../Content/icons/qq.png", link: null },
+                                { name: "date", type: "medium", bgColor: "#B975E6", title: "日期", icon: "../Content/icons/date.png", link: null },
+                                { name: "time", type: "medium", bgColor: "#DE335E", title: "时间", icon: "../Content/icons/time.png", link: null }
+                            ],
+                            updateHandlers: [
+                                { tileNames: ["messaging", "weibo", "qq"], interval: 0.2, func: tilesUpdateLogic.updateTiles },
+                                { tileNames: "date", interval: 1440, func: tilesUpdateLogic.updateDate },
+                                { tileNames: "time", interval: 1, func: tilesUpdateLogic.updateTime }
+                            ]
+                        };
+                        options.push(tilesOption);
+                        
+                        tilesOption = {
+                            title: "超链接磁贴",
+                            tiles: [
+                                { type: "medium", bgColor: "#FF6600", title: "bing", icon: "../Content/icons/IE.png", link: "http://cn.bing.com" },
+                                { type: "small", bgColor: "#2200CC", title: "baidu", icon: "../Content/icons/IE.png", link: "http://www.baidu.com" },
+                                { type: "small", bgColor: "#00CC00", title: "google", icon: "../Content/icons/IE.png", link: "http://www.google.com.hk" },
+                                { type: "small", bgColor: "#7DA8E5", title: "cn-beta", icon: "../Content/icons/IE.png", link: "http://www.cnbeta.com" },
+                                { type: "small", bgColor: "#ACE600", title: "pc-beta", icon: "../Content/icons/IE.png", link: "http://www.pcbeta.com" }
+                            ]
+                        };
+                        options.push(tilesOption);
+                        
+                         tilesOption = {
+                            title: "自定义磁贴",
+                            tiles: [
+                                { name: "weather", type: "large", bgColor: "#7EA9D8", title: "天气", icon: "../Content/icons/Weather.png", link: null },
+                                { type: "large", bgColor: "#627ECC", title: "控件示例", icon: "../Content/icons/notepad.png", link: null },
+                                { type: "large", bgColor: "#627ECC", title: "导航控件", icon: "../Content/icons/notepad.png", link: null }
+                            ],
+                            updateHandlers: [
+                                { tileNames: "weather", interval: 60, func: tilesUpdateLogic.updateWeather }
+                            ]
+                        };
+                        options.push(tilesOption);
+
+                        pageLogic.tiles = $("#tilesBack").renderTiles(masterpage.contentBodyHeight - 48 - 40, options);
+                        pageLogic.tiles.updateStart();
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                }
+            };
+            
+            var tilesUpdateLogic = {
+                updateTilesNames: [],
+                updateTiles: function (handlerInfo) {
+                    var tiles = pageLogic.tiles[0];
+                    var names = tilesUpdateLogic.updateTilesNames;
+                    if (names.length == 0) {
+                        return;
+                    }
+                    var data = {
+                        updateNames: names.join(",")
+                    };
+
+                    var updateData = ["Skype User：有事找你", "weibo User@你 今天天气真好啊", "QQ User：在吗？"];
+
+                    //更新
+                    tiles.updateContent(handlerInfo.next(), updateData[0]);
+                    tiles.updateContent(handlerInfo.next(), updateData[1]);
+                    tiles.updateContent(handlerInfo.next(), updateData[2]);
+                    //注册自动更新
+                    //tiles.updateContinue(handlerInfo);
+                },
+                updateDate: function(handlerInfo) {
+                    var tiles = pageLogic.tiles[0];
+                    var tile = tiles.getUpdateTile(handlerInfo.index)[0];
+                    tile.updateDate(tiles);
+                },
+                updateTime: function (handlerInfo) {
+                    var tiles = pageLogic.tiles[0];
+                    var tile = tiles.getUpdateTile(handlerInfo.index)[0];
+                    tile.updateTime(tiles);
+                    //注册自动更新
+                    tiles.updateContinue(handlerInfo);
+                },
+                updateWeather: function (handlerInfo) {
+                    
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

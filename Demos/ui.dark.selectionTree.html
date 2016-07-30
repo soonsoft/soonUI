@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>树形控件</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.selectionTree.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .tree-view-panel {
+            width:240px;
+            height:100%;
+            overflow:auto;
+            position:absolute;
+            border-right-width: 1px;
+            border-right-style: solid;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.selectionTree.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+           <ul class="tools" style="float:right;">
+               <li>
+                   <span>单选下拉树</span>
+                   <input id="selectTree1" type="text" class="select-text" style="width:120px;" readonly="readonly" />
+               </li>
+                <li>
+                    <span>多选下拉树</span>
+                    <input id="selectTree2" type="text" class="select-text" style="width:120px;" readonly="readonly" />
+                </li>
+               <li>
+                    <span>自动完成</span>
+                    <input id="selectTree3" type="text" class="select-text" style="width:120px;" />
+                </li>
+            </ul>
+            <br style="clear:both" />
+        </div>
+        <div id="contentPanel" style="height:100%;position:relative;">
+            <div id="treeView" class="tree-view-panel border-highlight" style=""></div>
+            <div id="treePanel" style="position:absolute;left:250px;top:0px;height:200px;width:300px;background-color:#3C3F41;overflow:auto;">
+                <input id="selectTree4" type="text" class="select-text" style="width:120px;margin-left:100px;" />
+                <div style="height:200px;width:20px;"></div>
+                <input id="selectTree5" type="text" class="select-text" style="width:120px;" />
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        pageLogic.treeView = $("#treeView").setTreeView({
+                            lazy: false,
+                            multiple: true,
+                            width: 240,
+                            valueField: "Value",
+                            textField: "Text",
+                            childField: "Children",
+                            data: pageLogic.loadTreeData(),
+                            canSelectNode: true,
+                            defaultOpen: true
+                        });
+                        /*
+                        pageLogic.treeView.selected(function(e, element, treeData) {
+                            var data = this.getMultipleSelection(),
+                                values = [];
+                            for(var i = 0; i < data.length; i++) {
+                                values.push(data[i].Text);
+                            }
+                            ui.msgshow(values.join(","));
+                        });
+                        */
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#contentPanel").css("height", height - 40 + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        //下拉列表
+                        pageLogic.selectTree1 = $("#selectTree1").setSelectTree({
+                            multiple: false,
+                            width: 186,
+                            valueField: "Value",
+                            textField: "Text",
+                            childField: "Children",
+                            data: pageLogic.loadTreeData(),
+                            canSelectNode: true,
+                            defaultOpen: false
+                        });
+                        pageLogic.selectTree1.selected(function (e, elem, data) {
+                            this.element.val(data.data.Text);
+                        });
+                        pageLogic.selectTree1.canceled(function(e) {
+                            this.element.val("");
+                        });
+                        //下拉列表（多选）
+                        pageLogic.selectTree2 = $("#selectTree2").setSelectTree({
+                            multiple: true,
+                            width: 186,
+                            valueField: "Value",
+                            textField: "Text",
+                            childField: "Children",
+                            data: pageLogic.loadTreeData(),
+                            canSelectNode: true,
+                            defaultOpen: true
+                        });
+                        pageLogic.selectTree2.selected(function (e, elem, treeData) {
+                            if (treeData.isNode) {
+                                this.selectChildNode(elem, treeData.isSelected);
+                            }
+
+                            if (!treeData.isRoot) {
+                                this.selectParentNode(elem, treeData.isSelected);
+                            }
+
+                            var selectedData = this.getMultipleSelection();
+                            var text = [];
+                            for (var i = 0; i < selectedData.length; i++) {
+                                text.push(selectedData[i].Text);
+                            }
+                            this.element.removeAttr("title");
+                            if (selectedData.length > 2) {
+                                this.element.val(text[0] + "...");
+                                this.element.attr("title", text.join("，"));
+                            } else {
+                                this.element.val(text.join("，"));
+                            }
+                        });
+                        pageLogic.selectTree2.canceled(function(e) {
+                            this.element.val("").removeAttr("title");
+                        });
+                        //自动完成下拉树（只支持单选）
+                        //下拉列表（多选）
+                        pageLogic.selectTree3 = $("#selectTree3").setAutoSelectTree({
+                            multiple: false,
+                            width: 186,
+                            valueField: "Value",
+                            textField: "Text",
+                            childField: "Children",
+                            data: pageLogic.loadTreeData(),
+                            canSelectNode: true,
+                            defaultOpen: true
+                        });
+                        pageLogic.selectTree3.selected(function (e, elem, treeData) {
+                            this.element.val(treeData.data.Text);
+                        });
+                        pageLogic.selectTree3.canceled(function(e) {
+                            this.element.val("");
+                        });
+                        
+                        //下拉列表
+                        pageLogic.selectTree4 = $("#selectTree4").setSelectTree({
+                            multiple: false,
+                            width: 186,
+                            valueField: "Value",
+                            textField: "Text",
+                            childField: "Children",
+                            data: pageLogic.loadTreeData(),
+                            canSelectNode: true,
+                            defaultOpen: false,
+                            layoutPanel: "treePanel"
+                        });
+                        pageLogic.selectTree4.selected(function (e, elem, data) {
+                            this.element.val(data.data.Text);
+                        });
+                        pageLogic.selectTree4.canceled(function(e) {
+                            this.element.val("");
+                        });
+                        
+                        //下拉列表
+                        pageLogic.selectTree5 = $("#selectTree5").setSelectTree({
+                            multiple: false,
+                            width: 186,
+                            valueField: "Value",
+                            textField: "Text",
+                            childField: "Children",
+                            data: pageLogic.loadTreeData(),
+                            canSelectNode: true,
+                            defaultOpen: false,
+                            layoutPanel: "treePanel"
+                        });
+                        pageLogic.selectTree5.selected(function (e, elem, data) {
+                            this.element.val(data.data.Text);
+                        });
+                        pageLogic.selectTree5.canceled(function(e) {
+                            this.element.val("");
+                        });
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                loadTreeData: function (data, level) {
+                    var i, len;
+                    if (!level) {
+                        data = [];
+                        level = 0;
+                        len = 10;
+                    } else {
+                        if (level > 2) {
+                            return;
+                        }
+                        len = ui.random(1, 10);
+                    }
+
+                    var item;
+                    for (i = 0; i < len; i++) {
+                        item = {
+                            Value: i,
+                            Text: "列表项文本" + (i + 1),
+                            Children: null
+                        };
+                        if (ui.random(0, 2)) {
+                            item.Children = [];
+                            arguments.callee.call(arguments.callee.caller, item.Children, level + 1);
+                        }
+                        data.push(item);
+                    }
+                    return data;
+                }
+            };
+            
+            
+        })();
+    </script>
+
+</body>
+</html>

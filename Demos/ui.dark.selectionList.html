@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>下拉列表控件</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.selectionList.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.form.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.dateChooser.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.chooser.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.colorPicker.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.selectionList.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.dateChooser.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.chooser.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.colorPicker.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+            <ul class="tools">
+               <li>
+                   <span id="beginTime" class="font-highlight-hover">2015-07-03</span>
+                   <span>~</span>
+                   <span id="endTime" class="font-highlight-hover">2015-07-03</span>
+               </li>
+           </ul>
+           <ul class="tools" style="float:right;">
+               <li>
+                   <span>单选下拉</span>
+                   <input id="selectList1" type="text" class="select-text" style="width:120px;" readonly="readonly" />
+               </li>
+                <li>
+                    <span>多选下拉</span>
+                    <input id="selectList2" type="text" class="select-text" style="width:120px;" readonly="readonly" />
+                </li>
+            </ul>
+            <br style="clear:both" />
+        </div>
+        <div id="contentPanel" style="height:100%;position:relative;">
+            <div id="layoutPanel" class="ctrl-form" style="width:auto;padding:20px;height:100%;overflow:auto;">
+                <label>日期控件</label>
+                <br />
+                <input id="dateChooser" type="text" class="date-text" />
+                <br />
+                <label>日期控件(带时间选择)</label>
+                <br />
+                <input id="dateChooser2" type="text" class="date-text" />
+                <br />
+                <label>时间选择</label>
+                <br />
+                <input id="chooser1" type="text" class="select-text" />
+                <br />
+                <label>时分选择</label>
+                <br />
+                <input id="chooser2" type="text" class="select-text" />
+                <br />
+                <label>颜色选择</label>
+                <br />
+                <input id="colorChooser" type="text" value="#1D1F21" />
+            </div>
+            <div id="listViewPanel" style="position:absolute;top:0px;left:240px;width:240px;height:100%;"></div>
+            <div id="calendarPanel" style="top:100px;right:100px;"></div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#contentPanel").css("height", height - 40 + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        //下拉菜单
+                        this.selectList1 = $("#selectList1").setSelectList({
+                            multiple: false,
+                            data: this.loadListData(),
+                            valueField: "Value",
+                            textField: "Text",
+                            //设置滚动条跟随容器
+                            layoutPanel: null
+                        });
+                        this.selectList1.selected(function (e, elem, listData) {
+                            this.element.val(listData.data.Text);
+                        });
+                        this.selectList1.canceled(function (e, elem, listData) {
+                            this.element.val("");
+                        });
+                        
+                        //下拉菜单多选
+                        this.selectList2 = $("#selectList2").setSelectList({
+                            multiple: true,
+                            width: 186,
+                            data: this.loadListData(),
+                            valueField: "Value",
+                            textField: "Text",
+                            layoutPanel: null
+                        });
+                        this.selectList2.selected(function (e, elem, listData) {
+                            var selectedData = this.getMultipleSelection();
+                            var text = [];
+                            for (var i = 0; i < selectedData.length; i++) {
+                                text.push(selectedData[i].Text);
+                            }
+                            this.element.removeAttr("title");
+                            if (selectedData.length > 2) {
+                                this.element.val(text[0] + "...");
+                                this.element.attr("title", text.join("，"));
+                            } else {
+                                this.element.val(text.join("，"));
+                            }
+                        });
+                        this.selectList2.canceled(function (e, elem, listData) {
+                            this.element.removeAttr("title").val("");
+                        });
+                        
+                        //listView
+                        this.listView = $("#listViewPanel").setListView({
+                            multiple: false,
+                            data: this.loadListData(),
+                            valueField: "Value",
+                            textField: "Text",
+                            layoutPanel: null
+                        });
+                        
+                        //日期选择
+                        $("#dateChooser").dateChooser({
+                            layoutPanel: "layoutPanel"
+                        });
+                        //日期选择(带时间)
+                        $("#dateChooser2").dateChooser({
+                            dateFormat: "yyyy-MM-dd hh:mm:ss",
+                            isDateTime: true,
+                            layoutPanel: "layoutPanel"
+                        });
+                        //选择器-时间
+                        $("#chooser1").setChooser({
+                            type: "time",
+                            size: "M",
+                            layoutPanel: "layoutPanel"
+                        });
+                        //选择器-时间.时分
+                        $("#chooser2").setChooser({
+                            type: "hourMinute",
+                            size: "M",
+                            layoutPanel: "layoutPanel"
+                        });
+                        //颜色选择
+                        $("#colorChooser").colorPicker();
+                        
+                        //日期展示
+                        var dc = $("#calendarPanel").putDateChooser();
+                        dc.selected(function(e, elem, value, date) {
+                            alert(date);
+                        });
+                        
+                        $("#beginTime").dateChooser();
+                        $("#endTime").dateChooser();
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                loadListData: function () {
+                    var data = [
+                        { Text: "Java", Value: 0 },
+                        { Text: "C#", Value: 1 },
+                        { Text: "C++", Value: 2 },
+                        { Text: "C", Value: 3 },
+                        { Text: "VB.net", Value: 4 },
+                        { Text: "Javascript", Value: 5 },
+                        { Text: "F#", Value: 6 },
+                        { Text: "Scala", Value: 7 }
+                    ];
+                    return data;
+                }
+            };
+            
+            
+        })();
+    </script>
+
+</body>
+</html>

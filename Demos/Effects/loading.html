@@ -1,0 +1,1182 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>加载动画</title>
+    <link href="../../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../../Content/themes/metro/ui.metro.form.css" rel="stylesheet" />
+    <style type="text/css">
+        .c_loadingDots {
+          line-height: 0;
+          white-space: nowrap;
+          position: relative;
+          visibility: hidden
+        }
+
+        .c_loadingText {
+          vertical-align: bottom;
+          margin-left: 5px
+        }
+
+        div.c_loadingDots.c_dotsPlaying {
+          visibility: visible
+        }
+
+        div.c_loadingDots div.c_loadingDot {
+          position: absolute;
+          left: 0;
+          bottom: 0
+        }
+
+        div.c_loadingDots div.c_loadingFallback {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent url('') no-repeat center center;
+          opacity: 1;
+          filter: alpha(opacity=100);
+          -moz-animation: hidedotsfallback .3s linear .1s 1 normal;
+          -ms-animation: hidedotsfallback .3s linear 0 1 normal;
+          -webkit-animation: hidedotsfallback .3s linear 0 1 normal;
+          animation: hidedotsfallback .3s linear 0 1 normal;
+          -moz-animation-fill-mode: both;
+          -ms-animation-fill-mode: both;
+          -webkit-animation-fill-mode: both;
+          animation-fill-mode: both
+        }
+
+        body.highContrast div.c_loadingDots div.c_loadingFallback {
+          -moz-animation: none;
+          -ms-animation: none;
+          -webkit-animation: none;
+          animation: none;
+          -moz-animation-fill-mode: none;
+          -ms-animation-fill-mode: none;
+          -webkit-animation-fill-mode: none;
+          animation-fill-mode: none
+        }
+
+        body.highContrast div.c_loadingTracks,body.IE_M7 div.c_loadingTracks,body.IE_M8 div.c_loadingTracks,body.IE_M9 div.c_loadingTracks {
+          display: none
+        }
+
+        @-moz-keyframes hidedotsfallback {
+            0%{
+                opacity: 0
+            }
+            100% {
+                opacity: 0
+            }
+        }
+        @-ms-keyframes hidedotsfallback {
+            0% {
+                opacity: 0
+            }
+            100% {
+                opacity: 0
+            }
+        }
+        @-webkit-keyframes hidedotsfallback {
+            0% {
+                opacity: 0
+            }
+            100% {
+                opacity: 0
+            }
+        }
+        @keyframes hidedotsfallback {
+            0% {
+                opacity: 0
+            }
+            100% {
+                opacity: 0
+            }
+        }
+        div.c_spinningDots {
+          width: 50px;
+          height: 50px;
+          display: inline-block
+        }
+
+        .IE_M7 div.c_spinningDots {
+          display: inline;
+          zoom: 1
+        }
+
+        div.c_spinningDots div.c_loadingTrack {
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: 10%
+        }
+
+        div.c_spinningDots div.c_loadingDot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background-color: #000
+        }
+
+        div.c_spinningDots.c_dotsPlaying div.c_loadingTrack {
+          opacity: 0;
+          filter: alpha(opacity=0);
+          -moz-animation: makedotspin1 3.3s cubic-bezier(.25,.6,.9,.35) .1s infinite normal;
+          -ms-animation: makedotspin1 3.3s cubic-bezier(.25,.6,.9,.35) 0 infinite normal;
+          -webkit-animation: makedotspin1 3.3s cubic-bezier(.25,.6,.9,.35) 0 infinite normal;
+          animation: makedotspin1 3.3s cubic-bezier(.25,.6,.9,.35) 0 infinite normal
+        }
+
+        .RE_WebKit div.c_spinningDots.c_dotsPlaying div.c_loadingTrack {
+          opacity: 1;
+          visibility: hidden
+        }
+
+        @-moz-keyframes makedotspin1 {
+          0%{-moz-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        35% {
+          -moz-transform: rotate(360deg)
+        }
+
+        72% {
+          opacity: 1
+        }
+
+        73% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-moz-keyframes makedotspin2 {
+          4%{opacity: 0
+        }
+
+        5% {
+          -moz-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        40% {
+          -moz-transform: rotate(360deg)
+        }
+
+        77% {
+          opacity: 1
+        }
+
+        78% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-moz-keyframes makedotspin3 {
+          9%{opacity: 0
+        }
+
+        10% {
+          -moz-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        45% {
+          -moz-transform: rotate(360deg)
+        }
+
+        82% {
+          opacity: 1
+        }
+
+        83% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-moz-keyframes makedotspin4 {
+          14%{opacity: 0
+        }
+
+        15% {
+          -moz-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        50% {
+          -moz-transform: rotate(360deg)
+        }
+
+        87% {
+          opacity: 1
+        }
+
+        88% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-moz-keyframes makedotspin5 {
+          19%{opacity: 0
+        }
+
+        20% {
+          -moz-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        55% {
+          -moz-transform: rotate(360deg)
+        }
+
+        92% {
+          opacity: 1
+        }
+
+        93% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -moz-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-ms-keyframes makedotspin1 {
+          0%{-ms-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        35% {
+          -ms-transform: rotate(360deg)
+        }
+
+        72% {
+          opacity: 1
+        }
+
+        73% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-ms-keyframes makedotspin2 {
+          4%{opacity: 0
+        }
+
+        5% {
+          -ms-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        40% {
+          -ms-transform: rotate(360deg)
+        }
+
+        77% {
+          opacity: 1
+        }
+
+        78% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-ms-keyframes makedotspin3 {
+          9%{opacity: 0
+        }
+
+        10% {
+          -ms-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        45% {
+          -ms-transform: rotate(360deg)
+        }
+
+        82% {
+          opacity: 1
+        }
+
+        83% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-ms-keyframes makedotspin4 {
+          14%{opacity: 0
+        }
+
+        15% {
+          -ms-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        50% {
+          -ms-transform: rotate(360deg)
+        }
+
+        87% {
+          opacity: 1
+        }
+
+        88% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-ms-keyframes makedotspin5 {
+          19%{opacity: 0
+        }
+
+        20% {
+          -ms-transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        55% {
+          -ms-transform: rotate(360deg)
+        }
+
+        92% {
+          opacity: 1
+        }
+
+        93% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          -ms-transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@-webkit-keyframes makedotspin1 {
+          0%{-webkit-transform: rotate(-10deg);
+          visibility: visible
+        }
+
+        35% {
+          -webkit-transform: rotate(360deg)
+        }
+
+        73% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        100% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        }@-webkit-keyframes makedotspin2 {
+          4%{visibility: hidden
+        }
+
+        5% {
+          -webkit-transform: rotate(-10deg);
+          visibility: visible
+        }
+
+        40% {
+          -webkit-transform: rotate(360deg)
+        }
+
+        78% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        100% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        }@-webkit-keyframes makedotspin3 {
+          9%{visibility: hidden
+        }
+
+        10% {
+          -webkit-transform: rotate(-10deg);
+          visibility: visible
+        }
+
+        45% {
+          -webkit-transform: rotate(360deg)
+        }
+
+        83% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        100% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        }@-webkit-keyframes makedotspin4 {
+          14%{visibility: hidden
+        }
+
+        15% {
+          -webkit-transform: rotate(-10deg);
+          visibility: visible
+        }
+
+        50% {
+          -webkit-transform: rotate(360deg)
+        }
+
+        88% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        100% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        }@-webkit-keyframes makedotspin5 {
+          19%{visibility: hidden
+        }
+
+        20% {
+          -webkit-transform: rotate(-10deg);
+          visibility: visible
+        }
+
+        55% {
+          -webkit-transform: rotate(360deg)
+        }
+
+        93% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        100% {
+          -webkit-transform: rotate(750deg);
+          visibility: hidden
+        }
+
+        }@keyframes makedotspin1 {
+          0%{transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        35% {
+          transform: rotate(360deg)
+        }
+
+        72% {
+          opacity: 1
+        }
+
+        73% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@keyframes makedotspin2 {
+          4%{opacity: 0
+        }
+
+        5% {
+          transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        40% {
+          transform: rotate(360deg)
+        }
+
+        77% {
+          opacity: 1
+        }
+
+        78% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@keyframes makedotspin3 {
+          9%{opacity: 0
+        }
+
+        10% {
+          transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        45% {
+          transform: rotate(360deg)
+        }
+
+        82% {
+          opacity: 1
+        }
+
+        83% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@keyframes makedotspin4 {
+          14%{opacity: 0
+        }
+
+        15% {
+          transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        50% {
+          transform: rotate(360deg)
+        }
+
+        87% {
+          opacity: 1
+        }
+
+        88% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }@keyframes makedotspin5 {
+          19%{opacity: 0
+        }
+
+        20% {
+          transform: rotate(-10deg);
+          opacity: 1
+        }
+
+        55% {
+          transform: rotate(360deg)
+        }
+
+        92% {
+          opacity: 1
+        }
+
+        93% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        100% {
+          transform: rotate(750deg);
+          opacity: 0
+        }
+
+        }div.c_spinningDots div.c_loadingTrack0 {
+          display: none
+        }
+
+        div.c_spinningDots.c_dotsPlaying div.c_loadingTrack1 {
+          -moz-animation-name: makedotspin1;
+          -ms-animation-name: makedotspin1;
+          -webkit-animation-name: makedotspin1;
+          animation-name: makedotspin1
+        }
+
+        div.c_spinningDots.c_dotsPlaying div.c_loadingTrack2 {
+          -moz-animation-name: makedotspin2;
+          -ms-animation-name: makedotspin2;
+          -webkit-animation-name: makedotspin2;
+          animation-name: makedotspin2
+        }
+
+        div.c_spinningDots.c_dotsPlaying div.c_loadingTrack3 {
+          -moz-animation-name: makedotspin3;
+          -ms-animation-name: makedotspin3;
+          -webkit-animation-name: makedotspin3;
+          animation-name: makedotspin3
+        }
+
+        div.c_spinningDots.c_dotsPlaying div.c_loadingTrack4 {
+          -moz-animation-name: makedotspin4;
+          -ms-animation-name: makedotspin4;
+          -webkit-animation-name: makedotspin4;
+          animation-name: makedotspin4
+        }
+
+        div.c_spinningDots.c_dotsPlaying div.c_loadingTrack5 {
+          -moz-animation-name: makedotspin5;
+          -ms-animation-name: makedotspin5;
+          -webkit-animation-name: makedotspin5;
+          animation-name: makedotspin5
+        }
+    </style>
+
+    <!-- 页面样式 -->
+    <style type="text/css">
+        /* 线形加载动画 */
+        div.c_flyingDots {
+          width: 100%;
+          height: 8px;
+          font-size: 0;
+          overflow: hidden
+        }
+
+        div.c_flyingDots div.c_loadingTracks {
+          position: absolute;
+          left: -10%;
+          top: 0;
+          right: -15%;
+          bottom: 0
+        }
+
+        div.c_flyingDots div.c_loadingTrack {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          height: 8px
+        }
+
+        div.c_flyingDots div.c_loadingDot {
+          width: 8px;
+          height: 8px;
+          /*
+          border-radius: 6px;
+          */
+          background-color: #008a17
+        }
+
+        div.c_flyingDots.c_dotsPlaying div.c_loadingDot {
+          -moz-animation: makedotfly 3.3s linear .1s infinite normal;
+          -ms-animation: makedotfly 3.3s linear 0s infinite normal;
+          -webkit-animation: makedotfly 3.3s linear 0s infinite normal;
+          animation: makedotfly 3.3s linear 0s infinite normal
+        }
+
+        @-moz-keyframes makedotfly {
+            0% {
+                left: 0;
+                -moz-animation-timing-function: cubic-bezier(.01,.55,1,1)
+            }
+
+            32% {
+                left: 40%
+            }
+
+            62% {
+                left: 58%;
+                -moz-animation-timing-function: cubic-bezier(.3,.1,1,1)
+            }
+
+            80% {
+                left: 105%
+            }
+
+            100% {
+                left: 105%
+            }
+        }
+        @-ms-keyframes makedotfly {
+            0% {
+                left: 0;
+                -ms-animation-timing-function: cubic-bezier(.01,.55,1,1)
+            }
+
+            32% {
+                left: 40%
+            }
+
+            62% {
+                left: 58%;
+                -ms-animation-timing-function: cubic-bezier(.3,.1,1,1)
+            }
+
+            80% {
+                left: 105%
+            }
+
+            100% {
+                left: 105%
+            }
+        }
+        @-webkit-keyframes makedotfly {
+            0% {
+                left: 0;
+                -webkit-animation-timing-function: cubic-bezier(.01,.55,1,1)
+            }
+
+            32% {
+                left: 40%
+            }
+
+            62% {
+                left: 58%;
+                -webkit-animation-timing-function: cubic-bezier(.3,.1,1,1)
+            }
+
+            80% {
+                left: 105%
+            }
+
+            100% {
+                left: 105%
+            }
+        }
+        @keyframes makedotfly {
+            0%{
+                left: 0;
+                animation-timing-function: cubic-bezier(.01,.55,1,1)
+            }
+
+            32% {
+                left: 40%
+            }
+
+            62% {
+                left: 58%;
+                animation-timing-function: cubic-bezier(.3,.1,1,1)
+            }
+
+            80% {
+                left: 105%
+            }
+
+            100% {
+                left: 105%
+            }
+        }
+
+        div.c_flyingDots div.c_loadingTrack0 {
+          left: -18%;
+          margin-left: 90px
+        }
+
+        div.c_flyingDots div.c_loadingTrack0 div.c_loadingDot {
+          -moz-animation-delay: .15s;
+          -ms-animation-delay: .15s;
+          -o-animation-delay: .15s;
+          -webkit-animation-delay: .15s;
+          animation-delay: .15s;
+          opacity: 0;
+          filter: alpha(opacity=0)
+        }
+
+        div.c_flyingDots div.c_loadingTrack1 {
+          left: -15%;
+          margin-left: 75px
+        }
+
+        div.c_flyingDots div.c_loadingTrack1 div.c_loadingDot {
+          -moz-animation-delay: .3s;
+          -ms-animation-delay: .3s;
+          -webkit-animation-delay: .3s;
+          animation-delay: .3s
+        }
+
+        div.c_flyingDots div.c_loadingTrack2 {
+          left: -12%;
+          margin-left: 60px
+        }
+
+        div.c_flyingDots div.c_loadingTrack2 div.c_loadingDot {
+          -moz-animation-delay: .45s;
+          -ms-animation-delay: .45s;
+          -webkit-animation-delay: .45s;
+          animation-delay: .45s
+        }
+
+        div.c_flyingDots div.c_loadingTrack3 {
+          left: -9%;
+          margin-left: 45px
+        }
+
+        div.c_flyingDots div.c_loadingTrack3 div.c_loadingDot {
+          -moz-animation-delay: .6s;
+          -ms-animation-delay: .6s;
+          -webkit-animation-delay: .6s;
+          animation-delay: .6s
+        }
+
+        div.c_flyingDots div.c_loadingTrack4 {
+          left: -6%;
+          margin-left: 30px
+        }
+
+        div.c_flyingDots div.c_loadingTrack4 div.c_loadingDot {
+          -moz-animation-delay: .75s;
+          -ms-animation-delay: .75s;
+          -webkit-animation-delay: .75s;
+          animation-delay: .75s
+        }
+
+        div.c_flyingDots div.c_loadingTrack5 {
+          left: -3%;
+          margin-left: 15px
+        }
+
+        div.c_flyingDots div.c_loadingTrack5 div.c_loadingDot {
+          -moz-animation-delay: .9s;
+          -ms-animation-delay: .9s;
+          -webkit-animation-delay: .9s;
+          animation-delay: .9s
+        }
+
+        div.c_flyingDots div.c_loadingFallback {
+          height: 4px
+        }
+    </style>
+
+    <style type="text/css">
+        /* 圆形加载动画 */
+        .progress {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            font-size: 16px;
+        }
+        
+        .small {
+            
+        }
+        
+        .middle {
+            
+        }
+        
+        .progress.large {
+            width: 64px;
+            height: 64px;
+            margin-top: -32px;
+            margin-left: -32px;
+        }
+        
+        .progress.circles {
+            background-color: transparent;
+            border: none;
+        }
+        
+        .progress.circles .circle {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: inline-block;
+            height: 100%;
+            left: 0px;
+            padding: 18px;
+            opacity: 0;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            -webkit-animation: circles 4.125s ease-in-out infinite;
+            -moz-animation: circles 4.125s ease-in-out infinite;
+            animation: circles 4.125s ease-in-out infinite;
+        }
+        
+        .progress.circles .circle::after {
+            background-color: #000000;
+            border-radius: 50%;
+            content: "";
+            display: block;
+            position: absolute;
+            height: 10%;
+            width: 10%;
+        }
+        
+        .progress.circles :nth-child(1).circle {
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+        
+        .progress.circles :nth-child(2).circle {
+            -webkit-animation-delay: 0.126s;
+            -moz-animation-delay: 0.126s;
+            animation-delay: 0.126s;
+        }
+        
+        .progress.circles :nth-child(3).circle {
+            -webkit-animation-delay: 0.252s;
+            -moz-animation-delay: 0.252s;
+            animation-delay: 0.252s;
+        }
+        
+        .progress.circles :nth-child(4).circle {
+            -webkit-animation-delay: 0.387s;
+            -moz-animation-delay: 0.387s;
+            animation-delay: 0.387s;
+        }
+        
+        .progress.circles :nth-child(5).circle {
+            -webkit-animation-delay: 0.504s;
+            -moz-animation-delay: 0.504s;
+            animation-delay: 0.504s;
+        }
+        
+        .progress.circles :nth-child(6).circle {
+            -webkit-animation-delay: 0.63s;
+            -moz-animation-delay: 0.63s;
+            animation-delay: 0.63s;
+        }
+        
+        @-webkit-keyframes circles {
+            0% {
+                transform: rotate(-180deg);
+                opacity: 0
+            }
+            13% {
+                opacity: 0
+            }
+            26% {
+                opacity: 1
+            }
+            74% {
+                opacity: 1
+            }
+            87% {
+                opacity: 0
+            }
+            100% {
+                transform: rotate(585deg);
+                opacity: 0
+            }
+        }
+        
+        @-moz-keyframes circles {
+            0% {
+                transform: rotate(-180deg);
+                opacity: 0
+            }
+            13% {
+                opacity: 0
+            }
+            26% {
+                opacity: 1
+            }
+            74% {
+                opacity: 1
+            }
+            87% {
+                opacity: 0
+            }
+            100% {
+                transform: rotate(585deg);
+                opacity: 0
+            }
+        }
+        
+        @keyframes circles {
+            0% {
+                transform: rotate(-180deg);
+                opacity: 0
+            }
+            13% {
+                opacity: 0
+            }
+            26% {
+                opacity: 1
+            }
+            74% {
+                opacity: 1
+            }
+            87% {
+                opacity: 0
+            }
+            100% {
+                transform: rotate(585deg);
+                opacity: 0
+            }
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>加载动画</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br clear="all" />
+    </header>
+    <section id="body">
+        <div class="c_flyingDots c_loadingDots c_dotsPlaying" style="top:100px;position:absolute;left:0px;display:block;width:100%;">
+            <div class="c_loadingTracks">
+                <div class="c_loadingTracks c_loadingTrack1">
+                    <div class="c_loadingDot background-highlight"></div>
+                </div>
+                <div class="c_loadingTracks c_loadingTrack2">
+                    <div class="c_loadingDot background-highlight"></div>
+                </div>
+                <div class="c_loadingTracks c_loadingTrack3">
+                    <div class="c_loadingDot background-highlight"></div>
+                </div>
+                <div class="c_loadingTracks c_loadingTrack4">
+                    <div class="c_loadingDot background-highlight"></div>
+                </div>
+                <div class="c_loadingTracks c_loadingTrack5">
+                    <div class="c_loadingDot background-highlight"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="c_spinningDots c_loadingDots c_dotsPlaying" style="top:200px;position:absolute;left:50%;margin-left:-100px;width:100px;height:100px;">
+            <div class="c_loadingTracks c_loadingTrack c_loadingTrack1" style="width:100%;height:100%;">
+              <div class="c_loadingDot background-highlight"></div>
+            </div>
+            <div class="c_loadingTracks c_loadingTrack c_loadingTrack2" style="width:100%;height:100%;">
+              <div class="c_loadingDot background-highlight"></div>
+            </div>
+            <div class="c_loadingTracks c_loadingTrack c_loadingTrack3" style="width:100%;height:100%;">
+              <div class="c_loadingDot background-highlight"></div>
+            </div>
+            <div class="c_loadingTracks c_loadingTrack c_loadingTrack4" style="width:100%;height:100%;">
+              <div class="c_loadingDot background-highlight"></div>
+            </div>
+            <div class="c_loadingTracks c_loadingTrack c_loadingTrack5" style="width:100%;height:100%;">
+              <div class="c_loadingDot background-highlight"></div>
+            </div>
+        </div>
+        
+        <div class="progress large circles" style="display:block;">
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#demoList").css("height", height + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        
+                    }
+                }
+            };
+            
+        })();
+    </script>
+
+</body>
+</html>

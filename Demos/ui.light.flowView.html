@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>控件Demo</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro/ui.metro.flowView.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .into-ship-content {
+            width: 100%;
+            height: 100%;
+        }
+
+        .cover-panel {
+            width: 100%;
+            height: 180px;
+            background-color: #666666;
+        }
+        
+        .title-info {
+            width: 100%;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background-color: #F1F1F1;
+        }
+
+        .ship-info {
+            width: 100%;
+            height: 86px;
+        }
+
+        .ship-info span {
+            margin-left: 10px;
+            line-height: 21px;
+        }
+        
+        .ctrl-panel {
+            width: 100%;
+            background-color: #F1F1F1;
+            height: 30px;
+            text-align: center;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.flowView.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <a id="backBtn" href="ui.light.index.html"></a><span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar"></div>
+        <div id="flowView" class="flow-view"></div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        this.flowView = $("#flowView").setFlowView({
+                            itemWidth: 240,
+                            itemHeight: 320,
+                            renderItem: this.demoManager.formatter.renderShipItem,
+                            selection: {
+                                multiple: true
+                            }
+                        });
+                        this.flowView.pageTurning(function(e, pageIndex, pageSize) {
+                            pageLogic.loadGridData(pageIndex);
+                        });
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            pageLogic.flowView.setHeight(height - 40);
+                            
+                        });
+
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        this.loadGridData();
+                    }
+                },
+                //ajax 数据请求
+                loadGridData: function (pageIndex) {
+                    if(!pageIndex) {
+                        this.flowView.pageIndex = 1;
+                    }
+                    var arr = new Array(ui.random(10, 31));
+                    this.flowView.fill(arr, 100);
+                }
+            };
+            
+            this.pageLogic.demoManager = {
+                formatter: {
+                    renderShipItem: function (item, index) {
+                        var htmlBuilder = [];
+                        htmlBuilder.push("<div class='into-ship-content'>");
+    
+                        htmlBuilder.push("<div class='cover-panel'>");
+                        htmlBuilder.push("<img src='", "",  "' alt='' />");
+                        htmlBuilder.push("</div>");
+    
+                        htmlBuilder.push("<div class='title-info'>");
+                        htmlBuilder.push("<span>", "未获得申报信息", "</span>");
+                        htmlBuilder.push("</div>");
+    
+                        htmlBuilder.push("<div class='ship-info'>");
+                        htmlBuilder.push("<span>", "船名船号", "</span><br />");
+                        htmlBuilder.push("<span>", "紫石泾观测点", "</span><br />");
+                        htmlBuilder.push("<span>", ui.str.dateFormat(new Date(), "yyyy-MM-dd HH:mm:ss"), "</span><br />");
+                        htmlBuilder.push("<span>", "张三确认", "</span>");
+                        htmlBuilder.push("</div>");
+    
+                        htmlBuilder.push("<div class='ctrl-panel'>");
+                        htmlBuilder.push("<button class='button background-highlight' style='width:50px;height:24px;margin-top:2px;'>待确认</button>");
+                        htmlBuilder.push("</div>");
+    
+                        htmlBuilder.push("</div>");
+                        return htmlBuilder.join("");
+                    }
+                },
+                //表单重置
+                formReset: function() {
+
+                },
+                //数据绑定到表单
+                dataToForm: function() {
+
+                },
+                //新增按钮点击事件
+                onAdding: function() {
+                    this.formReset();
+
+                    pageLogic.demoCtrlPanel.show();
+                },
+                //选中要更新的对象
+                onUpdeting: function(data) {
+                    this.dataToForm(data);
+                },
+                //用户操作保存
+                onSave: function() {
+
+                },
+                //用户删除操作
+                onDelete: function() {
+
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

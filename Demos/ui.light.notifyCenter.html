@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>通知中心</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/NotifyCenter.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro/ui.metro.dateChooser.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro/ui.metro.gridview.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.notifyCenter.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.dateChooser.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color clear">
+        <h1 id="title">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="search" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-search"></i>
+                </a>
+            </li>
+            <li>
+                <a id="openNotify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+                <div class="extender">
+                    <a id="closeNotify" class="ctrl-button" href="javascript:void(0)">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+    </header>
+    <section id="body">
+        <fieldset style="border:0px none;border-top:1px solid #DCDCDC;">
+            <legend style="font-size:14px;line-height:40px;margin-left:10px;padding-left:5px;padding-right:5px;">
+                <span>系统用户组</span>
+                <button class="icon-button" style="background-color:transparent;">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </legend>
+        </fieldset>
+        <fieldset style="border:0px none;border-top:1px solid #DCDCDC;">
+            <legend style="font-size:14px;line-height:40px;margin-left:10px;padding-left:5px;padding-right:5px;">
+                <span>部门用户组</span>
+                <button class="icon-button" style="background-color:transparent;">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </legend>
+        </fieldset>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

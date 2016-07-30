@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>日历控件</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.button.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.calendar.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tools.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .filter-tools-item span {
+            margin-left: 24px;
+            margin-right: 24px;
+        }
+        
+        .holiday {
+            color:#BD2D30;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.color.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.calendar.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    
+    <script type="text/javascript">
+        ui.theme.backgroundColor = "#1D1F21";
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+    <style id="GlobalThemeChangeStyle" type="text/css">
+    </style>
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+            <ul class="tools">
+                <li>
+                    <a id="prev" class="image-button direct button-left" style="vertical-align:top;margin-top:8px;"></a>
+                </li>
+                <li>
+                    <a id="today" class="image-button button-today" style="vertical-align:top;margin-top:8px;"></a>
+                </li>
+                <li>
+                    <a id="next" class="image-button direct button-right" style="vertical-align:top;margin-top:8px;"></a>
+                </li>
+                <li>
+                    <span id="calendarTitle" class="font-highlight" style="font-size:16px;line-height:40px;"></span>
+                </li>
+            </ul>
+           <ul class="tools" style="float:right;">
+               <li>
+                    <div id="calendarView" style="margin-top:8px;"></div>
+                </li>
+            </ul>
+            <br style="clear:both" />
+        </div>
+        <div id="contentPanel" style="position:relative;">
+            
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        this.calendar = $("#contentPanel").setCalendar({
+                            defaultView: "WeekView",
+                            sundayFirst: true,
+                            yearMultipleSelect: true,
+                            monthMultipleSelect: true
+                        });
+                        // this.calendar.viewChanging(function(e, currentView, view) {
+                        //     alert([currentView.getTitle(), view.getTitle()]);
+                        // });
+                        this.calendar.viewChanged(function(e, view) {
+                            $("#calendarTitle").text(view.getTitle());
+                        });
+                        this.calendar.weekTitleClick(function (e, view, weekIndex) {
+                            if (view.hasSchedule(weekIndex)) {
+                                ui.msgshow("已经设置工时，不能选择全天！");
+                                return;
+                            }
+                            view.selector.selectCellByTime(weekIndex, "08:00:00", "18:00:00");
+                        });
+                        this.calendar.selecting(function (e, view) {
+                            if (this.isView(view, "WeekView")) {
+                                
+                            } else if (this.isView(view, "DayView")) {
+
+                            }
+                        });
+                        this.calendar.changed(function(e, view) {
+                            $("#calendarTitle").text(view.getTitle());
+                            if(this.isView(view, "YearView")) {
+                                view.addSchedules(pageLogic.loadYearSchedule());
+                                //view.selectCell(getWeekendDates(view.year));
+                                //alert(view.getMultipleSelection().length);
+                                //view.cancelSelection();
+                            } else if(this.isView(view, "MonthView")) {
+                                view.addSchedules(pageLogic.loadMonthSchedule(), "date", "text");
+                                //view.selectCell(getWeekendDates2(view.year, view.month));
+                                //alert(view.getMultipleSelection().length);
+                                //view.cancelSelection();
+                            } else if(this.isView(view, "WeekView")) {
+                                view.addSchedules(pageLogic.loadWeekSchedule(), "BeginTime", "EndTime");
+                            } else if (this.isView(view, "DayView")) {
+
+                            }
+                        });
+                        this.calendar.selected(function (e, view, target, data) {
+                            if (this.isView(view, "YearView")) {
+                                
+                            } else if (this.isView(view, "MonthView")) {
+                                
+                            } else if (this.isView(view, "WeekView")) {
+                                
+                            } else if (this.isView(view, "DayView")) {
+
+                            }
+                        });
+                        this.calendar.deselected(function (e, view) {
+                            if (this.isView(view, "WeekView")) {
+                            } else if (this.isView(view, "DayView")) {
+
+                            }
+                        });
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight - 40,
+                                width = masterpage.contentBodyWidth;
+                            
+                            pageLogic.calendar.setSize(width, height);
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                       this.calendarView = $("#calendarView").createFilterTools({
+                            data: [
+                                { text: "年", value: "YearView" },
+                                { text: "月", value: "MonthView" },
+                                { text: "周", value: "WeekView", selected: true },
+                                { text: "日", value: "DayView" }
+                            ]
+                        });
+                        $("#calendarTitle").text(pageLogic.calendar.getTitle());
+                        this.calendarView.selected(function(e, item) {
+                            pageLogic.calendar.changeView(item.value);
+                            //$("#calendarTitle").text(pageLogic.calendar.getTitle());
+                        });
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        $("#prev").click(function(e) {
+                            pageLogic.calendar.prev();
+                        });
+                        $("#today").click(function(e) {
+                            pageLogic.calendar.today();
+                        });
+                        $("#next").click(function(e) {
+                            pageLogic.calendar.next();
+                        });
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                loadYearSchedule: function() {
+                    var data = [],
+                        today = new Date();
+                    var i, j, d;
+                    for(var i = 0; i < 12; i++) {
+                        d = new Date(today.getFullYear(), i + 1, 0);
+                        for(j = 1; j < d.getDate(); j++) {
+                            if(ui.random(1, 10) > 5) {
+                                continue;
+                            }
+                            data.push(new Date(today.getFullYear(), i, j));
+                        }
+                    }
+                    return data;
+                },
+                loadMonthSchedule: function() {
+                    var count = ui.random(20, 100),
+                        data = [],
+                        today = new Date();
+                    for(var i = 0; i < count; i++) {
+                        data[i] = {
+                            date: new Date(today.getFullYear(), today.getMonth(), ui.random(1, 28)),
+                            text: ""
+                        };
+                        data[i].text = ui.str.dateFormat(data[i].date, "HH:mm");
+                    }
+                    return data;
+                },
+                loadWeekSchedule: function() {
+                    var count = 1,
+                        today = new Date(),
+                        begin, end,
+                        data = [];
+                    for(var i = 0; i < count; i++) {
+                        data.push({
+                            "BeginTime": new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 0, 0),
+                            "EndTime": new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 0, 0),
+                            "Text": ""
+                        });
+                        data.push({
+                            "BeginTime": new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 0, 0),
+                            "EndTime": new Date(today.getFullYear(), today.getMonth(), today.getDate(), 15, 0, 0),
+                            "Text": ""
+                        });
+                        data.push({
+                            "BeginTime": new Date(today.getFullYear(), today.getMonth(), today.getDate(), 15, 0, 0),
+                            "EndTime": new Date(today.getFullYear(), today.getMonth(), today.getDate(), 18, 0, 0),
+                            "Text": ""
+                        });
+                    }
+                    return data;
+                }
+            };
+            
+            var getWeekendDates = function(year) {
+                var date = new Date(year, 0, 1);
+                var data = [];
+                date.setDate(date.getDate() + 6 - date.getDay());
+                while(date.getFullYear() == year) {
+                    data.push(new Date(date.getTime()));
+                    if(date.getMonth() != 11 && date.getDate() != 31) {
+                        data.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+                    }
+
+                    date.setDate(date.getDate() + 7);
+                }
+                return data;
+            };
+
+            var getWeekendDates2 = function(year, month) {
+                var date = new Date(year, month, 1);
+                var data = [];
+                date.setDate(date.getDate() + 6 - date.getDay());
+                while(date.getFullYear() == year && date.getMonth() == month) {
+                    data.push(new Date(date.getTime()));
+                    if(date.getMonth() != 11 && date.getDate() != 31) {
+                        data.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+                    }
+
+                    date.setDate(date.getDate() + 7);
+                }
+                return data;
+            };
+        })();
+    </script>
+
+</body>
+</html>

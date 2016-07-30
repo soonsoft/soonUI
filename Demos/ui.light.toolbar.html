@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>工具条</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .toolbar .toolbar-extend span {
+            display: inline-block;
+            width: 80px;
+            height: 40px;
+            text-align: right;
+            vertical-align: top;
+        }
+        
+        .toolbar .toolbar-extend .extend-spliter {
+            height: 104px;
+            margin-top: 8px;
+        }
+        
+        .toolbar .toolbar-extend select {
+            width: 128px;
+        }
+    </style>
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.dateChooser.js"></script>
+    <link type="text/css" href="../Content/themes/metro/ui.metro.dateChooser.css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    <link type="text/css" href="../Content/themes/metro/ui.metro.tools.css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <link type="text/css" href="../Content/themes/metro/ui.metro.gridview.css" rel="stylesheet" />
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color clear">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+    </header>
+    <section id="body">
+        <div id="pageToolbar" class="toolbar">
+            <ul class="tools">
+               <li style="margin-right:20px;">
+                   <div id="filter" style="margin-top:8px;"></div>
+                </li>
+                <li style="margin-right:20px;">
+                    <a id="textSelector" class="tool-text-button font-highlight" href="javascript:void(0)">
+                        <span>点击选择</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                </li>
+                <li style="margin-right:20px;">
+                    <a id="textSelector" class="tool-text-button font-highlight" href="javascript:void(0)">
+                        <span>点击选择2</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                </li>
+            </ul>
+           <ul class="tools" style="float:right;">
+               <li class="action-buttons">
+                   <a class="tool-action-button" href="javascript:void(0)" title="新建">
+                       <i class="fa fa-plus"></i>
+                   </a>
+                   <a class="tool-action-button" href="javascript:void(0)" title="移除">
+                       <i class="fa fa-minus"></i>
+                   </a>
+               </li>
+            </ul>
+            <div class="toolbar-extend">
+                <ul class="tools">
+                    <li>
+                        <span>姓名</span>
+                        <input id="Name" type="text" />
+                        <br />
+                        <span>年龄</span>
+                        <input id="Age" type="text" />
+                        <br />
+                        <span>其它信息</span>
+                        <input id="Age" type="text" />
+                    </li>
+                    <li>
+                        <hr class="extend-spliter" />
+                    </li>
+                    <li>
+                        <span>入职日期</span>
+                        <input id="joinStartDate" type="text" class="date-text" />
+                        ~
+                        <input id="joinEndDate" type="text" class="date-text" />
+                        <br />
+                        <span>别的什么时间</span>
+                        <input type="text" class="date-text" />
+                        ~
+                        <input type="text" class="date-text" />
+                    </li>
+                    <li>
+                        <hr class="extend-spliter" />
+                    </li>
+                    <li>
+                        <span>选择框</span>
+                        <input type="text" style="width:124px;" />
+                        <br />
+                        <span>第二个选择框</span>
+                        <select>
+                            <option>选项一</option>
+                            <option>选项二</option>
+                            <option>选项三</option>
+                            <option>选项四</option>
+                        </select>
+                    </li>
+                    <li>
+                        <hr class="extend-spliter" />
+                    </li>
+                    <li>
+                        <span></span>
+                        <br />
+                        <button class="button background-highlight" style="width:36px;height:36px;min-width:36px;border-radius:50%;cursor:pointer;line-height:16px;" title="查询">
+                            <i class="fa fa-search" style="font-size:16px;"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="gridview" class="grid-view"></div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        masterpage.initToolbar("pageToolbar");
+                        
+                        var option = {
+                            columns: [
+                                { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                                { text: "姓名", column: "Name", len: 120, sort: true },
+                                { text: "年龄", column: "Age", len: 80, align: "right", sort: true },
+                                { text: "性别", column: "Gander", len: 80, align: "center" },
+                                { handler: ui.ColumnStyle.cfn.empty }
+                            ]
+                        };
+                        this.gridview = $("#gridview").setGridview(option);
+                        this.gridview.selected(function(e, elem, row) {
+                            //pageLogic.demoCtrlPanel.show();
+                        });
+                        this.gridview.deselected(function(e, elem, row) {
+                            //pageLogic.demoCtrlPanel.hide();
+                        });
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            pageLogic.gridview.setHeight(height - masterpage.toolbar.height);
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        this.filterView = $("#filter").createFilterTools({
+                            data: [
+                                { text: "全部", value: "all", selected: true },
+                                { text: "工具", value: "tool" },
+                                { text:  "网络", value: "network" },
+                                { text: "游戏", value: "game" }
+                            ]
+                        });
+                        
+                        //$("#joinStartDate").dateChooser();
+                        //$("#joinEndDate").dateChooser();
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        this.loadGridData();
+                    }
+                },
+                loadGridData: function (pageIndex) {
+                    if(!pageIndex) {
+                        pageLogic.gridview.pageIndex = pageIndex = 1;
+                    }
+                    //数据生成，请忽略
+                    var data = [];
+                    var i = 0, len = 20,
+                        item;
+                    for (; i <= len; i++) {
+                        item = {
+                            Id: ui.guid.newGuid(),
+                            Name: "姓名" + (i + 1),
+                            Age: ui.random(10, 100),
+                            Gander: "男"
+                        };
+                        data.push(item);
+                    }
+
+                    if (data) {
+                        pageLogic.gridview.createGridBody(data);
+                    } else {
+                        pageLogic.gridview.empty();
+                    }
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

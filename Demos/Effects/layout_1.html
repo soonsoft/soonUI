@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>布局模式1</title>
+    <!-- 页面样式 -->
+    <style type="text/css">
+        html,
+        body {
+            padding: 0px;
+            margin: 0px;
+            color: #333333;
+            width: 100%;
+            height: auto;
+        }
+        
+        #wrap {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        
+        #head {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 80px;
+            background-color:#FFFFFF;
+            opacity: .7;
+            z-index: 99;
+        }
+        
+        #body {
+            position: relative;
+            padding-top: 80px;
+            width: 100%;
+            height: auto; 
+            z-index: 98;
+        }
+        
+        #contains {
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 98;
+        }
+        
+        #font-wrap {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        
+        #font {
+            width: 100%;
+            height: 400px;
+            position: fixed;
+            z-index: 97;
+            left: 0px;
+            bottom: 0px;
+        }
+        
+        .content {
+            width: 100%;
+            height:320px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <section id="head">
+            <div class="content" style="height:100%;">
+                <h1 style="height:64px;color:#2E4D7B;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:80px;text-align:left;">Head Head Head</h1>
+            </div>
+        </section>
+        <section id="body">
+            <section id="contains">
+                <div class="content" style="background-color:#6C89B1;"></div>
+                <div class="content" style="background-color:#1C4A97;height:400px;"></div>
+                <div class="content" style="background-color:#3B6597;"></div>
+                <div class="content" style="background-color:#2E4D7B;height:500px;"></div>
+                <div class="content" style="background-color:#A5ACCC;"></div>
+            </section>
+            <section id="font-wrap">
+                <div id="font" style="background-color:#111322">
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                </div>
+            </section>
+        </section>
+    </div>
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>

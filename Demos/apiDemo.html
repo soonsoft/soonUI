@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>UI 2.0 API文档</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+    <link href="../Content/themes/metro/ui.metro.list.css" rel="stylesheet" />
+
+    <!-- 页面样式 -->
+    <style type="text/css">
+        #body {
+            color: #666666;
+        }
+
+        #menuList {
+            width: 240px; 
+            height: 100%;
+            overflow: auto;
+            border-right: 1px solid #dcdcdc;
+        }
+            #menuList li {
+                height: 30px;
+                line-height: 30px;
+            }
+
+            #menuList a {
+                color: #333;
+                display: block;
+                margin: 0px;
+                height: 100%;
+                padding-left: 10px;
+                text-decoration: none;
+            }
+
+                #menuList a:hover {
+                    text-decoration: none;
+                }
+            #menuList li.selection-item a {
+                color: #ffffff;
+            }
+
+        #rightContent {
+            position: absolute; 
+            left: 250px; 
+            top: 0px; 
+            right: 0px; 
+            bottom: 0px;
+            overflow: auto;
+            padding-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 740px;
+            border: 0px solid #c0c0c0;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            table-layout: fixed;
+        }
+
+            table th, td {
+                border: 1px solid #c0c0c0;
+                padding: 3px;
+                line-height: 30px;
+            }
+
+            table th {
+                background-color: #cccccc;
+                color: #ffffff;
+            }
+
+            th p, td p {
+                margin: 0px;
+                padding: 3px;
+                line-height: 30px;
+            }
+
+        .list-content .func-item {
+            border: 1px solid #C0C0C0;
+            margin: 0px 0px 25px 2px;
+            padding: 10px;
+        }
+
+        .list-content .func-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        span.prompt-text {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 30px;
+        }
+
+        .list-content p {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .list-content .func-detail-item {
+            margin-left: 2em;
+        }
+
+        .list-content .list-selected {
+            border: 3px solid #2078EF;
+            margin-bottom: 21px;
+        }
+        
+        .title-text {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 60px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.list.js"></script>
+
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span id="widgetName">应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+            
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body" style="position:relative;">
+        <div id="menuList" style=""></div>
+        <div id="rightContent" style="">
+           <!--  <div id="imgContent" style="width:800px; height:600px; margin-top:10px;">
+                <img id="jsImg" alt="" />
+            </div> -->
+            <div id="optionsContent">
+                <span class="font-highlight title-text">参数说明</span>
+                <table id="optionsTable" cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width: 140px;"></col>
+                        <col style="width: 200px;"></col>
+                        <col style="width: 300px;"></col>
+                        <col style="width: 100px;"></col>
+                    </colgroup>
+                    <tr>
+                        <th>名称</th>
+                        <th>默认值</th>
+                        <th>描述</th>
+                        <th>是否必填</th>
+                    </tr>
+                </table>
+            </div>
+            <div id="eventList" class="list-content">
+                <span class="font-highlight title-text">事件</span>
+            </div>
+            <div id="funcList" class="list-content">
+                <span class="font-highlight title-text">方法</span>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {    
+                        this.menuList = $("#menuList").setList({
+                            width: 240,
+                            valueField: "",
+                            textField: "name",
+                            formatText: pageLogic.formatMenuListItem,
+                            showRemoveButton: false
+                        });
+
+                        var widgetName = ui.url.getLocationParam("widgetName");
+                        $("#widgetName").text(widgetName);
+                        var url = ui.str.stringFormat("../Scripts/ApiJs/api.{0}.js", widgetName);
+                        $.getScript(url, function(data, status) {
+                            if(status == "success") {
+                                pageLogic.initWidgetData();
+                            } else {
+                                ui.msgshow("加载数据失败");
+                            }
+                        });
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#body").css("height", height + "px");
+                            $("#rightContent").css("height", height + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        
+                    }
+                },
+                initWidgetData: function() {
+                    var data = pageLogic.widgetData;
+                    var funcList = data["functionList"];
+                    var eventList = data["events"];
+                    var i, item, parent;
+                    var len = 0;
+                    var eventListElem = $("#eventList");
+                    if(eventList != null && eventList.length > 0) {
+                        parent = $("#eventList");
+                        for(i = 0; i < eventList.length; i++) {
+                            item = eventList[i];
+                            pageLogic.renderMenuItem(item);
+                            parent.append(pageLogic.renderFuncsItem(item, i, parent));
+                        }
+                    } else {
+                        eventListElem.remove();
+                        eventListElem = null;
+                    }
+                    if(funcList != null && funcList.length > 0) {
+                        parent = $("#funcList");
+                        if(eventListElem) {
+                            eventListElem.last().css("margin-bottom", "0px");
+                            len = eventList.length;
+                        }
+                        
+                        for(i = 0; i < funcList.length; i++) {
+                            item = funcList[i];
+                            pageLogic.renderMenuItem(item);
+                            parent.append(pageLogic.renderFuncsItem(item, i + len));
+                        }
+                    }
+                    /*var imgUrl = data["imgUrl"];
+                    if(!ui.str.isNullOrEmpty(imgUrl)) {
+                        this.renderImage(imgUrl);
+                    } else {
+                        $("#imgContent").remove();
+                    }*/
+
+                    var optionsList = data["options"];
+                    if(optionsList != null && optionsList.length > 0) {
+                        this.renderOptionsTable(optionsList);
+                    } else {
+                        $("#optionsContent").remove();
+                    }
+                },
+                renderMenuItem: function(item) {
+                    pageLogic.menuList.add(item);
+                },
+                renderImage: function(url) {
+                    $("#jsImg").setImage(url, 800, 600);
+                },
+                renderOptionsTable: function(options) {
+                    var table = $("#optionsTable");
+                    var i, item;
+                    var tr;
+                    var td1, td2, td3, td4, p;
+                    for(i = 0; i < options.length; i++) {
+                        item = options[i];
+                        tr = $("<tr class='option-item' />");
+                        td1 = $("<td />");
+                        td2 = $("<td />");
+                        td3 = $("<td />");
+                        td4 = $("<td />");
+                        if(!ui.str.isNullOrEmpty(item.name)) {
+                            td1.text(item.name);
+                        }
+                        // if(!ui.str.isNullOrEmpty(item.defaultValue)) {
+                            td2.text(item.defaultValue);
+                        // }
+                        if(!ui.str.isNullOrEmpty(item.desc)) {
+                            p = $("<p />");
+                            p.text(item.desc);
+                            td3.append(p);
+                        }
+                        if(item.isMust == true) {
+                            td4.text("是");
+                        } else if(item.isMust == false) {
+                            td4.text("否");
+                        } else {
+                            td4.text(item.isMust);
+                        }
+
+                        tr.append(td1)
+                          .append(td2)
+                          .append(td3)
+                          .append(td4);
+                        table.append(tr);
+                    }
+                },
+                renderFuncsItem: function(item, index) {
+                    var div = $("<div id='funcItem" + index + "' class='func-item' ></div>");
+                    var title = $("<span class='func-name' />");
+                    title.text(item.name);
+                    var span1 = $("<span class='prompt-text'>参数</span>");
+                    var paramDiv = pageLogic.renderFuncParam(item.params);
+                    var span2 = $("<span class='prompt-text'>描述</span>");
+                    var descDiv = pageLogic.renderFuncDesc(item.desc);
+                    var span3 = $("<span class='prompt-text'>返回值</span>");
+                    var returnDiv = pageLogic.renderFuncReturn(item.returnValue);
+                    div.append(title)
+                       .append($("<br />"))
+                       .append(span1)
+                       .append(paramDiv)
+                       .append(span2)
+                       .append(descDiv)
+                       .append(span3)
+                       .append(returnDiv);
+                    return div;
+                },
+                renderFuncParam: function(list) {
+                    var div = $("<div class='func-detail-item' />");
+                    if(list != null && list.length > 0) {
+                        var i, item, p, str;
+                        for(i = 0; i < list.length; i++) {
+                            item = list[i];
+                            p = $("<p />");
+                            str = item.name + ": " + item.type + "类型, " + item.desc;
+                            p.text(str);
+                            div.append(p);
+                        }
+                    } else {
+                        div.append("<span>没有参数</span>");
+                    }
+                    return div;
+                },
+
+                renderFuncDesc: function(data) {
+                    var div = $("<div class='func-detail-item' />");
+                    var p = $("<p />");
+                    p.text(data);
+                    div.append(p);
+                    return div;
+                },
+
+                renderFuncReturn: function(data) {
+                    var div = $("<div class='func-detail-item' />");
+                    var p = $("<p />");
+                    if(!ui.str.isNullOrEmpty(data)) {
+                        p.text(data);
+                    } else {
+                        p.text("无");
+                    }
+                    div.append(p);
+                    return div;
+                },
+
+                //渲染菜单列表项
+                formatMenuListItem:function(data, index) {
+                    var a = $("<a href='javascript:void(0)' class='menu-list-item'>" +  data.name + "</a>");
+                    var funcId = "funcItem" + index;
+                    a.prop("href", "#" + funcId);
+                    a.click({funcId: funcId}, function(e) {
+                        var funcId = e.data.funcId;
+                        var elem = $("#" + funcId);
+                        var selected = $(".list-selected");
+                        var selectedId = null;
+                        if(selected) {
+                            selected.removeClass("list-selected");
+                            selectedId = selected.prop("id");
+                        }
+                        if(selectedId != funcId) {
+                            elem.addClass("list-selected");
+                        }
+                        
+                    });
+                    return a;
+                }
+            };
+
+        })();
+    </script>
+
+</body>
+</html>

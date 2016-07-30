@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>地图环形按钮</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../Content/themes/metro/ui.metro.tools.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css"></link>
+    <script src="https://js.arcgis.com/3.15/"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div id="map" style="width:100%;height:100%;position:relative;"></div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            ui.define("ctrls.MapExtendButton", ui.ctrls.ExtendButton, {
+                bindShowEvent: function() {
+                    var that = this;
+                    this.parent.click(function(e) {
+                        e.stopPropagation();
+                    });
+                    this.element.getLayer().on("click", function(e) {
+                        that.show();
+                    });
+                    this.element.getLayer().getMap().on("click", function(e) {
+                        if(e.graphic !== that.element) {
+                            that.hide();
+                        }
+                    });
+                },
+                getElementCenter: function() {
+                    var symbol = this.element.symbol;
+                    var screen = this.element.getLayer().getMap().toScreen(this.element.geometry);
+                    var position = {
+                        left: screen.x - symbol.xoffset,
+                        top: screen.y - symbol.yoffset
+                    };
+                    return position;
+                }
+            });
+            
+            
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        require([
+                                "esri/map",
+                                "esri/graphic",
+                                "esri/Color",
+                                "esri/toolbars/draw",
+                                "esri/symbols/Font",
+                                "esri/symbols/TextSymbol",
+                                "esri/layers/GraphicsLayer",
+                                "esri/dijit/editing/AttachmentEditor",
+                                "dijit/form/Button",
+                                "esri/symbols/Font",
+                                "esri/symbols/PictureMarkerSymbol",
+                                "esri/symbols/SimpleLineSymbol",
+                                "esri/symbols/SimpleFillSymbol",
+                                "esri/layers/FeatureLayer",
+                                "esri/InfoTemplate",
+                                "esri/geometry/Point",
+                                "esri/geometry/Polyline",
+                                "esri/geometry/Polygon",
+                                "esri/geometry/Circle",
+                                "esri/dijit/Popup",
+                                "esri/dijit/PopupTemplate",
+                                "esri/dijit/InfoWindow",
+                                "esri/dijit/Scalebar",
+                                "dojo/domReady!"
+                            ], function() {
+                            pageLogic.map = new esri.Map("map", {
+                                center: [120, 31],
+                                zoom: 8,
+                                basemap: "topo"
+                            });
+                            pageLogic.map.on("load", function() {
+                                pageLogic.layer = new esri.layers.GraphicsLayer({id: "layer"});
+                                pageLogic.map.addLayer(pageLogic.layer);
+                                
+                                var markerSymbol = new esri.symbol.PictureMarkerSymbol("../Content/icons/marker.png", 27, 40);
+                                markerSymbol.setOffset(0, 20);
+                                var geometry = new esri.geometry.Point({
+                                    "x": 120,
+                                    "y": 31
+                                });
+                                pageLogic.graphic = new esri.Graphic(geometry, markerSymbol, null, null);
+                                // 添加到图层
+                                pageLogic.layer.add(pageLogic.graphic);
+
+                                pageLogic.createExtendButton();
+                            });
+                        });
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                       
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                createExtendButton: function () {
+                    pageLogic.extendButton = new ui.ctrls.MapExtendButton({
+                            buttonSize: 32,
+                            parent: "map",
+                            centerIcon: "none",
+                            centerSize: 48,
+                            //centerIcon: "<img src='../Content/icons/marker.png' style='width:22px;height:32px;margin-left:5px;' alt='' />",
+                            buttons:[
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索",
+                                    handler: function(button) {
+                                        ui.msgshow("点击");
+                                    }
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                }
+                            ]
+                        }, pageLogic.graphic);
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

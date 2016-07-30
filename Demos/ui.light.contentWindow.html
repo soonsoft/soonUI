@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>弹出窗</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../Content/themes/metro/ui.metro.contentWindow.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .content-window a.url-close-button {
+            width: 30px;
+            height: 30px;
+            line-height: 26px;
+            color: #FFFFFF;
+        }
+        
+        div.content-window div.url-window-title {
+            height: 30px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.contentWindow.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+           <ul class="tools" style="float:right;">
+               <li>
+                   <button id="showWindow" class="tool-button" style="width:70px;">弹出窗口</button>
+               </li>
+                <li>
+                    <button id="showUrlWindow" class="tool-button" style="width:80px;">弹出Url窗口</button>
+                </li>
+            </ul>
+            <br style="clear:both" />
+        </div>
+        <div id="contentPanel" style="height:100%;position:relative;">
+            <div id="windowContent" style="padding:15px;">
+                <h1>窗体内容</h1>
+            </div>
+            <input id="contentSave" type="button" class="button background-highlight" value="保存" />
+            <input id="contentCancel" type="button" class="button" value="取消" />
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        //准备弹出窗口
+                        this.contentWindow = 
+                            $("#windowContent").putWindow({
+                                show: "up",
+                                hide: "down",
+                                done: "up",
+                                title: "窗体标题",
+                                width: 800,
+                                height: 600,
+                                isRespond: true,
+                                resizeable: true,
+                                draggable: true
+                            });
+                        this.contentWindow
+                            .buttonAppend("contentSave")
+                            .buttonAppend("contentCancel");
+                        
+                        //准备Url弹出窗口
+                        this.urlWindow = 
+                            ui.win.createUrlWindow({
+                                title: {
+                                    text: $("<span style='font-size: 14px; color: #FFFFFF; line-height: 30px;'>百度搜索</span>"),
+                                    hasHr: false,
+                                    style: ["url-window-title", "background-highlight"]
+                                },
+                                width: 800,
+                                height: 600,
+                                src: "http://www.baidu.com",
+                                windowStyle: {
+                                    "border-width": "2px",
+                                    "border-style": "solid"
+                                },
+                                titleHeight: 30,
+                                closeButtonStyle: "close-button",
+                                isRespond: true,
+                                resizeable: true,
+                                draggable: true
+                            });
+                        this.urlWindow.cwindow.find(".close-button").addClass("url-close-button");
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#contentPanel").css("height", height - 40 + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                       
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        $("#showWindow").click(function(e) {
+                            pageLogic.contentWindow.show();
+                        });
+                        $("#contentSave").click(function(e) {
+                            pageLogic.contentWindow.done();
+                        });
+                        $("#contentCancel").click(function(e) {
+                            pageLogic.contentWindow.hide();
+                        });
+                        
+                        $("#showUrlWindow").click(function(e) {
+                            pageLogic.urlWindow.show();
+                        });
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                loadListData: function () {
+                    
+                }
+            };
+            
+            
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>控件Demo</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+    
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tabPanel.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.gridview.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tools.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        form input[type='text'] {
+            width:188px;
+        }
+
+        form select {
+            width:188px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tabPanel.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.images.js"></script>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.images.css" rel="stylesheet" />
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    
+    <script type="text/javascript" src="demo.data/jay-album.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <a id="backBtn" href="ui.light.index.html"></a><span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+            <li class="tab-item tab-button">
+                <span>表格控件</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>树形表格</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>树形表格2</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>分组表格</span>
+                <i class="pointer"></i>
+            </li>
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div id="tabBodyPanel" class="tab-body-panel" style="height: 100%;">
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools" style="float:right;">
+                        <li>
+                            <button class="icon-button" title="查询">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="icon-button" title="创建">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="icon-button" title="删除">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <br style="clear:left;" />
+                </div>
+                <div id="gridview" class="grid-view"></div>
+            </div>
+            
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools">
+                        <li>
+                            <span class="font-highlight" style="font-size:16px;">树形表格</span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="gridTree" class="grid-view"></div>
+            </div>
+            
+            <div class="tab-body">
+                <div class="toolbar">
+                   <ul class="tools">
+                        <li>
+                            <span class="font-highlight" style="font-size:16px;">延迟加载的树形表格</span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="gridTreeLazy" class="grid-view"></div>
+            </div>
+            
+            <div class="tab-body">
+                <div class="toolbar">
+                   <ul class="tools">
+                        <li>
+                            <span class="font-highlight" style="font-size:16px;">分组表格</span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="gridGroup" class="grid-view"></div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var tabManager = null;
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        //选项卡的控制器，每个页面直接重用，只需重写tabChanged方法中的方法调用即可
+                        tabManager = ui.tab.createTabManager(function(e, index) {
+                            if (index === 0) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadGridData, 
+                                    pageLogic, 
+                                    1, pageLogic.gridview.pageSize);
+                            } else if (index === 1) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadTreeData, 
+                                    pageLogic);
+                            } else if (index === 2) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadTreeLazyData, 
+                                    pageLogic);
+                            } else if(index === 3) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadJayMusic, 
+                                    pageLogic);
+                            }
+                        });
+                        //为添加要切换的工具条
+                        //tabManager.addTools();
+                        //初始化tab控件
+                        this.tab = ui.tab.createTabs({
+                            tabPanelId: "headerTags",
+                            bodyPanelId: "tabBodyPanel",
+                            direction: "horizontal"
+                        });
+                        this.tab.changing($.proxy(tabManager.tabChanging, tabManager));
+                        this.tab.changed($.proxy(tabManager.tabChanged, tabManager));
+                        
+                        createGridview();
+                        createGridTree();
+                        createGridTreelazy();
+                        createGridGroup();
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            
+                            pageLogic.tab.setBodyHeight(height);
+                            pageLogic.gridview.setHeight(height - 40);
+                            pageLogic.deptGrid.setHeight(height - 40);
+                            pageLogic.projectGrid.setHeight(height - 40);
+                            pageLogic.jayMusicView.setHeight(height- 40);
+                            
+                            //调整tab窗口的位置，固定写法
+                            pageLogic.tab.setBodiesLocation();
+                            pageLogic.tab.restore();
+                        });
+
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        this.hoverView = ui.createHoverView();
+                        this.hoverView.showing(function (e) {
+                            this.empty();
+                            var text = this.target.data("data"),
+                                i, item;
+                            this.append($("<span />").text(text));
+                        });
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        this.tab.setIndex(0);
+                    }
+                },
+                
+                //ajax 数据请求
+                loadGridData: function (pageIndex, pageSize) {
+                    //数据生成，请忽略
+                    var data = [],
+                        total = 0;
+                    var i = pageIndex, len = 30,
+                        item;
+                    for (; i <= len; i++) {
+                        item = {
+                            Id: ui.guid.newGuid(),
+                            Image: "Content/images/imgs/" + ui.random(1, 30) + ".jpg",
+                            Text: "普通文本显示",
+                            DateTime: new Date(),
+                            Money: ui.random(0, 10000),
+                            Money2: ui.random(0, 10000) * 12,
+                            SameValue: ui.random(0, 5),
+                            Boolean: ui.random(0, 2) ? true : false,
+                            Number: Math.random(),
+                            Custom: "自定义列数据"
+                        };
+                        data.push(item);
+                    }
+                    for(i = 0; i < len; i++) {
+                        total += data[i].Money;
+                    }
+                    pageLogic.gridview.option.columns[9].handler = ui.ColumnStyle.cfnp.getProgressBar(null, total);
+                    
+                    var rowCount = ui.random(data.length, data.length * ui.random(2, 7));
+
+
+                    if (pageIndex == 1) {
+                        pageLogic.gridview.pageIndex = pageIndex;
+                    }
+
+                    if (data) {
+                        pageLogic.gridview.createGridBody(data, rowCount + 1000);
+                    } else {
+                        pageLogic.gridview.empty();
+                    }
+                },
+                
+                loadTreeData: function () {
+                    var data = [];
+                    this._getTreeData(data);
+                    var treeList = pageLogic.deptGrid.treeGrid.listTree(data, "ParentID", "DeptID");
+                    pageLogic.deptGrid.createGridBody(treeList);
+                },
+                _getTreeData: function(data, parentID, level) {
+                    var i, len;
+                    if (!level) {
+                        level = 0;
+                        len = 10;
+                    } else {
+                        if (level > 2) {
+                            return;
+                        }
+                        len = ui.random(1, 10);
+                    }
+
+                    var item;
+                    for (i = 0; i < len; i++) {
+                        item = {
+                            DeptID: ui.guid.newGuid(),
+                            DeptName: "部门",
+                            DeptTypeName: level === 0 ? "机构" : "部门",
+                            Level:  level + "级"
+                        };
+                        if(parentID) {
+                            item.ParentID = parentID;
+                        }
+                        if (ui.random(0, 2)) {
+                            arguments.callee.call(arguments.callee.caller, data, item.DeptID, level + 1);
+                        }
+                        data.push(item);
+                    }
+                },
+                
+                loadTreeLazyData: function() {
+                    var i= 0,
+                        len = 10;
+                    var data = [];
+                    for(; i < len; i++) {
+                        data.push(this._createProjectItem());
+                    }
+                    pageLogic.projectGrid.createGridBody(data);
+                },
+                loadSubprojects: function(project, rowIndex) {
+                    var i = 0;
+                        len = ui.random(1, 10);
+                    var success = [];
+                    for(; i < project.ChildrenCount; i++) {
+                        success.push(this._createProjectItem(project.ProjectID));
+                    }
+                    pageLogic.projectGrid.treeGrid.addChildren(project, rowIndex, success);
+                },
+                _createProjectItem: function(parentID) {
+                    var projectTypes = ["商业", "内部生产力提升", "学习", "技术研究"],
+                        Status = ["完成", "进行中"],
+                        projectItem = {
+                            ProjectID: ui.guid.newGuid(),
+                            ProjectTypeName: projectTypes[ui.random(0, projectTypes.length)],
+                            PMName: "美国队长",
+                            BeginTime: new Date(),
+                            EndTime: new Date(),
+                            ChildrenCount: ui.random(0, 10),
+                            StatusName: Status[ui.random(0, Status.length)],
+                            Description: "项目描述"
+                        };
+                    projectItem.ProjectName = ui.str.stringFormat("思创{0}项目", projectItem.ProjectTypeName);
+                    if(parentID) {
+                        projectItem.ParentID = parentID;
+                    }
+                    return projectItem;
+                },
+                
+                loadJayMusic: function() {
+                    var groupList = pageLogic.jayMusicView.groupGrid.listGroup(jaySongs, "album", function(groupKey) {
+                        return {
+                            name: this.album,
+                            year: this.year,
+                            cover: "demo.data/jay-album-cover/" + this.album + ".jpg",
+                            genre: "pop"
+                        };
+                    });
+                    pageLogic.jayMusicView.createGridBody(groupList);
+                }
+            };
+            
+            function createGridview() {
+                var option = {
+                    columns: [
+                        { column: "Id", text: ui.ColumnStyle.cnfn.columnCheckboxAll, len: 40, align: "center", handler: ui.ColumnStyle.cfn.createCheckbox },
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                        { column: "Image", text: "缩略图", len: 120, handler: ui.ColumnStyle.cfnp.getImage(120, 90, "../", "../Content/images/disabled_d1.png") },
+                        { column: "Text", text: "普通文本", len: 100 },
+                        { column: "DateTime", text: "日期", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatDate },
+                        { column: "DateTime", text: "时间", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatTime },
+                        { column: "DateTime", text: "日期时间", len: 160, align: "center", handler: ui.ColumnStyle.cfn.formatDateTime },
+                        { column: "Money", text: "人民币", len: 100, align: "right", handler: ui.ColumnStyle.cfn.money },
+                        { column: "Boolean", text: "布尔值", len: 60, align: "center", handler: ui.ColumnStyle.cfnp.getFormatBoolean("启用", "禁用") },
+                        { column: "Number", text: "小数格式化", len: 100, align: "right", sort: true, handler: ui.ColumnStyle.cfnp.getFormatNumber(4) },
+                        { column: "Money2", text: "百分比进度条", len: 240 },
+                        { column: "Custom", text: "自定义列", len: 150, handler: demoManager.formatter.createCustom },
+                        { column: "Custom", text: "悬停提示", len: 100, handler: demoManager.formatter.createHover },
+                        { handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    selection: {
+                        type: "row",
+                        exclude: "img",
+                        multiple: false
+                    }
+                };
+                var gridViewPanel = $("#gridview");
+                pageLogic.gridview = gridViewPanel.setGridview(option);
+
+                pageLogic.gridview.selected(function(e, elem, row) {
+                });
+                pageLogic.gridview.deselected(function(e, elem, row) {
+                });
+            }
+            
+            function createGridTree() {
+                var treeGrid = new ui.ctrls.TreeGrid();
+                var gridOption = {
+                    promptText: "没有部门信息",
+                    columns: [
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                        { column: "DeptName", text: "名称", len: 360, handler: treeGrid.formatTreeNode },
+                        { column: "DeptTypeName", text: "类型", len: 100 },
+                        { column: "Level", text: "级别", len: 120 },
+                        { handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    selection: {
+                        type: "row",
+                        exclude: "i",
+                        multiple: false
+                    },
+                    pager: false
+                };
+                
+                pageLogic.deptGrid = $("#gridTree").setGridview(gridOption);
+                treeGrid.setGridView(pageLogic.deptGrid);
+                pageLogic.deptGrid.selecting(function (e, element, data) {
+                });
+                pageLogic.deptGrid.selected(function (e, element, data) {
+                });
+                pageLogic.deptGrid.deselected(function (e, element, data) {
+                });
+            }
+            
+            function createGridTreelazy() {
+                var treeGrid = new ui.ctrls.TreeGrid();
+                treeGrid.isTreeNode = function (item) {
+                    return item.ChildrenCount > 0;
+                };
+                treeGrid.lazy = true;
+                treeGrid.loadChildrenHandler = function (rowData, rowIndex) {
+                    pageLogic.loadSubprojects(rowData, rowIndex);
+                };
+                
+                var gridOption = {
+                    promptText: "没有项目信息",
+                    columns: [
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                        { column: "ProjectName", text: "项目名称", len: 360, handler: treeGrid.formatTreeNode },
+                        { column: "ProjectTypeName", text: "项目类型", len: 160 },
+                        { column: "PMName", text: "项目经理", len: 120 },
+                        { column: "BeginTime", text: "开始时间", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatDate },
+                        { column: "EndTime", text: "结束时间", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatDate },
+                        { column: "StatusName", text: "项目状态", len: 80, align: "center" },
+                        { column: "Description", text: "项目描述", len: 360, handler: ui.ColumnStyle.cfn.formatParagraph },
+                        { handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    selection: {
+                        type: "row",
+                        exclude: "i",
+                        multiple: false
+                    },
+                    pager: false
+                };
+                
+                pageLogic.projectGrid = $("#gridTreeLazy").setGridview(gridOption);
+                treeGrid.setGridView(pageLogic.projectGrid);
+                pageLogic.projectGrid.selecting(function (e, element, data) {
+                    var btn;
+                    if (this.treeGrid.isTreeNode(data.rowData)) {
+                        this.cancelSelection();
+                        btn = $(element[0].cells[1]).children("i");
+                        this.treeGrid.foldButtonClick(btn, data.rowData, data.rowIndex);
+                        return false;
+                    }
+                });
+                pageLogic.projectGrid.selected(function (e, element, data) {
+                });
+                pageLogic.projectGrid.deselected(function (e, element, data) {
+                });
+            }
+            
+            function createGridGroup() {
+                var groupGrid = new ui.ctrls.GroupGrid();
+                groupGrid.formatGroupItem = function(group, colunm, index, td) {
+                    var div = $("<div style='width:100%;height:60px;overflow:hidden;text-align:left;position:relative;' />");
+                    
+                    var imgPanel = $("<div style='width:48px;height:48px;margin-top:6px;margin-left:6px;margin-right:6px;display:inline-block;vertical-align:top;'/>");
+                    div.append(imgPanel);
+                    var img = $("<img />");
+                    img.setImage(group.cover, 48, 48);
+                    imgPanel.append(img);
+                    
+                    div.append("<span style='font-size:18px;line-height:60px;'>" + group.name + "</span>");
+                    
+                    div.append("<span style='position:absolute;top:0px;right:10px;font-size:14px;line-height:60px;'>" + group.year + "</span>");
+                    
+                    return div;
+                };
+                
+                var gridOption = {
+                    columns: [
+                        { text: "#", len: 40, align: "right", handler: groupGrid.formatRowNumber },
+                        { column: "name", text: "标题", len: 240 },
+                        { column: "artist", text: "艺术家", len: 160 },
+                        { column: "star", text: "等级", len: 120 },
+                        { column: "time", text: "时间", len: 100 },
+                        { handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    selection: {
+                        type: "row",
+                        exclude: "i",
+                        multiple: false
+                    },
+                    pager: false
+                };
+                
+                pageLogic.jayMusicView = $("#gridGroup").setGridview(gridOption);
+                groupGrid.setGridView(pageLogic.jayMusicView);
+                pageLogic.jayMusicView.selecting(function (e, element, data) {
+                });
+                pageLogic.jayMusicView.selected(function (e, element, data) {
+                    ui.msgshow("开始播放");
+                });
+                pageLogic.jayMusicView.deselected(function (e, element, data) {
+                });
+            }
+            
+            var demoManager = {
+                formatter: {
+                    createCustom: function (content, columnObj) {
+                        var span = $("<span class='custom-text' />");
+                        span.text(content);
+                        return span;
+                    },
+                    createHover: function (content, columnObj) {
+                        var a = $("<a href='javascript:void(0)' class='hover-target' />");
+                        a.text("悬停 ");
+                        a.addHoverView(pageLogic.hoverView);
+                        a.data("data", content);
+                        return a;
+                    }
+                },
+                formReset: function() {
+
+                },
+                dataToForm: function() {
+
+                },
+                onAdding: function() {
+                    this.formReset();
+
+                    pageLogic.demoCtrlPanel.show();
+                },
+                onUpdeting: function(data) {
+                    this.dataToForm(data);
+                },
+                onSave: function() {
+
+                },
+                onDelete: function() {
+
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

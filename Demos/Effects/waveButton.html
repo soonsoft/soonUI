@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>UI 2.0 Demo列表</title>
+    <link href="../../Content/site.css" rel="stylesheet"/>
+    <!-- 页面样式 -->
+    <style type="text/css">
+        
+    </style>
+
+
+    <script type="text/javascript" src="../../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../../Scripts/Page/ui.themeColors.js"></script>
+
+    <link type="text/css" href="waves.css" rel="stylesheet" />
+    <script type="text/javascript" src="waves.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>水波纹按钮特效</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">         
+        <div class="toolbar">
+            <ul class="tools" style="float:right;">
+                <li id="search" class="toolbar-icon-button" title="查询">
+                   <i class="fa fa-search"></i>
+               </li>
+            </ul>
+        </div>
+
+        <button id="btn" class="button background-highlight waves-effect waves-light">保存</button>
+        <br />
+        <br />
+        <div class="background-highlight waves-effect waves-light" style="width:240px;height:60px;margin-top:10px;">
+           <div class="waves-ripple" style="top:27.20001220703125px;left:59.280029296875px;-webkit-transform:scale(10);-moz-transform:scale(10);-ms-transform:scale(10);-o-transform:scale(10);transform:scale(10);opacity:1;-webkit-transition-duration:750ms;-moz-transition-duration:750ms;-o-transition-duration:750ms;transition-duration:750ms;-webkit-transition-timing-function:cubic-bezier(0.250, 0.460, 0.450, 0.940);-moz-transition-timing-function:cubic-bezier(0.250, 0.460, 0.450, 0.940);-o-transition-timing-function:cubic-bezier(0.250, 0.460, 0.450, 0.940);transition-timing-function:cubic-bezier(0.250, 0.460, 0.450, 0.940);" data-hold="1460213620262" data-scale="scale(10)" data-x="59.280029296875" data-y="27.20001220703125"></div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            Waves.init();
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        //Waves.attach('#btn');
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        
+                    }
+                }
+            };
+            
+        })();
+    </script>
+
+</body>
+</html>

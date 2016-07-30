@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>小工具</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .tools .confirm-button:active {
+            background-color: #990000 !important;
+            color: #FFFFFF !important;
+        }
+        
+            .tools .confirm-button:active .confirm-state {
+                background-color: #3C3F41 !important;
+                color: #990000;
+            }
+    </style>
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tools.css" rel="stylesheet" />
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+            <ul class="tools">
+               <li>
+                   <div id="filter" style="margin-top:8px;"></div>
+                </li>
+            </ul>
+           <ul class="tools" style="float:right;">
+               <li>
+                   <button id="delToolButton" class="tool-button" style="color:#990000;border-color:#990000;">删除项目</button>
+               </li>
+            </ul>
+            <br style="clear:both" />
+        </div>
+        <div style="margin-top:20px;margin-left:20px;">
+            <input id="switchButton1" type="checkbox" value="1" />
+            <label for="switchButton1" class="switch-text">关</label>
+            <br /><br />
+            <input id="switchButton2" type="checkbox" value="1" />
+            <label for="switchButton2" class="switch-text">关</label>
+            <br /><br />
+            <input id="switchButton3" type="checkbox" value="1" />
+            <label for="switchButton3" class="switch-text">关</label>
+            <br /><br />
+            <button id="delFormButton" class="button">删除</button>
+            <br /><br />
+            <button id="payButton" class="button">付款</button>
+            
+            <div id="extendPanel" style="position:absolute;left:50%;top:50%;width:32px;height:32px;margin-top:-16px;margin-left:-16px;font-size:16px;text-align:center;line-height:32px;cursor:pointer" class="font-highlight">
+                <i class="fa fa-search"></i>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#contentPanel").css("height", height - 40 + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                       
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        this.filterView = $("#filter").createFilterTools({
+                            data: [
+                                { text: "全部", value: "all", selected: true },
+                                { text: "工具", value: "tool" },
+                                { text:  "网络", value: "network" },
+                                { text: "游戏", value: "game" }
+                            ]
+                        });
+                        this.filterView.selected(function(e, item) {
+                            ui.msgshow(item.text);
+                        });
+                        
+                        var swidth = $("#switchButton1").switchButton();
+                        swidth.changed(function() {
+                            if(this.checked()) {
+                                this.switchBox.next().text("开");
+                            } else {
+                                this.switchBox.next().text("关");
+                            }
+                        });
+                        
+                        var swidth2 = $("#switchButton2").switchButton({
+                            style: "lollipop"
+                        });
+                        swidth2.changed(function() {
+                            if(this.checked()) {
+                                this.switchBox.next().text("开");
+                            } else {
+                                this.switchBox.next().text("关");
+                            }
+                        });
+                        
+                        var swidth3 = $("#switchButton3").switchButton({
+                            style: "marshmallow"
+                        });
+                        swidth3.changed(function() {
+                            if(this.checked()) {
+                                this.switchBox.next().text("开");
+                            } else {
+                                this.switchBox.next().text("关");
+                            }
+                        });
+                        
+                        $("#delToolButton").confirmClick(
+                            function() {
+                                //ui.msgshow("没有选中要删除的项目");
+                                //return false;
+                            },
+                            function() {
+                                swidth.checked(true);
+                                //alert(1);
+                            }
+                        );
+                        $("#delFormButton").confirmClick({
+                            backgroundColor: "#FF0099",
+                            handler: function() {
+                                ui.msgshow("删除成功");
+                            }
+                        });
+                        $("#payButton").confirmClick({
+                            backgroundColor: "#FF9700",
+                            handler: function() {
+                                ui.msgshow("删除成功");
+                            }
+                        });
+                        
+                        $("#extendPanel").extendButton({
+                            buttonSize: 32,
+                            centerIcon: "close",
+                            buttons:[
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                }/*,
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                },
+                                {
+                                    icon: "<i class='fa fa-search'></i>",
+                                    title: "搜索"
+                                }*/
+                            ]
+                        });
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                loadListData: function () {
+                    
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

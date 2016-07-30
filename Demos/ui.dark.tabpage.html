@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>控件Demo</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+    
+    <link type="text/css" href="../Content/themes/metro/ui.metro.optionList.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tabPanel.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.gridview.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.reportView.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.form.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tools.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        form input[type='text'] {
+            width:188px;
+        }
+
+        form select {
+            width:188px;
+        }
+        
+        form .switch-lollipop .switch-thumb {
+            background-color: #3C3F41;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tabPanel.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.reportView.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.form.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <a id="backBtn" href="ui.dark.index.html"></a><span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+            <li class="tab-item tab-button">
+                <span>功能标题一</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>功能标题二</span>
+                <i class="pointer"></i>
+            </li>
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div id="tabBodyPanel" class="tab-body-panel" style="height: 100%;">
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools" style="float:right;">
+                        <li>
+                            <input type="text"  />
+                        </li>
+                        <li>
+                            <select>
+                                <option>选项一</option>
+                                <option>选项二</option>
+                                <option>选项三</option>
+                            </select>
+                        </li>
+                        <li>
+                            <button class="icon-button" title="查询">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="icon-button" title="创建">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="icon-button" title="删除">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <br style="clear:left;" />
+                </div>
+                <div id="gridviewPanel" style="position:relative;overflow:hidden;">
+                    <div id="gridview" class="grid-view"></div>
+                    <div id="demoInfo" class="ctrl-form">
+                        <form id="demoForm">
+                            <label>日期控件</label>
+                            <br />
+                            <input id="calendar" name="calendar" type="text" class="date-text" />
+                            <br />
+                            <label>日期控件2</label>
+                            <br />
+                            <input id="calendar2" name="calendar2" type="text" class="date-text" />
+                            <br />
+                            <label>选择器</label>
+                            <br />
+                            <input id="chooser" name="chooser" type="text" class="select-text" />
+                            <br />
+                            <label>颜色选择器</label>
+                            <br />
+                            <input id="colorPicker" name="colorPicker" type="text" class="select-text" />
+                            <br />
+                            <label>颜色选择器2</label>
+                            <br />
+                            <input id="colorPicker2" name="colorPicker2" type="text" class="select-text" />
+                            <br />
+                            <label>下拉列表</label>
+                            <br />
+                            <input id="selectionList" name="selectionList" type="text" class="select-text" />
+                            <br />
+                            <label>下拉列表（多选）</label>
+                            <br />
+                            <input id="selectionListM" name="selectionListM" type="text" class="select-text" />
+                            <br />
+                            <label>树形下拉列表</label>
+                            <br />
+                            <input id="selectionTree" name="selectionTree" type="text" class="select-text" />
+                            <br />
+                            <label>树形下拉列表（多选）</label>
+                            <br />
+                            <input id="selectionTreeM" name="selectionTreeM" type="text" class="select-text" />
+                            <br />
+                            <label>开关</label>
+                            <br />
+                            <input id="switchButton" type="checkbox" checked="checked" />
+                            <label for="switchButton" class="switch-text">启用</label>
+                        </form>
+                    </div>
+                    <input id="demoSave" type="button" class="button background-highlight" value="保存" />
+                </div>
+            </div>
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools" style="float:right;">
+                        <li>
+                            <button class="icon-button" title="查询">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div id="reportView" class="report-view"></div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var tabManager = null;
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        //选项卡的控制器，每个页面直接重用，只需重写tabChanged方法中的方法调用即可
+                        tabManager = ui.tab.createTabManager(function(e, index) {
+                            if (index === 0) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadGridData, 
+                                    pageLogic, 
+                                    1, pageLogic.gridview.pageSize);
+                            } else if (index === 1) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadStatisticData, 
+                                    pageLogic, 
+                                    1, pageLogic.gridview.pageSize);
+                            } else if (index === 2) {
+                            }
+                        });
+                        //为添加要切换的工具条
+                        //tabManager.addTools();
+                        //初始化tab控件
+                        var tab = pageLogic.tab = ui.tab.createTabs({
+                            tabPanelId: "headerTags",
+                            bodyPanelId: "tabBodyPanel",
+                            direction: "horizontal"
+                        });
+                        tab.changing($.proxy(tabManager.tabChanging, tabManager));
+                        tab.changed($.proxy(tabManager.tabChanged, tabManager));
+                        
+                        var option = {
+                            columns: [
+                                { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                                { text: "姓名", column: "Name", len: 120, sort: true },
+                                { text: "年龄", column: "Age", len: 80, align: "right", sort: true },
+                                { text: "性别", column: "Gander", len: 80, align: "center" },
+                                { handler: ui.ColumnStyle.cfn.empty }
+                            ]
+                        };
+                        var gridViewPanel = $("#gridview");
+                        pageLogic.gridview = gridViewPanel.setGridview(option);
+                        
+                        pageLogic.gridview.selected(function(e, elem, row) {
+                            pageLogic.demoCtrlPanel.show();
+                        });
+                        pageLogic.gridview.deselected(function(e, elem, row) {
+                            pageLogic.demoCtrlPanel.hide();
+                        });
+                        
+                        var reportOption = {
+                            dataGroupColumns: [
+                                [{ text: "", len: 40, align: "right", rowspan: 3, handler: ui.ColumnStyle.cfn.rowNumber }, { column: "Text1", text: "单位", rowspan: 3, len: 200 }, { text: "超限30%以内", colspan: 9 }, { text: "超限30%以上", colspan: 7 }, { text: ui.ColumnStyle.cnfn.empty, handler: ui.ColumnStyle.cfn.empty, rowspan: 3 }],
+                                [{ column: "Total1", text: "合计", len: 60, align: "right", sort: true, rowspan: 2 }, { text: "5%以内", colspan: 2 }, { text: "5%-10%", colspan: 2 }, { text: "10%-20%", colspan: 2 }, { text: "20%-30%", colspan: 2 }, { column: "Total2", text: "合计", len: 60, align: "right", sort: true, rowspan: 2 }, { text: "30%-50%", colspan: 2 }, { text: "50%-100%", colspan: 2 }, { text: "100%以上", colspan: 2 }],
+                                [
+                                    { column: "Num1_1", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num1_1", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                                    { column: "Num1_2", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num1_2", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                                    { column: "Num1_3", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num1_3", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                                    { column: "Num1_4", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num1_4", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                                    { column: "Num2_1", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num2_1", "Total2"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                                    { column: "Num2_2", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num2_2", "Total2"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                                    { column: "Num2_3", text: "数量", len: 60, align: "right" },
+                                    { column: ["Num2_3", "Total2"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) }
+                                ]
+                            ],
+                            selection: {
+                                type: "disabled",
+                                exclude: "input[checkbox], a",
+                                multiple: false
+                            },
+                            pager: {
+                                pageIndex: 1,
+                                pageSize: 100
+                            }
+                        };
+                        pageLogic.reportView = $("#reportView").setReportView(reportOption);
+                        pageLogic.reportView.pageTurning(function (target, pageIndex, pageSize) {
+                            pageLogic.loadReportData(pageIndex, pageSize);
+                        });
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            
+                            pageLogic.tab.setBodyHeight(height);
+                            pageLogic.gridview.setHeight(height - 40);
+                            pageLogic.reportView.setSize(width, height - 40);
+                            
+                            //调整tab窗口的位置，固定写法
+                            pageLogic.tab.setBodiesLocation();
+                            pageLogic.tab.restore();
+                        });
+
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        //准备右侧滑动表单
+                        pageLogic.demoCtrlPanel = $("#demoInfo").toCtrlPanel({
+                                parent: "gridviewPanel",
+                                width: 240
+                            });
+                        pageLogic.demoCtrlPanel.buttonAppend("demoSave");
+                        pageLogic.demoCtrlPanel.showing(function(e) {
+                            if(masterpage.sidebarManager.isShow()) {
+                                masterpage.sidebarManager.hide();
+                            }
+                        });
+                        pageLogic.demoCtrlPanel.hided(function(e) {
+                            pageLogic.gridview.cancelSelection();
+                        });
+                        
+                        //开关按钮
+                        var swt =$("#switchButton").switchButton({
+                            style: "lollipop"
+                        });
+                        swt.changed(function(e) {
+                            if(this.checked()) {
+                                this.switchBox.next().text("开");
+                            } else {
+                                this.switchBox.next().text("关");
+                            }
+                        });
+                        
+                        var panel = $("<div />");
+                        panel.append("<h1>设置</h1>");
+                        masterpage.sidebarManager.setElement("settings", {
+                            parent: "body"
+                        }, panel);
+                        $("#settings").click(function(e) {
+                            masterpage.sidebarManager.show("settings");
+                        });
+                        
+                        panel = $("<div />");
+                        panel.append("<h1>通知中心</h1>");
+                        masterpage.sidebarManager.setElement("notify", {
+                            parent: "body"
+                        }, panel);
+                        $("#notify").click(function(e) {
+                            masterpage.sidebarManager.show("notify");
+                        });
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loaddata: function() {
+                        pageLogic.tab.setIndex(0);
+                        //pageLogic.gridview.editor.setIndex(1);
+                    }
+                },
+                //ajax 数据请求
+                loadGridData: function (pageIndex, pageSize) {
+                    //数据生成，请忽略
+                    var data = [];
+                    var i = pageIndex, len = 10,
+                        item;
+                    for (; i <= len; i++) {
+                        item = {
+                            Id: ui.guid.newGuid(),
+                            Name: "姓名" + (i + 1),
+                            Age: ui.random(10, 100),
+                            Gander: "男"
+                        };
+                        data.push(item);
+                    }
+                    if (pageIndex == 1) {
+                        pageLogic.gridview.pageIndex = pageIndex;
+                    }
+
+                    if (data) {
+                        pageLogic.gridview.createGridBody(data);
+                    } else {
+                        pageLogic.gridview.empty();
+                    }
+                },
+                loadStatisticData: function () {
+                    var data = [
+                        {
+                            Text1: "扬州市公路路政支队",
+                            Total1: 230,
+                            Num1_1: 20,
+                            Num1_2: 100,
+                            Num1_3: 60,
+                            Num1_4: 50,
+                            Total2: 70,
+                            Num2_1: 10,
+                            Num2_2: 50,
+                            Num2_3: 10
+                        },
+                        {
+                            Text1: "高邮市公路路政支队",
+                            Total1: 337,
+                            Num1_1: 60,
+                            Num1_2: 120,
+                            Num1_3: 80,
+                            Num1_4: 77,
+                            Total2: 190,
+                            Num2_1: 60,
+                            Num2_2: 50,
+                            Num2_3: 80
+                        },
+                        {
+                            Text1: "宝应县公路路政支队",
+                            Total1: 173,
+                            Num1_1: 22,
+                            Num1_2: 54,
+                            Num1_3: 88,
+                            Num1_4: 9,
+                            Total2: 95,
+                            Num2_1: 25,
+                            Num2_2: 30,
+                            Num2_3: 40
+                        },
+                        {
+                            Text1: "仪征市公路路政支队",
+                            Total1: 400,
+                            Num1_1: 120,
+                            Num1_2: 80,
+                            Num1_3: 90,
+                            Num1_4: 110,
+                            Total2: 95,
+                            Num2_1: 30,
+                            Num2_2: 40,
+                            Num2_3: 25
+                        }
+                    ];
+                    var len = 10;
+                    pageLogic.reportView.createReportBody(data, len);
+                },
+                createItem: function(groupId, type) {
+                }
+            };
+            
+            
+            var demoManager = {
+                formatter: {
+                },
+                formReset: function() {
+
+                },
+                dataToForm: function() {
+
+                },
+                onAdding: function() {
+                    this.formReset();
+
+                    pageLogic.demoCtrlPanel.show();
+                },
+                onUpdeting: function(data) {
+                    this.dataToForm(data);
+                },
+                onSave: function() {
+
+                },
+                onDelete: function() {
+
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

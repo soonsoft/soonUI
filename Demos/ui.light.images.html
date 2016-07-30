@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>图片工具</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+    
+    <link type="text/css" href="../Content/themes/metro/ui.metro.images.css" rel="stylesheet" />
+
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .image-tools-panel {
+            width:100%;
+            height:100%;
+            overflow:auto;
+        }
+        
+            .image-tools-panel h3 {
+                height: 40px;
+                width: 100%;
+                margin: 0px;
+                padding: 0px;
+                line-height: 40px;
+                font-size: 16px;
+                font-weight: normal;
+            }
+            
+            .image-tools-panel h3 span {
+                margin-left: 20px;
+            }
+    
+        .image-zoom-div {
+            width:192px;
+            height:108px;
+            margin-left:20px;
+        }
+        
+        .image-watch-div {
+            width:400px;
+            height:300px;
+            margin-left:20px;
+            background-color:#CCCCCC;
+            float:left;
+        }
+        
+        .image-preview {
+            float: left;
+            position: relative;
+            width: 600px;
+            height: 400px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.images.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="image-tools-panel">
+            <h3>
+                <span class="font-highlight">图片缩放</span>
+            </h3>
+            <div class="image-zoom-div">
+                <img id="zoomImg" alt="" />
+            </div>
+            
+            <h3>
+                <span class="font-highlight">图片放大镜</span>
+            </h3>
+            <div class="image-watch-div">
+                <img id="watchImg" alt="" />
+            </div>
+            <div class="image-watch-div">
+                <img id="watchImg2" alt="" />
+            </div>
+            <br style="clear:both;" />
+            
+            <h3>
+                <span class="font-highlight">图片轮播器</span>
+            </h3>
+            <div id="preview1" class="image-preview" style="height:448px">
+                <div class="image-view-panel" style="width:100%;height:400px;background-color:#CCCCCC;"></div>
+                <div class="image-preview-chooser" style="background-color:#F1F1F1"></div>
+            </div>
+            
+            <div id="preview2" class="image-preview" style="width:648px;">
+                <div class="image-view-panel" style="width:600px;height:100%;background-color:#CCCCCC;position:absolute;"></div>
+                <div class="image-preview-chooser" style="background-color:#F1F1F1;position:absolute;left:600px;height:100%;width:48px;"></div>
+            </div>
+            <br style="clear:both;" />
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        var imageZoomer = ui.images.createImageZoomer();
+                        $("#zoomImg").setImage("../Content/images/bingImage.jpg", 192, 108).done(function(data) {
+                            data.img.addImageZoomer(imageZoomer);
+                        });
+                        
+                        $("#watchImg").setImage("../Content/images/bingImage.jpg", 400, 300).done(function(data) {
+                            data.img.parent().imageWatcher();
+                        });
+                        $("#watchImg2").setImage("../Content/images/11.jpg", 400, 300).done(function(data) {
+                            data.img.parent().imageWatcher({
+                                position: "left",
+                                zoomWidth: 420,
+                                zoomHeight: 300
+                            });
+                        });
+                        
+                        var imgPreviewer1 = $("#preview1").imagePreview({
+                            //interval: false,
+                            images: [
+                                "../Content/images/imgs/1.jpg",
+                                "../Content/images/imgs/2.jpg",
+                                "../Content/images/imgs/3.jpg",
+                                "../Content/images/imgs/4.jpg",
+                                "../Content/images/imgs/5.jpg",
+                                "../Content/images/imgs/6.jpg",
+                                "../Content/images/imgs/7.jpg",
+                                "../Content/images/imgs/8.jpg",
+                                "../Content/images/imgs/9.jpg"
+                            ]
+                        });
+                        
+                        var imgPreviewer2 = $("#preview2").imagePreview({
+                            interval: false,
+                            direction: "vertical",
+                            images: [
+                                "../Content/images/imgs/10.jpg",
+                                "../Content/images/imgs/11.jpg",
+                                "../Content/images/imgs/12.jpg",
+                                "../Content/images/imgs/13.jpg",
+                                "../Content/images/imgs/14.jpg",
+                                "../Content/images/imgs/15.jpg",
+                                "../Content/images/imgs/16.jpg",
+                                "../Content/images/imgs/17.jpg",
+                                "../Content/images/imgs/18.jpg",
+                                "../Content/images/imgs/19.jpg",
+                                "../Content/images/imgs/20.jpg",
+                                "../Content/images/imgs/21.jpg",
+                                "../Content/images/imgs/22.jpg",
+                                "../Content/images/imgs/23.jpg",
+                                "../Content/images/imgs/24.jpg",
+                                "../Content/images/imgs/25.jpg",
+                                "../Content/images/imgs/26.jpg"
+                            ]
+                        });
+                        /*
+                        imgPreviewer.ready(function(e) {
+                            ui.msgshow("ready");
+                        });
+                        imgPreviewer.changing(function(e) {
+                            ui.msgshow("changing");
+                        });
+                        imgPreviewer.changed(function(e) {
+                            ui.msgshow("changed");
+                        });
+                        */
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

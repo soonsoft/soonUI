@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>控件Demo</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/Menubar.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro/ui.metro.tabPanel.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro/ui.metro.gridview.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro/ui.metro.tools.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        form input[type='text'] {
+            width:188px;
+        }
+
+        form select {
+            width:188px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.menubar.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tabPanel.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tools.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+    <style id="GlobalThemeChangeStyle" type="text/css"></style>
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <a id="menuBtn" class="menu-icon" href="javascript:void(0)">
+                <img src="../Content/icons/menu-button.png" alt="" />
+            </a><span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+            
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="navigation-panel">
+            <dl class="menu-list"></dl>
+        </div>
+        <div class="page-content">
+            <div style="position:absolute;width:100%;height:48px;font-size:24px;text-align:center;top:50%;left:0px;margin-top:-24px;">
+                <span>页面内容</span>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var tabManager = null;
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        var createMenuItem = function(index, parentCode) {
+                            var code = (index < 10) ? "0" + index : index + "";
+                            if(parentCode) {
+                                code = parentCode + "_" + code;
+                            }
+                            var menuItem = {
+                                resourceCode: code,
+                                resourceName: "菜单名称",
+                                icon: null,
+                                url: "javascript:void(0)",
+                                children: null
+                            };
+                            if(!parentCode) {
+                                menuItem.icon = "../Content/icons/sys-setting.png";
+                            }
+                            return menuItem;
+                        };
+                        var menuData = [],
+                            item = null;
+                        for(var i = 0; i < 10; i++) {
+                            item = createMenuItem(i);
+                            var len = ui.random(0, 10);
+                            if(len > 0) {
+                                item.children = [];
+                            }
+                            for(j = 0; j < len; j++) {
+                                item.children.push(createMenuItem(j, item.resourceCode));
+                            }
+                            menuData.push(item);
+                        }
+                        masterpage.menubar.setMenuList(menuData);
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                        });
+
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                    }
+                },
+                //ajax 数据请求
+                loadGridData: function (pageIndex, pageSize) {
+                    
+                }
+            };
+            
+            var demoManager = {
+                formatter: {
+                    createCustom: function (content, columnObj) {
+                        var span = $("<span class='custom-text' />");
+                        span.text(content);
+                        return span;
+                    },
+                    createHover: function (content, columnObj) {
+                        var a = $("<a href='javascript:void(0)' class='hover-target' />");
+                        a.text("悬停 ");
+                        a.addHoverView(pageLogic.hoverView);
+                        a.data("data", content);
+                        return a;
+                    }
+                },
+                formReset: function() {
+
+                },
+                dataToForm: function() {
+
+                },
+                onAdding: function() {
+                    this.formReset();
+
+                    pageLogic.demoCtrlPanel.show();
+                },
+                onUpdeting: function(data) {
+                    this.dataToForm(data);
+                },
+                onSave: function() {
+
+                },
+                onDelete: function() {
+
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>树形表格测试页</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../Content/themes/metro/ui.metro.form.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        
+        .toolbar .tools .link-button {
+            vertical-align: baseline;
+        }
+        
+        #demoList a {
+            margin-left: 20px;
+            font-size: 16px;
+            line-height: 1.5em;
+        }
+        
+        .fold-panel {
+            padding: 20px;
+        }
+        
+            .fold-panel a {
+                color: #666666 !important;
+            }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.form.js"></script>
+    
+    <link type="text/css" href="../Content/themes/metro/ui.metro.gridview.css" rel="stylesheet" />
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div id="menuToolbar" class="toolbar">
+            <ul class="tools" style="float:right;">
+                <li id="menuUpBtn" class="toolbar-icon-button" title="上移">
+                <i class="fa fa-arrow-up"></i>
+                </li>
+                <li id="menuDownBtn" class="toolbar-icon-button" title="下移">
+                <i class="fa fa-arrow-down"></i>
+                </li>
+                <li id="menuLevelUpBtn" class="toolbar-icon-button" title="升级">
+                <i class="fa fa-outdent"></i>
+                </li>
+                <li id="menuLevelDownBtn" class="toolbar-icon-button" title="降级">
+                <i class="fa fa-indent"></i>
+                </li>
+                <li id="menuSaveBtn" class="toolbar-icon-button" title="保存">
+                <i class="fa fa-save"></i>
+                </li>
+            </ul>
+        </div>
+        <div id="gridTree" class="grid-view"></div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            function createGridTree() {
+                var treeGrid = new ui.ctrls.TreeGrid();
+                var gridOption = {
+                    promptText: "没有部门信息",
+                    columns: [
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.empty },
+                        { column: "DeptName", text: "名称", len: 360, handler: treeGrid.formatLevelNode },
+                        { column: "DeptTypeName", text: "类型", len: 100 },
+                        { column: "Level", text: "级别", len: 120 },
+                        { handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    selection: {
+                        type: "cell",
+                        exclude: "i",
+                        multiple: false
+                    },
+                    pager: false
+                };
+                
+                pageLogic.deptGrid = $("#gridTree").setGridview(gridOption);
+                treeGrid.setGridView(pageLogic.deptGrid);
+                pageLogic.deptGrid.selecting(function (e, element, data) {
+                });
+                pageLogic.deptGrid.selected(function (e, element, data) {
+                });
+                pageLogic.deptGrid.deselected(function (e, element, data) {
+                });
+            }
+            
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        masterpage.initToolbar("menuToolbar");
+                        createGridTree();
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            pageLogic.deptGrid.setHeight(height - 40);
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        $("#menuUpBtn").click(function(e) {
+							pageLogic.deptGrid.currentUp();
+						});
+						$("#menuDownBtn").click(function(e) {
+							pageLogic.deptGrid.currentDown();
+						});
+						$("#menuLevelUpBtn").click(function(e) {
+                            var row = pageLogic.deptGrid.getCurrentSelection();
+                            if(row) {
+                                pageLogic.deptGrid.treeGrid.changeLevel(row.rowIndex, row.cellIndex, -1);
+                            }
+						});
+						$("#menuLevelDownBtn").click(function(e) {
+							var row = pageLogic.deptGrid.getCurrentSelection();
+                            if(row) {
+                                pageLogic.deptGrid.treeGrid.changeLevel(row.rowIndex, row.cellIndex, 1);
+                            }
+						});
+                        $("#menuSaveBtn").click(function(e) {
+                            pageLogic.deptGrid.option.columns[1].handler = pageLogic.deptGrid.treeGrid.formatTreeNode;
+                            pageLogic.deptGrid.option.selection.type = "row";
+                            var data = pageLogic.deptGrid.treeGrid.listTreeByLevel(
+                                pageLogic.deptGrid.dataTable,
+                                "ParentID", 
+                                "DeptID"
+                            );
+                            pageLogic.deptGrid.createGridBody(data);
+                        });
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        var jsonData = "[{\"DeptID\":\"5fb43bfc-6eb9-a4c7-ef5d-1bae0c8baca0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"3632a6e5-f589-a890-c49d-dfb1a36bab06\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"943d3ebe-e126-fa6d-5e3a-6ca68add125c\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"58a2e9a0-34a8-09b7-ac9b-925b3e93d465\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"03accb8e-f168-2c6d-8310-633f9eea05da\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"935e8e17-6cc7-c112-3e7a-6a9f9023ca65\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"e79b7d21-43e7-4748-8ff9-cac85f376c0e\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"6b9be431-f120-cf9d-0b28-566f65fbf44a\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"9aff1a42-0ce5-5311-021b-16e0d6b887bc\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"01e10668-0ae9-b663-6960-dec5d58bd29d\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\"},{\"DeptID\":\"dec803e6-1a93-77e1-ec16-d6aa9ba97747\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"41dac848-6983-9b73-74d5-63a6009179b1\"},{\"DeptID\":\"716ad9eb-e4ff-c7f3-1ca4-9d82bdb39219\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"41dac848-6983-9b73-74d5-63a6009179b1\"},{\"DeptID\":\"497c4be4-1187-7660-5ede-7e78b71703d6\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"41dac848-6983-9b73-74d5-63a6009179b1\"},{\"DeptID\":\"e39833cc-7580-1100-8179-29b3579d46b9\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6c2a3374-4894-12b1-aff6-86846bafa41b\"},{\"DeptID\":\"c733a1f3-8994-0d21-a91d-f96c52ecd643\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6c2a3374-4894-12b1-aff6-86846bafa41b\"},{\"DeptID\":\"78af1ea7-2808-3a0e-b914-765d2a1fead2\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6c2a3374-4894-12b1-aff6-86846bafa41b\"},{\"DeptID\":\"42ce1922-aaf0-bbb3-b423-10b5506406c9\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6c2a3374-4894-12b1-aff6-86846bafa41b\"},{\"DeptID\":\"6c2a3374-4894-12b1-aff6-86846bafa41b\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"41dac848-6983-9b73-74d5-63a6009179b1\"},{\"DeptID\":\"bc0e9dc5-b718-2155-746d-37f20c094322\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"41dac848-6983-9b73-74d5-63a6009179b1\"},{\"DeptID\":\"41dac848-6983-9b73-74d5-63a6009179b1\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"95a7a5a8-daf9-723f-b900-b816de8a6b0d\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\"},{\"DeptID\":\"e855690c-adae-6d6c-d3e5-1447b20224ac\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\"},{\"DeptID\":\"9243cf55-e560-816c-e470-cacb5c9eefae\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\"},{\"DeptID\":\"fbda9cc0-8d55-3546-73a8-16ff9f835b60\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\"},{\"DeptID\":\"3cc5951c-a62f-3a06-8b34-4dbe5f9540ff\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\"},{\"DeptID\":\"91047195-d300-3888-547a-fa8cf8beb1c0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\"},{\"DeptID\":\"890f3e7e-134f-8055-2645-354fd80c0b74\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\"},{\"DeptID\":\"c82a993b-ccc0-ef1b-082f-1fcdd46cef39\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"76f30039-9639-9060-a911-a5eb468c32fa\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"bc899686-fdbd-630a-598a-c8d84168621f\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"2fb0e919-007e-2b6b-db6e-f47cf864abe2\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"3757122c-ccf9-5f96-34e1-fba994ed4fbd\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"1e5b9d66-d2b0-1bd9-470b-d3109a3073a8\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"3f85fdcb-e16a-f2f4-76b0-d5113802ceb0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\"},{\"DeptID\":\"c416db53-4bbc-c0ee-e1c9-6ac6b24be614\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\"},{\"DeptID\":\"49dd1360-bb6a-c318-131c-b5c925185d72\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"f9b0f61e-8c8c-9478-7f8e-82949fdd0e5f\"},{\"DeptID\":\"4580760b-81af-e1c7-2d31-fb93b9cb5e03\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"f9b0f61e-8c8c-9478-7f8e-82949fdd0e5f\"},{\"DeptID\":\"2f7c0b8e-4b57-214b-180c-2d5078776c5f\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"f9b0f61e-8c8c-9478-7f8e-82949fdd0e5f\"},{\"DeptID\":\"ddb94760-853b-4879-48ea-5f139839dfd9\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"f9b0f61e-8c8c-9478-7f8e-82949fdd0e5f\"},{\"DeptID\":\"f9b0f61e-8c8c-9478-7f8e-82949fdd0e5f\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\"},{\"DeptID\":\"9fcb2a1c-b20e-042e-0adf-d52fbaeccfe0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"37a55b60-ced9-4dcf-5757-e3581f781d82\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"c197225b-c99f-1785-ab25-0be859124bc8\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"9dc37308-ad92-2571-7dfe-a9808ab4bb3b\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"17c6da87-2cfc-55b2-9dbc-6745ba3bb7d7\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"37fdfbc3-9f94-713e-3993-b9bb8e1e188a\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"1dd13a8c-7b6c-4aa8-7c15-36440400f45b\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"aaea7e72-93ed-dc58-730c-189444a33d5e\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"9a8a7a30-a8f1-6f2d-cec8-61765743afde\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\"},{\"DeptID\":\"6ac161b3-4852-5bc5-ed0a-f300fa72991a\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\"},{\"DeptID\":\"66844754-e398-21ca-999d-30550566281a\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"913ccb19-d096-cce7-e871-313ff264101a\"},{\"DeptID\":\"4ecc6f40-157d-237d-2cea-9178b3a4b3de\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"913ccb19-d096-cce7-e871-313ff264101a\"},{\"DeptID\":\"ee0acc54-35b6-17a8-bf74-6dd372d154bb\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"913ccb19-d096-cce7-e871-313ff264101a\"},{\"DeptID\":\"913ccb19-d096-cce7-e871-313ff264101a\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\"},{\"DeptID\":\"1a185a16-29b8-be35-4f3d-5d532a0c7188\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\"},{\"DeptID\":\"d8122e17-b043-cfef-fac6-dd300a230c52\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"d039c210-8d47-ba60-dda6-28487805ad90\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"30616886-07ed-2753-6a18-0fbf5296e4ce\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"a45b07d0-4d13-d908-c174-b4729d694205\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"0be6d986-097a-93c7-be87-64d0acfdef79\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"2f995405-1267-e2b0-c177-2600821ecb0b\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"47bc2c80-0dc9-4ddf-69a2-7a38cc59de1b\"},{\"DeptID\":\"a6296cec-272a-f7eb-29c6-7fcf5000a537\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a5161088-2f24-f773-0f05-753c107cfe8f\"},{\"DeptID\":\"52c32275-cfbd-2210-4cd8-3e3ec8966c39\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a5161088-2f24-f773-0f05-753c107cfe8f\"},{\"DeptID\":\"f59bba68-b17b-46fe-baba-933c58da90f7\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a5161088-2f24-f773-0f05-753c107cfe8f\"},{\"DeptID\":\"311fd4b9-23f7-ff54-c36b-a3956ad60a6c\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a5161088-2f24-f773-0f05-753c107cfe8f\"},{\"DeptID\":\"a5161088-2f24-f773-0f05-753c107cfe8f\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"47bc2c80-0dc9-4ddf-69a2-7a38cc59de1b\"},{\"DeptID\":\"53be1981-8a81-3cdc-fd5f-9f6435cce4ba\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\"},{\"DeptID\":\"34302dd2-8abb-d968-3fa1-33e77334a9e2\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\"},{\"DeptID\":\"217659f1-b82c-7761-7a8f-734e7e229ac6\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\"},{\"DeptID\":\"1657e21f-cf73-3bb7-6739-bd1eb29dbacf\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\"},{\"DeptID\":\"16d096bd-716d-1e52-6905-1431d8d6e660\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\"},{\"DeptID\":\"103d7105-d7d7-2bce-0057-a772ddbd74cc\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\"},{\"DeptID\":\"a2880d07-201a-f327-d67a-51ae5e7af8d4\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"47bc2c80-0dc9-4ddf-69a2-7a38cc59de1b\"},{\"DeptID\":\"da59aff1-807a-2d38-a77b-bd977b06589f\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"e43ebeaf-ff1b-df28-d6b9-5c902d1169d0\"},{\"DeptID\":\"896d3617-47bb-69d0-9ab7-919d790ea339\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"e43ebeaf-ff1b-df28-d6b9-5c902d1169d0\"},{\"DeptID\":\"e43ebeaf-ff1b-df28-d6b9-5c902d1169d0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"47bc2c80-0dc9-4ddf-69a2-7a38cc59de1b\"},{\"DeptID\":\"97f5840e-e6c7-f92e-d408-af58ca300683\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"8de333be-e553-7b20-8dd6-58a3ce5bc265\"},{\"DeptID\":\"8de333be-e553-7b20-8dd6-58a3ce5bc265\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"47bc2c80-0dc9-4ddf-69a2-7a38cc59de1b\"},{\"DeptID\":\"47bc2c80-0dc9-4ddf-69a2-7a38cc59de1b\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"b8e6f786-3592-0318-dabf-28b1f9c80eb0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"aec208d5-fc34-116d-3da4-ab77dc46140c\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"23ba972f-7471-9858-473e-5472a33e69bc\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"6e7f2176-411f-e948-4f9e-73894a948ba3\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"a9bee5af-d0d8-11c7-e854-dc8a2d4b0307\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"7a1030fd-f3d3-9483-0cc6-3c057c50e938\"},{\"DeptID\":\"bb02cb87-5c28-cb43-9835-5dca707a6b97\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"7a1030fd-f3d3-9483-0cc6-3c057c50e938\"},{\"DeptID\":\"7a1030fd-f3d3-9483-0cc6-3c057c50e938\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"6f705c5a-6604-a76b-3041-1bcbb57e2d65\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"7e7caa02-b42c-6043-08c4-5cb50f25d09f\"},{\"DeptID\":\"aa68c2c3-2c6c-8674-f781-c2ef19b9f090\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"7e7caa02-b42c-6043-08c4-5cb50f25d09f\"},{\"DeptID\":\"1641cdab-7ab3-649f-67e4-007116f981d5\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"7e7caa02-b42c-6043-08c4-5cb50f25d09f\"},{\"DeptID\":\"4ffe0bbb-2531-2b80-4f70-80d22eff6f57\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"7e7caa02-b42c-6043-08c4-5cb50f25d09f\"},{\"DeptID\":\"7e7caa02-b42c-6043-08c4-5cb50f25d09f\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"18126da2-cc71-4b14-3678-7427e08fe242\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"c3453591-d82a-b716-0c32-9140a92b50f7\"},{\"DeptID\":\"c3453591-d82a-b716-0c32-9140a92b50f7\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"46be6c4a-6fe1-0b06-0de4-9eee1281edca\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"7ebed0a0-0ce8-bd54-62d8-f841d99b68e0\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"9e5248d0-096c-cd12-e53b-c55f7e830551\"},{\"DeptID\":\"933af2e7-400a-e532-f545-b00e9536dcd7\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"9e5248d0-096c-cd12-e53b-c55f7e830551\"},{\"DeptID\":\"8eade431-f76e-45dd-484e-b4fc012900a8\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"2级\",\"ParentID\":\"9e5248d0-096c-cd12-e53b-c55f7e830551\"},{\"DeptID\":\"9e5248d0-096c-cd12-e53b-c55f7e830551\",\"DeptName\":\"部门\",\"DeptTypeName\":\"部门\",\"Level\":\"1级\",\"ParentID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\"},{\"DeptID\":\"23d033bd-d587-ab37-82b4-08684c18aebe\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"},{\"DeptID\":\"b643fcee-dea8-b6a5-8ce5-92da28287e8a\",\"DeptName\":\"部门\",\"DeptTypeName\":\"机构\",\"Level\":\"0级\"}]";
+                        var data = JSON.parse(jsonData);
+                        var treeList = pageLogic.deptGrid.treeGrid.listTree(data, "ParentID", "DeptID");
+                        pageLogic.deptGrid.createGridBody(treeList);
+                    }
+                }
+            };
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>控件Demo</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.color/ui.Site.metro.Dark.css" rel="stylesheet" />
+    
+    <!-- 页面样式 -->
+    <style type="text/css">
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.gridview.js"></script>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.gridview.css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="demo.data/jay-album.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <a id="backBtn" href="ui.light.index.html"></a><span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+            <ul class="tools" style="float:right;">
+            </ul>
+            <br clear="all" />
+        </div>
+        <div id="gridview" class="grid-view"></div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function() {
+            //function 
+
+            var historyManager = {
+                getUrl: function() {
+                    var url = window.location.href;
+                    var index = url.indexOf("#");
+                    return (index == -1 ? url : url.substring(0, index));
+                },
+                changeLocation: function(pageIndex) {
+                    //var hashUrl = this.getUrl() + "#page_" + pageIndex;
+                    window.location.hash = "page_" + pageIndex;
+                }
+            };
+            window.historyManager = historyManager;
+        })();
+
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        //alert(window.location.hash.length);
+                    },
+                    //在布局计算前创建控件
+                    before: function () {
+                        createGridview();
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            
+                            pageLogic.gridview.setHeight(height - 40);
+                        });
+
+                    },
+                    //在布局计算后创建控件
+                    after: function () {
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    load: function() {
+                        this.loadGridData();
+                    }
+                },
+                
+                //ajax 数据请求
+                loadGridData: function (pageIndex) {
+                    if(!pageIndex) {
+                        pageIndex = pageLogic.gridview.pageIndex = 1;
+                    }
+
+                    //数据生成，请忽略
+                    var data = [];
+                    var i = 0, len = 30,
+                        item;
+                    for (; i < len; i++) {
+                        item = {
+                            Id: ui.guid.newGuid(),
+                            Text: "普通文本显示",
+                            DateTime: new Date(),
+                            Money: ui.random(0, 10000),
+                            Money2: ui.random(0, 10000) * 12,
+                            SameValue: ui.random(0, 5),
+                            Boolean: ui.random(0, 2) ? true : false,
+                            Number: Math.random(),
+                            Custom: "自定义列数据"
+                        };
+                        data.push(item);
+                    }
+                    
+                    var rowCount = 300;
+                    if (data) {
+                        pageLogic.gridview.createGridBody(data, rowCount);
+                    } else {
+                        pageLogic.gridview.empty();
+                    }
+                }
+            };
+            
+            function createGridview() {
+                var option = {
+                    columns: [
+                        { column: "Id", text: ui.ColumnStyle.cnfn.columnCheckboxAll, len: 40, align: "center", handler: ui.ColumnStyle.cfn.createCheckbox },
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                        { column: "Text", text: "普通文本", len: 100 },
+                        { column: "DateTime", text: "日期", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatDate },
+                        { column: "DateTime", text: "时间", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatTime },
+                        { column: "DateTime", text: "日期时间", len: 160, align: "center", handler: ui.ColumnStyle.cfn.formatDateTime },
+                        { column: "Money", text: "人民币", len: 100, align: "right", handler: ui.ColumnStyle.cfn.money },
+                        { column: "Boolean", text: "布尔值", len: 60, align: "center", handler: ui.ColumnStyle.cfnp.getFormatBoolean("启用", "禁用") },
+                        { column: "Number", text: "小数格式化", len: 100, align: "right", sort: true, handler: ui.ColumnStyle.cfnp.getFormatNumber(4) },
+                        { handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    selection: {
+                        type: "row",
+                        exclude: "img",
+                        multiple: false
+                    },
+                    pager: {
+                        pageSize: 30,
+                        pageButtonCount: 10
+                    }
+                };
+                var gridViewPanel = $("#gridview");
+                pageLogic.gridview = gridViewPanel.setGridview(option);
+
+                pageLogic.gridview.selected(function(e, elem, row) {
+                });
+                pageLogic.gridview.deselected(function(e, elem, row) {
+                });
+                pageLogic.gridview.pageTurning(function(e, pageIndex, pageSize) {
+                    //historyManager.changeLocation(pageIndex);
+                    pageLogic.loadGridData(pageIndex);
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>

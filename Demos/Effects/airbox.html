@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>UI 2.0 Demo列表</title>
+    <link href="../../Content/site.css" rel="stylesheet"/>
+    <!-- 页面样式 -->
+    <style type="text/css">
+        #airbox {
+            width:100%; 
+            position:fixed; 
+            _position:absolute; 
+            top:0; 
+            left:0; 
+            z-index:9999;
+        }
+        #airbox em.loading {
+            width:55px; 
+            height:55px; 
+            line-height:55px; 
+            overflow:hidden; 
+            display:block; 
+            position:absolute; 
+            top:50%; 
+            left:50%; 
+            margin:-27px 0 0 -27px; 
+            background:url(../images/loading-ico.gif) no-repeat; 
+            z-index:999999; 
+            text-align:center; 
+            font-size:12px; 
+            color:#219edf; 
+            font-family:Arial; 
+            font-style:normal; 
+            display:none;
+        }
+        #airbox .popup-page {
+            width:100%; 
+            height:100%; 
+            overflow:hidden; 
+            background: #555; 
+            background: rgba(0,0,0,.5); 
+            color:#666; 
+            z-index:2; 
+            position:relative; 
+            display:none; 
+            -webkit-perspective: 2000; 
+            -moz-perspective: 2000; 
+            -ms-perspective: 2000; 
+            perspective: 2000; 
+            -webkit-transform-origin: 50%; 
+            -moz-transform-origin: 50%; 
+            -ms-transform-origin: 50%; 
+            transform-origin: 50%; 
+        }
+        #airbox .popup-inner {
+            width:100%; 
+            height:100%; 
+            background:#fff; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            opacity: 0; 
+            visibility1: hidden; 
+            -webkit-transition-delay: .2s; 
+            -moz-transition-delay: .2s; 
+            -ms-transition-delay: .2s; 
+            transition-delay: .2s; 
+            -webkit-transform: scale(0.1) rotate3d(0, -1, 0 ,-180deg); 
+            -moz-transform: scale(0.1) rotate3d(0, -1, 0 ,-180deg); 
+            -ms-transform: scale(0.1) rotate3d(0, -1, 0 ,-180deg); 
+            transform: scale(0.1) rotate3d(0, -1, 0 ,-180deg); 
+            -webkit-transition: all 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000); 
+            -moz-transition: all 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000); 
+            -ms-transition: all 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000); 
+            transition: all 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000);
+        }
+        #airbox .popup-page.open .popup-inner {
+            opacity: 1; 
+            visibility1: visible;
+            -webkit-transform: scale(1) rotate3d(0, -1, 0 , 0deg); 
+            -moz-transform: scale(1) rotate3d(0, -1, 0 , 0deg); 
+            -ms-transform: scale(1) rotate3d(0, -1, 0 , 0deg); 
+            transform: scale(1) rotate3d(0, -1, 0 , 0deg);
+        }
+        
+        .popup-page .specs-content {
+            width:100%; 
+            height:100%; 
+            background:#fff; 
+            overflow:hidden; 
+            overflow-y: auto; 
+            color:#666; 
+            z-index:1; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            display:none;
+        }
+
+        #airbox .popup-page .popup-nav {
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            z-index: 9;
+        }
+        
+        a.close-btn {
+            font-size: 36px;
+        }
+        
+        .popup-page .popup-nav.showpn a.close-btn {
+            -webkit-transition: -webkit-transform .4s .2s ease,opacity .4s .2s ease; 
+            -moz-transition: -moz-transform .4s .2s ease,opacity .4s .2s ease; 
+            -ms-transition: -ms-transform .4s .2s ease,opacity .4s .2s ease; 
+            transition: transform .4s .2s ease,opacity .4s .2s ease; 
+        }
+        .popup-page .popup-nav.showpn a.parameters-btn {
+            -webkit-transition: -webkit-transform .4s .3s ease,opacity .4s .3s ease; 
+            -moz-transition: -moz-transform .4s .3s ease,opacity .4s .3s ease; 
+            -ms-transition: -ms-transform .4s .3s ease,opacity .4s .3s ease; 
+            transition: transform .4s .3s ease,opacity .4s .3s ease; 
+        }
+        .popup-page .popup-nav.showpn a.gallery-btn {
+            -webkit-transition: -webkit-transform .4s .4s ease,opacity .4s .4s ease; 
+            -moz-transition: -moz-transform .4s .4s ease,opacity .4s .4s ease; 
+            -ms-transition: -ms-transform .4s .4s ease,opacity .4s .4s ease; 
+            transition: transform .4s .4s ease,opacity .4s .4s ease; 
+        }
+        .popup-page .popup-nav.showpn a.third-btn {
+            -webkit-transition: -webkit-transform .4s .5s ease,opacity .4s .5s ease; 
+            -moz-transition: -moz-transform .4s .5s ease,opacity .4s .5s ease; 
+            -ms-transition: -ms-transform .4s .5s ease,opacity .4s .5s ease; 
+            transition: transform .4s .5s ease,opacity .4s .5s ease; 
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>Airbox 翻转特效</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">         
+        <div class="toolbar">
+            <ul class="tools" style="float:right;">
+                <li class="action-buttons">
+                   <a id="search" class="tool-action-button" href="javascript:void(0)" title="查询">
+                       <i class="fa fa-search"></i>
+                   </a>
+               </li>
+            </ul>
+        </div>
+    </section>
+    
+    <div id="airbox" style="display:none;">
+		<div class="popup-page" style="display: block; opacity: 1;">
+			<div class="popup-inner">
+				<div class="photo-content pp" style="display: none; z-index: 1;">
+					
+				</div>
+				<div class="three-content pp" style="display: none; z-index: 1;">
+                    
+                </div>
+				<div class="specs-content pp" style="display: block; z-index: 1;">
+                    
+                </div>
+				
+				<div class="popup-nav">
+					<a class="close-btn close-button" href="#">×</a>
+					<a class="parameters-btn current" href="#"></a>
+					<a class="gallery-btn" href="#"></a>
+					<a class="third-btn" href="#"></a>
+				</div>
+			</div>
+		</div>
+
+    </div>
+
+    <script type="text/javascript">
+        ; (function () {
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                                
+                            $("#airbox").css("height", document.documentElement.clientHeight + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        var airbox = $("#airbox");
+                        $("#search").click(function(e) {
+                            airbox.css("display", "block");
+                            setTimeout(function(e) {
+                                airbox.children().addClass("open");
+                            }, 200);
+                        });
+                        $(".close-btn").click(function(e) {
+                            airbox.children().removeClass("open");
+                            setTimeout(function(e) {
+                                airbox.css("display", "none");
+                            }, 800);
+                        });
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        
+                    }
+                }
+            };
+            
+        })();
+    </script>
+
+</body>
+</html>

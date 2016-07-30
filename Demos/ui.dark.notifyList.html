@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>自定义侧滑面板</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
+
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.tabPanel.css" rel="stylesheet" /> 
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.optionList.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro.dark/ui.dark.form.css" rel="stylesheet" />
+
+    <!-- 页面样式 -->
+    <style type="text/css">
+        .sidelist {
+            width:100%;
+            height:100%;
+            overflow:hidden;
+            position:relative;
+        }
+        
+        .sidelist-title {
+            position: absolute;
+            height: 40px;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            overflow: hidden;
+            background-color: #3C3F41;
+        }
+        
+        .sidelist-content {
+            position: absolute;
+            width: 100%;
+            top: 40px;
+            left: 0px;
+            bottom: 0px;
+            overflow: hidden;
+        }
+        
+        .option-list li {
+            height: 85px;
+        }
+        
+        .ship-list {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            color: #AAAAAA;
+        }
+        
+            .ship-list .ship-img {
+                width: 100px;
+                height: 75px;
+                position: absolute;
+                top: 5px;
+                left: 10px;
+                background-color: #5D5F60;
+            }
+        
+            .ship-list .ship-info {
+                position: absolute;
+                top: 5px;
+                left: 120px;
+                height: 75px;
+                width: auto;
+            }
+        
+            .ship-list .ship-info span {
+                line-height: 24px;
+            }
+        
+            .ship-list span.state-text {
+                margin-left: 0px;
+                margin-right: 10px;
+                padding-left: 5px;
+                padding-right: 5px;
+                display: inline-block;
+                width: auto;
+                height: 16px;
+                text-align: center;
+                color: #FFFFFF;
+                line-height: 16px;
+            }
+        
+        .ship-detail {
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            height: 100%;
+            overflow: auto;
+            background-color: #1D1F21; 
+        }
+        
+            .ship-detail .ship-detail-images {
+                width: 100%;
+                height: 210px;
+                background-color: #5D5F60;
+            }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tabPanel.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.optionList.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.form.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Light.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+           <ul class="tools" style="float:right;">
+            </ul>
+            <br style="clear:both" />
+        </div>
+        <div id="contentPanel" style="height:100%;position:relative;">
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            function createTraffic(sm, name) {
+                var that = this,
+                    htmlBuilder = [],
+                    element = null,
+                    sidebar = null;
+                
+                htmlBuilder.push("<section class='sidelist-title'>");
+                htmlBuilder.push("</section>");
+                htmlBuilder.push("<section class='tab-body-panel sidelist-content'>");
+                
+                htmlBuilder.push("<div class='tab-body'>");
+                htmlBuilder.push("<div class='ship-list'></div>");
+                htmlBuilder.push("</div>");
+                
+                htmlBuilder.push("<div class='tab-body'>");
+                htmlBuilder.push("<div class='ship-detail'>");
+                htmlBuilder.push("<div class='ship-detail-images'></div>");
+                htmlBuilder.push("<dl class='fold-panel'>");
+                htmlBuilder.push("<dt>船舶动态信息</dt>");
+                htmlBuilder.push("<dd>");
+                htmlBuilder.push("<span>在地图上标记出系统所能获取到的船舶最新位置</span>");
+                htmlBuilder.push("<button class='button background-highlight'>船舶最新位置</button>");
+                htmlBuilder.push("</dd>");
+                htmlBuilder.push("<dt>船舶基本信息</dt>");
+                htmlBuilder.push("<dd style='display:none'></dd>");
+                htmlBuilder.push("</dl>");
+                htmlBuilder.push("</div>");
+                htmlBuilder.push("</div>");
+                
+                htmlBuilder.push("</section>");
+                
+                element = $("<section class='sidelist'></section>")
+                element.append(htmlBuilder.join(""));
+                
+                sidebar = sm.setElement(name, {
+                    parent: "body",
+                    width: 300
+                }, element);
+                sidebar.tab = null;
+                sidebar._panel.css("z-index", 999);
+                sidebar.backButton = $("<button class='icon-button' title='返回'><i class='fa fa-arrow-left'></i></button>");
+                sidebar.backButton.css({
+                    "top": "6px", 
+                    "left": "10px", 
+                    "position": "absolute", 
+                    "z-index": 999,
+                    "block": "none"
+                });
+                sidebar.append(sidebar.backButton);
+                sidebar.backButton.click(function() {
+                    sidebar.optionList.cancelSelection();
+                    sidebar.tab.setIndex(0);
+                });
+                sidebar.showing(function(e) {
+                    if(!this.isTabInitial) {
+                        this.tab.setBodiesLocation();
+                        this.isTabInitial = true;
+                    }
+                    this.tab.setIndex(0, false);
+                });
+                sidebar.resize(function(e, width, height) {
+                    if(this.tab) {
+                        this.tab.setBodyHeight(height - 40);
+                    }
+                });
+
+                //初始化tab控件
+                setTimeout(function() {
+                    sidebar.tab = ui.tab.createViews({
+                        bodyPanelId: sidebar.element.children(".tab-body-panel")
+                    });
+                    sidebar.tab.setBodyHeight(sidebar.height - 40);
+                    sidebar.tab.changing(function(e, index) {
+                        if(index == 0) {
+                            sidebar._closeButton.show();
+                            sidebar.backButton.hide();
+                        } else if(index == 1) {
+                            sidebar._closeButton.hide();
+                            sidebar.backButton.show();
+                        }
+                    });
+                    
+                    sidebar.optionList = sidebar.element.find(".ship-list").setOptionList({
+                        hasRemoveButton: false,
+                        onCreateItemHandler: function(data) {
+                            var htmlBuilder = [];
+                            htmlBuilder.push("<div class='ship-img' />");
+                            htmlBuilder.push("<div class='ship-info'>");
+                            htmlBuilder.push("<span style='font-size:16px;'>" + data.ShipName + "</span>");
+                            htmlBuilder.push("<br />");
+                            htmlBuilder.push("<span>" + ui.str.dateFormat(data.FindTime, "yyyy-MM-dd HH:mm:ss") + "</span>");
+                            htmlBuilder.push("<br />");
+                            htmlBuilder.push("<span class='state-text'");
+                            if(data.Direction == 0) {
+                                htmlBuilder.push(" style='background-color:#3399CC'>", "上行");
+                            } else {
+                                htmlBuilder.push(" style='background-color:#339966'>", "下行");
+                            }
+                            htmlBuilder.push("</span>");
+                            htmlBuilder.push("<span class='state-text' style='background-color:#006699'>", 
+                                             ui.fixedNumber(data.Speed, 2), "m/s</span>");
+                            htmlBuilder.push("</div>");
+                            return htmlBuilder.join("");
+                        }
+                    });
+                    sidebar.optionList.selected(function(e, elem, eventData) {
+                        pageLogic.sidebarManager.get(name).tab.setIndex(1);
+                    });
+                    
+                    sidebar.element.find(".fold-panel").foldPanel();
+                });
+            }
+            
+            function createVideo(sm, name) {
+                var that = this,
+                    htmlBuilder = [],
+                    element = null,
+                    sidebar = null;
+                
+                htmlBuilder.push("<section class='sidelist-title'>");
+                htmlBuilder.push("<a href='javascript:void(0)' class='tab-item tab-button' style='margin-left: 10px;'>实时视频</a>");
+                htmlBuilder.push("<a href='javascript:void(0)' class='tab-item tab-button' style='margin-left: 10px;'>船舶列表</a>");
+                htmlBuilder.push("</section>");
+                htmlBuilder.push("<section class='tab-body-panel sidelist-content'>");
+                
+                htmlBuilder.push("<div class='tab-body'>111");
+                htmlBuilder.push("</div>");
+                
+                htmlBuilder.push("<div class='tab-body'>222");
+                htmlBuilder.push("</div>");
+                
+                htmlBuilder.push("</section>");
+                
+                element = $("<section class='sidelist'></section>")
+                element.append(htmlBuilder.join(""));
+                
+                sidebar = sm.setElement(name, {
+                    parent: "body",
+                    width: 300
+                }, element);
+                sidebar.tab = null;
+                sidebar._panel.css("z-index", 999);
+                sidebar.showing(function(e) {
+                    if(!this.isTabInitial) {
+                        this.tab.setBodiesLocation();
+                        this.isTabInitial = true;
+                    }
+                    this.tab.setIndex(0, false);
+                });
+                sidebar.resize(function(e, width, height) {
+                    this.tab.setBodyHeight(height - 40);
+                });
+
+                //初始化tab控件
+                setTimeout(function() {
+                    sidebar.tab = ui.tab.createTabs({
+                        tabPanelId: sidebar.element.children(".sidelist-title"),
+                        bodyPanelId: sidebar.element.children(".tab-body-panel"),
+                        duration: 500
+                    });
+                    sidebar.tab.setBodyHeight(sidebar.height - 40);
+                    sidebar.tab.changing(function(e, index) {
+                    });
+                });
+            }
+            
+            
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        this.sidebarManager = masterpage.createSidebarManager();
+                        createTraffic.call(this, this.sidebarManager, "traffic");
+                        createVideo.call(this, this.sidebarManager, "video");
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                       
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        $("#settings").click(function() {
+                            pageLogic.sidebarManager.show("traffic").done(function() {
+                                //pageLogic.sidebarManager.get("traffic").optionList.selectItemByIndex(0);
+                            });
+                        });
+                        $("#notify").click(function() {
+                            pageLogic.sidebarManager.show("video");
+                        });
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        setTimeout(function(e) {
+                            pageLogic.loadListData();
+                        });
+                    }
+                },
+                loadListData: function () {
+                    var data = [];
+                    for (var i = 0; i < 30; i++) {
+                        data.push({
+                            ShipName: "船名船号",
+                            FindTime: new Date(),
+                            Direction: ui.random(0, 2),
+                            Speed: ui.random(1, 6)
+                        });
+                    }
+                    pageLogic.sidebarManager.get("traffic").optionList.setData(data);
+                }
+            };
+            
+            
+        })();
+    </script>
+
+</body>
+</html>

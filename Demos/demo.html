@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>UI 2.0 Demo列表</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../Content/themes/metro/ui.metro.form.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        
+        .toolbar .tools .link-button {
+            vertical-align: baseline;
+        }
+        
+        #demoList a {
+            margin-left: 20px;
+            font-size: 16px;
+            line-height: 1.5em;
+        }
+        
+        .fold-panel {
+            padding: 20px;
+        }
+        
+            .fold-panel a {
+                color: #666666 !important;
+            }
+            
+        /* 加载动画 */
+        .progress {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            font-size: 16px;
+        }
+        
+        .small {
+            
+        }
+        
+        .middle {
+            
+        }
+        
+        .progress.large {
+            width: 64px;
+            height: 64px;
+            margin-top: -32px;
+            margin-left: -32px;
+        }
+        
+        .progress.circles {
+            background-color: transparent;
+            border: none;
+        }
+        
+        .progress.circles .circle {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: inline-block;
+            height: 100%;
+            left: 0px;
+            padding: 18px;
+            opacity: 0;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            -webkit-animation: circles 4.125s ease-in-out infinite;
+            -moz-animation: circles 4.125s ease-in-out infinite;
+            animation: circles 4.125s ease-in-out infinite;
+        }
+        
+        .progress.circles .circle::after {
+            background-color: #000000;
+            border-radius: 50%;
+            content: "";
+            display: block;
+            position: absolute;
+            height: 10%;
+            width: 10%;
+        }
+        
+        .progress.circles :nth-child(1).circle {
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+        
+        .progress.circles :nth-child(2).circle {
+            -webkit-animation-delay: 0.126s;
+            -moz-animation-delay: 0.126s;
+            animation-delay: 0.126s;
+        }
+        
+        .progress.circles :nth-child(3).circle {
+            -webkit-animation-delay: 0.252s;
+            -moz-animation-delay: 0.252s;
+            animation-delay: 0.252s;
+        }
+        
+        .progress.circles :nth-child(4).circle {
+            -webkit-animation-delay: 0.387s;
+            -moz-animation-delay: 0.387s;
+            animation-delay: 0.387s;
+        }
+        
+        .progress.circles :nth-child(5).circle {
+            -webkit-animation-delay: 0.504s;
+            -moz-animation-delay: 0.504s;
+            animation-delay: 0.504s;
+        }
+        
+        .progress.circles :nth-child(6).circle {
+            -webkit-animation-delay: 0.63s;
+            -moz-animation-delay: 0.63s;
+            animation-delay: 0.63s;
+        }
+        
+        @-webkit-keyframes circles {
+            0%{transform: rotate(-180deg);
+                opacity: 0
+            }
+            13% {
+                opacity: 0
+            }
+            26% {
+                opacity: 1
+            }
+            74% {
+                opacity: 1
+            }
+            87% {
+                opacity: 0
+            }
+            100% {
+            transform: rotate(585deg);
+                opacity: 0
+            }
+        }
+        
+        @-moz-keyframes circles {
+            0%{transform: rotate(-180deg);
+                opacity: 0
+            }
+            13% {
+                opacity: 0
+            }
+            26% {
+                opacity: 1
+            }
+            74% {
+                opacity: 1
+            }
+            87% {
+                opacity: 0
+            }
+            100% {
+            transform: rotate(585deg);
+                opacity: 0
+            }
+        }
+        
+        @keyframes circles {
+            0%{transform: rotate(-180deg);
+                opacity: 0
+            }
+            13% {
+                opacity: 0
+            }
+            26% {
+                opacity: 1
+            }
+            74% {
+                opacity: 1
+            }
+            87% {
+                opacity: 0
+            }
+            100% {
+            transform: rotate(585deg);
+                opacity: 0
+            }
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.form.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <a id="notify" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-envelope-o"></i>
+                </a>
+            </li>
+            <li>
+                <a id="settings" class="ctrl-button" href="javascript:void(0)">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div class="toolbar">
+            <ul class="tools">
+            </ul>
+        </div>
+        <div id="demo" style="position:absolute;width:0px;height:0px;top:100px;left:100px;border-width:50px;border-color:transparent transparent #888888 transparent;border-style: dashed dashed solid dashed;"></div>
+        <div style="position:absolute;width:100px;height:100px;background-color:#F1F1F1;top:240px;left:100px;">
+            <div id="begin" style="position:absolute;width:5px;height:5px;background-color:#007A00;"></div>
+            <div id="end" style="position:absolute;width:5px;height:5px;background-color:#980000;"></div>
+        </div>
+        <div id="scrollTest" style="width:200px;height:200px;position:absolute;right:100px;top:300px;background-color:#CCCCCC;overflow:auto;">
+            <div style="width:201px;height:400px;background-color:#ff8973"></div>
+        </div>
+        
+        <div class="progress large circles" style="display:block;">
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+            <span class="circle"></span>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            function calculateAngle(beginPoint, endPoint) {
+                var deltaX = endPoint.x - beginPoint.x,
+                    deltaY = endPoint.y - beginPoint.y;
+                var tan,  angle;
+                if(deltaX == 0 || deltaY == 0) {
+                    if(deltaX == 0) {
+                        if(deltaY > 0) {
+                            return 180;
+                        } else {
+                            return 0;
+                        }
+                    } else if(deltaY == 0) {
+                        if(deltaX > 0) {
+                            return 90;
+                        } else {
+                            return 270;
+                        }
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    if(deltaX > 0) {
+                        if(deltaY > 0) { // end在begin的右上方
+                            tan = deltaY / deltaX;
+                            angle = Math.atan(tan);
+                            return angle * 180 / Math.PI + 90;
+                        } else { // end在begin的右下方
+                            tan = deltaX / -deltaY;
+                            angle = Math.atan(tan);
+                            return angle * 180 / Math.PI + 0;
+                        }
+                    } else {
+                        if(deltaY < 0) { // end在begin的左上方
+                            tan = deltaY / deltaX;
+                            angle = Math.atan(tan);
+                            return angle * 180 / Math.PI + 270;
+                        } else { // end在begin的左下方
+                            tan = deltaX / -deltaY;
+                            angle = Math.atan(tan);
+                            return angle * 180 / Math.PI + 180;
+                        }
+                    }
+                }
+            }
+            
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                        var beginPoint = { x: 20, y: 10 },
+                            endPoint = { x: 10, y: 60 };
+                        $("#begin").css({
+                            "left": beginPoint.x + "px",
+                            "top": beginPoint.y + "px"
+                        });
+                        $("#end").css({
+                            "left": endPoint.x + "px",
+                            "top": endPoint.y + "px"
+                        });
+                        var angle = calculateAngle(beginPoint, endPoint);
+                        //ui.msgshow(angle);
+                        $("#demo").css("transform", "rotate(" + angle + "deg)");
+
+                        ui.msgshow([
+                            $("#scrollTest").hasHorizontalScroll(),
+                            $("#scrollTest").hasVerticalScroll()]);
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        var arr = [1, 2, 3, 4, 5];
+                        var arr2 = [5];
+                        var result = arr.indexOf(3);
+                        alert(result);
+
+                        /*
+                        var result = arr.reduceRight(function(result, value) {
+                            //return value;
+                            alert([result, value]);
+                            return result - value;
+                        });
+                        alert(result);
+                        */
+                        
+                        
+                        /*
+                        var obj = {};
+                        Object.defineProperty(obj, "name", {
+                            get: function() {
+                                return this.value;
+                            },
+                            set: function(val) {
+                                this.value = val;
+                                if(this.value === 1) {
+                                    ui.msgshow(this.value);
+                                }
+                            },
+                            enumerable: true
+                        });
+                        
+                        obj.name = 1;
+                        alert(obj.name);
+                        */
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#demoList").css("height", height - 40 + "px");
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        
+                    }
+                }
+            };
+            
+        })();
+    </script>
+
+</body>
+</html>

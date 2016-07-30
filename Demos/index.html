@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>UI 2.0 Demo列表</title>
+    <link href="../Content/site.css" rel="stylesheet"/>
+
+    <link type="text/css" href="../Content/themes/metro/ui.metro.tabPanel.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/themes/metro/ui.metro.form.css" rel="stylesheet" />
+    <!-- 页面样式 -->
+    <style type="text/css">
+        
+        .toolbar .tools .link-button {
+            vertical-align: baseline;
+        }
+        
+        .fold-panel a {
+            margin-left: 20px;
+            font-size: 16px;
+            line-height: 1.5em;
+        }
+        
+        .fold-panel {
+            padding: 20px;
+        }
+        
+            .fold-panel a {
+                color: #666666 !important;
+            }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.tabPanel.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.form.js"></script>
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <span>UI库2.4</span>
+        </h1>
+        <ul id="headerTags">
+            <li class="tab-item tab-button">
+                <span>UI库Demo</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>UI库API</span>
+                <i class="pointer"></i>
+            </li>
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">         
+        <div id="tabBodyPanel" class="tab-body-panel" style="height: 100%;">
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools">
+                        <li>
+                            <a style="font-size:16px;" href="../UpgradeGuide.html">查看更新说明</a>
+                        </li>
+                    </ul>
+                    <ul class="tools" style="float:right;">
+                        <li>
+                            <a class="link-button font-highlight-hover border-highlight-hover" href="../ui.min.2.4.zip" style="width:100px;">下载UI库2.4</a>
+                        </li>
+                    </ul>
+                    <br clear="all" />
+                </div>
+                <div id="demoList" style="overflow:auto;"></div>
+            </div>
+            <div class="tab-body">
+                <div class="toolbar">
+                </div>
+                <div id="apiList" style="overflow:auto;"></div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var tabManager = null;
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    beforeCtrls: function () {
+                        /*
+                        var obj = {};
+                        Object.defineProperty(obj, "name", {
+                            get: function() {
+                                return this.value;
+                            },
+                            set: function(val) {
+                                this.value = val;
+                                if(this.value === 1) {
+                                    ui.msgshow(this.value);
+                                }
+                            },
+                            enumerable: true
+                        });
+                        
+                        obj.name = 1;
+                        alert(obj.name);
+                        */
+                        var tab = pageLogic.tab = ui.tab.createTabs({
+                            tabPanelId: "headerTags",
+                            bodyPanelId: "tabBodyPanel",
+                            direction: "horizontal"
+                        });
+                        tab.setIndex(0);
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            $("#demoList").css("height", height - 40 + "px");
+
+                            pageLogic.tab.setBodyHeight(height);
+                            pageLogic.tab.setBodiesLocation();
+                            pageLogic.tab.restore();
+                        });
+                    },
+                    //在布局计算后创建控件
+                    afterCtrls: function () {
+                        
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        var item = {
+                            options: [{
+                                name: "columns", defaultValue: [], desc: "列定义数组", isMust: true
+                            }], 
+                            functionList: [
+                            {
+                                name: "insertRow", 
+                                desc: "插入一行", 
+                                params:[
+                                    { name: "index", type: "数值", desc: "索引"},
+                                    { name: "data", type: "对象", desc: "行数据对象"}
+                                ],
+                                returnValue: null
+                            }]
+                        };
+                    },
+                    //数据初始化
+                    loadData: function() {
+                        this.loadDemoData();
+                        this.loadApiData();
+                        
+                        setTimeout(function() {
+                            $(".fold-panel").foldPanel();
+                        });
+                    }
+                },
+                loadDemoData: function() {
+                    var demoList = [
+                            { url: "ui.{0}.index.html", description: "动态磁贴" },
+                            { url: "ui.{0}.calendar.html", description: "日历" },
+                            { url: "ui.{0}.contentWindow.html", description: "弹出窗口" },
+                            { url: "ui.{0}.gridview.html", description: "表格" },
+                            { url: "ui.{0}.reportView.html", description: "复杂表格" },
+                            { url: "ui.{0}.list.html", description: "列表" },
+                            { url: "ui.{0}.selectionList.html", description: "各种下拉选择器" },
+                            { url: "ui.{0}.selectionTree.html", description: "下拉树和树视图" },
+                            { url: "ui.{0}.tabpage.html", description: "视图切换" },
+                            { url: "ui.{0}.notifyList.html", description: "复杂侧滑面板" },
+                            { url: "ui.{0}.images.html", description: "图片工具" },
+                            { url: "ui.{0}.tools.html", description: "小工具" },
+                            { url: "ui.{0}.flowView.html", description: "卡片视图" },
+                            { url: "ui.{0}.toolbar.html", description: "工具栏" }
+                        ];
+                        var themes = [
+                            { theme: "light", description: "光明主题" }, 
+                            { theme: "dark", description: "暗黑主题" }
+                        ];
+                        var htmlBuilder = [],
+                            i, j;
+                        htmlBuilder.push("<dl class='fold-panel'>");
+                        htmlBuilder.push("<dt>布局模式</dt>");
+                        htmlBuilder.push("<dd style='display:none;'>");
+                        htmlBuilder.push("<a href='ui.light.menubar.html' target='_blank'>汉堡菜单</a>", "<br />");
+                        htmlBuilder.push("<a href='ui.light.menu.html' target='_blank'>Modern菜单</a>", "<br />");
+                        htmlBuilder.push("<a href='loading.html' target='_blank'>Loading效果</a>", "<br />");
+                        htmlBuilder.push("</dd>");
+                        for(i = 0; i < themes.length; i++) {
+                            htmlBuilder.push("<dt>", themes[i].description, "</dt>");
+                            htmlBuilder.push("<dd style='display:none;'>");
+                            for(j = 0; j < demoList.length; j++) {
+                                htmlBuilder.push(
+                                    "<a href='", 
+                                    ui.str.stringFormat(demoList[j].url, themes[i].theme), 
+                                    "' target='_blank'>",
+                                    demoList[j].description, 
+                                    "</a>");
+                                htmlBuilder.push("<br />");    
+                            }
+                            htmlBuilder.push("</dd>");
+                        }
+                        htmlBuilder.push("</dl>");
+                        
+                        $("#demoList").html(htmlBuilder.join(""));
+                },
+                loadApiData: function() {
+                    var apiList = [
+                        "core", 
+                        "columnStyle", 
+                        "gridview", 
+                        "confirmButton", 
+                        "contentWindow",
+                        "dateChooser",
+                        "filterTool",
+                        "form",
+                        "groupList",
+                        "hoverView",
+                        "imagePreview",
+                        "imageViewer",
+                        "imageZoomer",
+                        "list",
+                        "optionList",
+                        "reportView",
+                        "selectionList",
+                        "selectionTree",
+                        "switchButton",
+                        "tabPanel"
+                    ];
+                    var htmlBuilder = [], j;
+                        htmlBuilder.push("<dl class='fold-panel'>");
+                        htmlBuilder.push("<dt>API文档</dt>");
+                        htmlBuilder.push("<dd>");
+                        for(j = 0; j < apiList.length; j++) {
+                            htmlBuilder.push(
+                                "<a href='", 
+                                ui.str.stringFormat("apiDemo.html?widgetName={0}", 
+                                apiList[j]), 
+                                "' target='_blank'>", 
+                                apiList[j], "</a>");
+                            htmlBuilder.push("<br />");    
+                        }
+                        htmlBuilder.push("</dd>");
+                        htmlBuilder.push("</dl>");
+                        
+                        $("#apiList").html(htmlBuilder.join(""));
+                }
+            };
+            
+        })();
+    </script>
+
+</body>
+</html>

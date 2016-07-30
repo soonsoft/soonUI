@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>ReportView</title>
+    <link type="text/css" href="../Content/site.css" rel="stylesheet"/>
+    <!-- 页面样式 -->
+    <style type="text/css">
+        form input[type='text'] {
+            width:188px;
+        }
+
+        form select {
+            width:188px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/UI/ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/Page/ui.masterpage.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.messagebox.js"></script>
+    <script type="text/javascript" src="../Scripts/Page/ui.themeColors.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.tabPanel.js"></script>
+    <link type="text/css" href="../Content/themes/metro/ui.metro.tabPanel.css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.columnStyle.js"></script>
+    
+    <script type="text/javascript" src="../Scripts/UI/ui.reportView.js"></script>
+    <link type="text/css" href="../Content/themes/metro/ui.metro.reportView.css" rel="stylesheet" />
+    
+    
+    <script type="text/javascript" src="demo.data/jay-album.js"></script>
+    
+    <script type="text/javascript">
+        masterpage.init();
+    </script>
+    <link id="theme" type="text/css" href="../Content/themes/metro.color/ui.metro.Blue.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="head" class="head-color">
+        <h1 id="title" class="title-color">
+            <a id="backBtn" href="ui.light.index.html"></a><span>应用程序名称</span>
+        </h1>
+        <ul id="headerTags">
+            <li class="tab-item tab-button">
+                <span>基本模式</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>固定列模式</span>
+                <i class="pointer"></i>
+            </li>
+            <li class="tab-item tab-button">
+                <span>多表头模式</span>
+                <i class="pointer"></i>
+            </li>
+        </ul>
+        <ul id="headerCtrls">
+            <li>
+                <div id="user" class="user-color" title="userName">
+                    <img src="../Content/images/protrait.png" class="cover" />
+                </div>
+            </li>
+        </ul>
+        <br style="clear:both;" />
+    </header>
+    <section id="body">
+        <div id="tabBodyPanel" class="tab-body-panel" style="height: 100%;">
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools" style="float:right;">
+                    </ul>
+                    <br clear="all" />
+                </div>
+                <div id="reportView1" class="report-view"></div>
+            </div>
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools" style="float:right;">
+                    </ul>
+                    <br clear="all" />
+                </div>
+                <div id="reportView2" class="report-view"></div>
+            </div>
+            <div class="tab-body">
+                <div class="toolbar">
+                    <ul class="tools" style="float:right;">
+                    </ul>
+                    <br clear="all" />
+                </div>
+                <div id="reportView3" class="report-view"></div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        ; (function () {
+            var tabManager = null;
+            var pageLogic = window.pageLogic = {
+                //页面初始化
+                init: {
+                    //主题切换
+                    themes: function() {
+                    },
+                    //在布局计算前创建控件
+                    before: function () {
+                        //选项卡的控制器，每个页面直接重用，只需重写tabChanged方法中的方法调用即可
+                        tabManager = ui.tab.createTabManager(function(e, index) {
+                            if (index === 0) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadSimpleData, 
+                                    pageLogic);
+                            } else if (index === 1) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadFixedColumnData, 
+                                    pageLogic);
+                            } else if (index === 2) {
+                                this.tryCallLoadFunc(
+                                    index, 
+                                    pageLogic.loadMultipleColumnRowData, 
+                                    pageLogic);
+                            }
+                        });
+                        //初始化tab控件
+                        var tab = pageLogic.tab = ui.tab.createTabs({
+                            tabPanelId: "headerTags",
+                            bodyPanelId: "tabBodyPanel",
+                            direction: "horizontal"
+                        });
+                        tab.changed($.proxy(tabManager.tabChanged, tabManager));
+                        
+                        createSimpleMode();
+                        createFixedColumnMode();
+                        createMultipleColumnRowMode();
+                    },
+                    //布局计算
+                    layout: function () {
+                        masterpage.resize(function () {
+                            //40 是toolbar的高度
+                            var height = masterpage.contentBodyHeight,
+                                width = masterpage.contentBodyWidth;
+                            
+                            pageLogic.tab.setBodyHeight(height);
+                            pageLogic.reportView1.setSize(width, height - 40);
+                            pageLogic.reportView2.setSize(width, height - 40);
+                            pageLogic.reportView3.setSize(width, height - 40);
+                            
+                            //调整tab窗口的位置，固定写法
+                            pageLogic.tab.setBodiesLocation();
+                            pageLogic.tab.restore();
+                        });
+
+                    },
+                    //在布局计算后创建控件
+                    after: function () {
+                    },
+                    //页面控件的事件绑定，一般是页面按钮的事件绑定
+                    events: function () {
+                        
+                    },
+                    //数据初始化
+                    load: function() {
+                        pageLogic.tab.setIndex(0, false);
+                    }
+                },
+                //ajax 数据请求
+                loadSimpleData: function(pageIndex) {
+                    if(ui.core.type(pageIndex) !== "number") {
+                        pageIndex = pageLogic.reportView1.pageIndex = 1;
+                    }
+                    var pageSize = pageLogic.reportView1.pageSize;
+                    
+                    var data = [];
+                    for(var i = 0; i < 100; i++) {
+                        data.push({
+                            Text1: "文本数据1",
+                            Text2: "文本数据2",
+                            Text3: "文本数据3",
+                            Text4: "文本数据4",
+                            Text5: "文本数据5",
+                            Text6: "超长文本数据超长文本数据超长文本数据超长文本数据超长文本数据超长文本数据超长文本数据超长文本数据"
+                        });
+                    }
+                    
+                    pageLogic.reportView1.createReportBody(data, data.length);
+                    
+                },
+                loadFixedColumnData: function(pageIndex) {
+                    if(ui.core.type(pageIndex) !== "number") {
+                        pageIndex = pageLogic.reportView2.pageIndex = 1;
+                    }
+                    var pageSize = pageLogic.reportView2.pageSize;
+                    
+                    var item;
+                    for(var i = 0; i < jaySongs.length; i++) {
+                        item = jaySongs[i];
+                        item.coverSrc = "demo.data/jay-album-cover/" + item.album + ".jpg";
+                        item.otherInfo = "其它信息";
+                        item.star = ui.random(1, 6);
+                    }
+                    var data = jaySongs;
+                    pageLogic.reportView2.createReportBody(data, data.length);
+                },
+                loadMultipleColumnRowData: function (pageIndex) {
+                    if(ui.core.type(pageIndex) !== "number") {
+                        pageIndex = pageLogic.reportView3.pageIndex = 1;
+                    }
+                    var pageSize = pageLogic.reportView3.pageSize;
+                    
+                    var data = [
+                        {
+                            Text1: "扬州市公路路政支队",
+                            Total1: 230,
+                            Num1_1: 20,
+                            Num1_2: 100,
+                            Num1_3: 60,
+                            Num1_4: 50,
+                            Total2: 70,
+                            Num2_1: 10,
+                            Num2_2: 50,
+                            Num2_3: 10
+                        },
+                        {
+                            Text1: "高邮市公路路政支队",
+                            Total1: 337,
+                            Num1_1: 60,
+                            Num1_2: 120,
+                            Num1_3: 80,
+                            Num1_4: 77,
+                            Total2: 190,
+                            Num2_1: 60,
+                            Num2_2: 50,
+                            Num2_3: 80
+                        },
+                        {
+                            Text1: "宝应县公路路政支队",
+                            Total1: 173,
+                            Num1_1: 22,
+                            Num1_2: 54,
+                            Num1_3: 88,
+                            Num1_4: 9,
+                            Total2: 95,
+                            Num2_1: 25,
+                            Num2_2: 30,
+                            Num2_3: 40
+                        },
+                        {
+                            Text1: "仪征市公路路政支队",
+                            Total1: 400,
+                            Num1_1: 120,
+                            Num1_2: 80,
+                            Num1_3: 90,
+                            Num1_4: 110,
+                            Total2: 95,
+                            Num2_1: 30,
+                            Num2_2: 40,
+                            Num2_3: 25
+                        }
+                    ];
+                    pageLogic.reportView3.createReportBody(data, data.length);
+                }
+            };
+            
+            function createSimpleMode() {
+                var reportOption = {
+                    dataGroupColumns: [
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                        { column: "Text1", text: "列名", len: 100 },
+                        { column: "Text2", text: "列名列名列名列名列名", len: 80 },
+                        { column: "Text3", text: "列名", len: 100 },
+                        { column: "Text4", text: "列名", len: 200 },
+                        { column: "Text5", text: "列名", len: 100 },
+                        { column: "Text6", text: "列名", len: 120 },
+                        { text: ui.ColumnStyle.cnfn.empty, handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    fitColumns: true,
+                    pager: {
+                        pageIndex: 1,
+                        pageSize: 100
+                    }
+                };
+                pageLogic.reportView1 = $("#reportView1").setReportView(reportOption);
+                pageLogic.reportView1.pageTurning(function (target, pageIndex, pageSize) {
+                    pageLogic.loadSimpleData(pageIndex);
+                });
+            }
+            
+            function createFixedColumnMode() {
+                var reportOption = {
+                    fixedGroupColumns: [
+                        { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
+                        { column: "name", text: "标题", len: 240 },
+                    ],
+                    dataGroupColumns: [
+                        { column: "artist", text: "艺术家", len: 160 },
+                        { column: "star", text: "等级", len: 120 },
+                        { column: "year", text: "发表时间", len: 100 },
+                        { column: "otherInfo", text: "其它信息", len: 120 },
+                        { column: "otherInfo", text: "其它信息", len: 130 },
+                        { column: "coverSrc", text: "专辑封面路径", len: 140 },
+                        { text: ui.ColumnStyle.cnfn.empty, handler: ui.ColumnStyle.cfn.empty }
+                    ],
+                    pager: {
+                        pageIndex: 1,
+                        pageSize: 100
+                    }
+                };
+                pageLogic.reportView2 = $("#reportView2").setReportView(reportOption);
+                pageLogic.reportView2.pageTurning(function (target, pageIndex, pageSize) {
+                    pageLogic.loadFixedColumnData(pageIndex);
+                });
+            }
+            
+            function createMultipleColumnRowMode() {
+                var reportOption = {
+                    dataGroupColumns: [
+                        [{ text: "", len: 40, align: "right", rowspan: 3, handler: ui.ColumnStyle.cfn.rowNumber }, { column: "Text1", text: "单位", rowspan: 3, len: 200 }, { text: "超限30%以内", colspan: 9 }, { text: "超限30%以上", colspan: 7 }, { text: ui.ColumnStyle.cnfn.empty, handler: ui.ColumnStyle.cfn.empty, rowspan: 3 }],
+                        [{ column: "Total1", text: "合计", len: 60, align: "right", sort: true, rowspan: 2 }, { text: "5%以内", colspan: 2 }, { text: "5%-10%", colspan: 2 }, { text: "10%-20%", colspan: 2 }, { text: "20%-30%", colspan: 2 }, { column: "Total2", text: "合计", len: 60, align: "right", sort: true, rowspan: 2 }, { text: "30%-50%", colspan: 2 }, { text: "50%-100%", colspan: 2 }, { text: "100%以上", colspan: 2 }],
+                        [
+                            { column: "Num1_1", text: "数量", len: 60, align: "right" },
+                            { column: ["Num1_1", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                            { column: "Num1_2", text: "数量", len: 60, align: "right" },
+                            { column: ["Num1_2", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                            { column: "Num1_3", text: "数量", len: 60, align: "right" },
+                            { column: ["Num1_3", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                            { column: "Num1_4", text: "数量", len: 60, align: "right" },
+                            { column: ["Num1_4", "Total1"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                            { column: "Num2_1", text: "数量", len: 60, align: "right" },
+                            { column: ["Num2_1", "Total2"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                            { column: "Num2_2", text: "数量", len: 60, align: "right" },
+                            { column: ["Num2_2", "Total2"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) },
+                            { column: "Num2_3", text: "数量", len: 60, align: "right" },
+                            { column: ["Num2_3", "Total2"], text: "百分比", len: 120, handler: ui.ColumnStyle.cfnp.getProgressBar(100) }
+                        ]
+                    ],
+                    fitColumns: false,
+                    selection: {
+                        type: "disabled",
+                        exclude: "input[checkbox], a",
+                        multiple: false
+                    },
+                    pager: {
+                        pageIndex: 1,
+                        pageSize: 100
+                    }
+                };
+                pageLogic.reportView3 = $("#reportView3").setReportView(reportOption);
+                pageLogic.reportView3.pageTurning(function (target, pageIndex, pageSize) {
+                    pageLogic.loadMultipleColumnRowData(pageIndex);
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>
