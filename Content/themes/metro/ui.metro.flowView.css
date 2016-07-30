@@ -1,0 +1,149 @@
+.flow-view {
+}
+
+    .flow-view div.view-body {
+        width: 100%;
+        position: relative;
+        top: 0px;
+        left: 0px;
+        overflow: auto;
+    }
+
+        .flow-view .view-panel {
+            position: relative;
+            padding: 0px;
+            margin: 0px;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: auto;
+        }
+
+        .flow-view .view-item {
+            position: absolute;
+            overflow: hidden;
+            background-color: #DCDCDC;
+        }
+
+        .flow-view .view-item .frame-panel {
+            position: absolute;
+            background-color: transparent;
+            border-style: solid;
+            border-width: 4px;
+            filter: Alpha(opacity=60);
+            opacity: .6;
+            display: none;
+            top: 0px;
+            left: 0px;
+        }
+
+        .flow-view .view-item i.check-marker {
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            display: none;
+            border-width: 16px;
+            border-top-color: #666666;
+            border-right-color: #666666;
+            border-left-color: transparent !important;
+            border-bottom-color: transparent !important;
+            border-style: solid solid dashed dashed;
+            top: 0px;
+            right: 0px;
+        }
+
+        .flow-view .view-item i.check-icon {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            display: none;
+            width: 12px;
+            height: 12px;
+            line-height: 12px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+            .flow-view .view-item:hover .frame-panel {
+                display: block;
+            }
+
+            .flow-view .view-item-selected i.check-marker {
+                display: block;
+            }
+
+            .flow-view .view-item-selected i.check-icon {
+                display: block;
+            }
+
+            .flow-view .view-item-selected .frame-panel {
+                display: block;
+                filter: Alpha(opacity=100);
+                opacity: 1;
+            }
+
+
+        .flow-view div.view-body div.data-prompt {
+            position: absolute;
+            overflow:hidden;
+            left: 0px;
+            top: 50%;
+            width: 100%;
+            line-height: 30px;
+            text-align: center;
+            display: none;
+        }
+
+            .flow-view div.view-body div.data-prompt span {
+                font-size: 16px;
+            }
+
+            .flow-view div.view-body div.data-prompt a {
+                font-size: 16px;
+            }
+
+    .flow-view div.view-foot {
+        height: 30px;
+        background: #F1F1F1;
+        line-height: 30px;
+    }
+
+    .flow-view div.data-info {
+        width: 40%;
+        float: left;
+        overflow: hidden;
+    }
+
+        .flow-view div.data-info span {
+            font-size: 1em;
+            margin-left: 10px;
+        }
+
+    .flow-view div.page-panel {
+        width: 60%;
+        float: right;
+        text-align: right;
+        overflow: hidden;
+    }
+
+        .flow-view div.page-panel a.pager-button {
+            font-size: 1.3em;
+            color: #666666;
+            margin-left: 0px;
+            margin-right: 0px;
+            padding-left: 10px;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+
+            .flow-view div.page-panel a.pager-button:hover {
+                color: #FFFFFF;
+                text-decoration: none;
+            }
+
+        .flow-view div.page-panel span.pager-current {
+            font-size: 1.3em;
+            padding-left: 10px;
+            padding-right: 10px;
+            cursor: default;
+        }

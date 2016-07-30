@@ -1,0 +1,169 @@
+div.group-list {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    background-color: #FAFAFA;
+}
+
+    div.group-list div.list-content-panel {
+        position: relative;
+        overflow-y:auto;
+        width:100%;
+    }
+
+    div.group-list div.list-paging-panel {
+        height:30px;
+        line-height: 30px;
+        overflow:hidden;
+        background-color:#F1F1F1;
+    }
+
+        div.group-list div.list-paging-panel div {
+            width:112px;
+            height:30px;
+            line-height: 30px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+
+        div.group-list div.list-paging-panel i {
+            display: inline-block;
+            vertical-align:top;
+            width: 13px;
+            height: 16px;
+            margin-top: 7px;
+            background-image: url(../../images/c5.png);
+            opacity: .6;
+            filter: Alpha(opacity=60);
+            cursor:pointer;
+        }
+
+            div.group-list div.list-paging-panel i:hover {
+                opacity: 1;
+                filter: Alpha(opacity=100);
+            }
+
+            div.group-list div.list-paging-panel i.disabled-button {
+                cursor:no-drop;
+            }
+
+                div.group-list div.list-paging-panel i.disabled-button:hover {
+                    opacity: .6;
+                    filter: Alpha(opacity=60);
+                }
+
+        div.group-list div.list-paging-panel i.prev {
+            background-position: -122px -16px;
+            margin-right: 80px;
+        }
+
+        div.group-list div.list-paging-panel i.next {
+            background-position: -160px -16px;
+        }
+
+    div.group-list dl, dt, dd, ul, li {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+    }
+
+    div.group-list dt {
+        width: 100%;
+        height: 30px;
+    }
+
+        div.group-list div.group-title {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+            background-color: #F1F1F1;
+            z-index: 100;
+        }
+
+        div.group-list div.title-fixed {
+            position: fixed;
+        }
+
+            div.group-list div.group-title span.titlebox {
+                font-size: 14px;
+                line-height: 30px;
+                margin-left: 5px;
+            }
+
+            div.group-list div.group-title a.titlebox {
+                display: inline-block;
+                text-decoration: none;
+                width: auto;
+                background-color: transparent;
+                border-width: 1px;
+                border-style: solid;
+                height: 22px;
+                line-height: 22px;
+                vertical-align: top;
+                margin-left: 5px;
+                margin-top: 5px;
+                padding-top: 0px;
+                padding-bottom: 0px;
+                padding-left: 2px;
+                padding-right: 2px;
+            }
+
+                div.group-list div.group-title a.titlebox:hover {
+                    text-decoration: none;
+                }
+
+                div.group-list div.group-title a.titlebox:active {
+                    background-color: #E1E1E1;
+                }
+
+    div.group-list dd {
+        width: 100%;
+        height: auto;
+        
+    }
+
+        div.group-list dd li {
+            list-style: none;
+            cursor:pointer;
+            width: 100%;
+            overflow: hidden;
+            height: 40px;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            -icab-text-overflow: ellipsis;
+            -khtml-text-overflow: ellipsis;
+            -moz-text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+        }
+
+            div.group-list dd li:hover {
+                background-color: #F1F1F1;
+            }
+
+            div.group-list dd li.item-selected {
+                color: #FFFFFF;
+            }
+
+                div.group-list dd li.item-selected span.title-info-text {
+                    color: #ECECEC;
+                }
+
+        div.group-list dd span {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        div.group-list dd span.title-text {
+            margin-left: 5px;
+            font-size: 16px;
+            line-height: 22px;
+        }
+
+        div.group-list dd span.title-info-text {
+            margin-left: 5px;
+            font-size: 12px;
+            line-height: 14px;
+            color: #888888;
+        }

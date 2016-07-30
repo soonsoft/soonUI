@@ -1,0 +1,270 @@
+body {
+    color: #AAAAAA;
+    background-color: #3C3F41;
+}
+
+#body {
+    background-color: #1D1F21;
+}
+
+/* 主题颜色 */
+.theme-background-color {
+    background-color: #1D1F21;
+}
+
+.theme-toolbar-color {
+    background-color: #3C3F41;
+}
+
+.theme-border-color {
+    border-color: #5D5F60;
+}
+
+.theme-font-color {
+    color: #AAAAAA;
+}
+
+.theme-ctrl-background-color {
+    background-color: #5D5F60;
+}
+
+/*副标题*/
+ul#headerTags li.tab-button i.pointer {
+    border-bottom-color: #3C3F41;
+}
+
+.toolbar {
+    background-color: #3C3F41;
+    color: #AAAAAA;
+}
+
+    .toolbar .tool-action-button {
+        color: #AAAAAA;
+    }
+
+        .toolbar .tool-action-button:hover {
+            background-color: #5D5F60;
+        }
+        
+        .toolbar .tool-action-button:active {
+            background-color: #1D1F21;
+        }
+    
+    .toolbar .toolbar-extend {
+        background-color: #5D5F60;
+    }
+    
+    .toolbar .tool-extend-pin-button {
+        color: #AAAAAA;
+    }
+    
+    .toolbar .extend-spliter {
+        background-color: #888888;
+    }
+
+.icon-button, 
+.tool-button {
+    border-color: #AAAAAA;
+    color: #AAAAAA;
+    background-color:#3C3F41;
+}
+
+    .icon-button:disabled, 
+    .tool-button:disabled {
+        color:#5D5F60;
+        border-color:#5D5F60;
+    }
+
+    .tools input[type="text"], 
+    .tools textarea, 
+    .tools select {
+        color: #AAAAAA;
+    }
+
+input[type="text"], 
+input[type="password"], 
+textarea, 
+select {
+    border: 1px solid #888888;
+    color: #CCCCCC;
+}
+
+    input[type="text"]:focus, 
+    input[type="password"]:focus, 
+    textarea:focus {
+        color: #FFFFFF;
+    }
+
+    select:focus {
+        color: #999999;
+    }
+    
+a.link-button {
+    border-color: #AAAAAA;
+    color: #AAAAAA;
+}
+
+    a.link-button:hover {
+        border-color: #EEEEEE;
+        color: #EEEEEE;
+    }
+
+    a.link-button:active {
+        background-color: #EEEEEE;
+        color: #333333;
+    }
+    
+.button {
+    color: #FFFFFF;
+    background-color: #888888;
+}
+
+    .button:active {
+        background-color: #EEEEEE !important;
+        color: #333333 !important;
+    }
+    .button:disabled{
+        background-color:#3C3F41 !important;
+        color:#666666 !important;
+    }
+
+aside.sidebar-panel {
+    background-color: #5D5F60;
+    border-color: #888888;
+}
+
+/* 个人设置 */
+section.user-settings {
+    color: #CCCCCC;
+}
+
+    section.user-settings hr {
+        background-color: #777777;
+    }
+
+    section.user-settings div.cmd-list li:hover {
+        background-color: #3C3F41;
+    }
+
+
+/*滚动条样式*/
+/*IE*/
+html
+{
+    /*滑块*/
+    scrollbar-face-color: #5D5F60;
+    -ms-scrollbar-face-color: #5D5F60;
+    /*高亮色*/
+    scrollbar-highlight-color :#3C3F41;
+    -ms-scrollbar-highlight-color :#3C3F41;
+    /*3D高亮色 win8下无效*/
+    scrollbar-3dlight-color: #3C3F41;
+    -ms-scrollbar-3dlight-color: #3C3F41;
+    /*阴影 win8下无效*/
+    scrollbar-darkshadow-color: #3C3F41;
+    -ms-scrollbar-darkshadow-color: #3C3F41;
+    /*阴影 win8下无效*/
+    scrollbar-shadow-color: #3C3F41;
+    -ms-scrollbar-shadow-color: #3C3F41;
+    /*箭头*/
+    scrollbar-arrow-color: #AAAAAA;
+    -ms-scrollbar-arrow-color: #AAAAAA;
+    /*滚动条*/
+    scrollbar-track-color: #3C3F41;
+    -ms-scrollbar-track-color: #3C3F41;
+    /*基础*/
+    scrollbar-base-color: #3C3F41;
+    -ms-scrollbar-base-color: #3C3F41;
+}
+
+/*Webkit chrome opera safari*/
+/* 滚动条宽度 */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+/* 横向纵向同时出现是角的样式 */
+::-webkit-scrollbar-corner {
+    background-color: #3C3F41;
+}
+
+/* 定义滚动条渐增按扭的样式 */ 
+/* 向下 */
+::-webkit-scrollbar-button:vertical:increment {
+    background-color: #3C3F41;
+    background-image: url(../../images/arrow.png);
+    background-position: 0px -48px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:vertical:increment:hover {
+    background-position: 0px -36px;
+}
+/* 向上 */
+::-webkit-scrollbar-button:vertical:decrement {
+    background-color: #3C3F41;
+    background-image: url(../../images/arrow.png);
+    background-position: 0px -12px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:vertical:decrement:hover {
+    background-position: 0px 0px;
+}
+/* 向右 */
+::-webkit-scrollbar-button:horizontal:increment {
+    background-color: #3C3F41;
+    background-image: url(../../images/arrow.png);
+    background-position: 0px -120px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:horizontal:increment:hover {
+    background-position: 0px -108px;
+}
+/* 向左 */
+::-webkit-scrollbar-button:horizontal:decrement {
+    background-color: #3C3F41;
+    background-image: url(../../images/arrow.png);
+    background-position: 0px -84px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:horizontal:decrement:hover {
+    background-position: 0px -72px;
+}
+
+
+/* 垂直滚动条的第一层轨道*/ 
+::-webkit-scrollbar-track:vertical {
+    background-color: #3C3F41;
+    border: 1px solid #3C3F41; 
+}
+::-webkit-scrollbar-track:horizontal {
+    background-color: #3C3F41;
+    border: 1px solid #3C3F41; 
+}
+
+/* 垂直滚动条的滑动块 */ 
+::-webkit-scrollbar-thumb:vertical {
+    height: 48px;
+    background-color: #5D5F60; 
+}
+::-webkit-scrollbar-thumb:horizontal {
+    height: 48px;
+    background-color: #5D5F60; 
+}
+
+/*滚动条交汇处*/
+::-webkit-scrollbar-corner:vertical { 
+    background-color: #3C3F41;
+} 
+::-webkit-scrollbar-resizer:vertical { 
+    background-color: #3C3F41; 
+} 
+
+/*firefox*/
+
+
+a.close-button {
+    color: #FFFFFF;
+}
+
+

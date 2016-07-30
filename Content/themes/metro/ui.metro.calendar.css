@@ -1,0 +1,416 @@
+
+div.view-panel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: none;
+    filter: Alpha(opacity=0);
+    opacity: 0;
+}
+
+div.year-panel {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+    div.year-panel div.year-month-panel {
+        float: left;
+        position: relative;
+        overflow: hidden;
+        background-color: #FAFAFA;
+    }
+
+    div.year-panel div.year-month-odd {
+        background-color: #ECECEC;
+    }
+
+    div.year-panel div.year-month-title {
+        width: 90%;
+        height: 48px;
+        line-height: 48px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+        div.year-panel div.year-month-title span {
+            font-size: 20px;
+        }
+
+    div.year-panel div.year-month-content {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        div.year-panel div.year-month-content table.year-month-table {
+            table-layout: fixed;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+            div.year-panel div.year-month-content table.year-month-table th {
+                text-align: center;
+                font-weight: normal;
+                height: 14.2%;
+                font-size: 14px;
+                overflow: hidden;
+            }
+
+            div.year-panel div.year-month-content table.year-month-table td {
+                text-align: center;
+                font-weight: normal;
+                height: 14.2%;
+                font-size: 13px;
+                vertical-align: top;
+                position: relative;
+                overflow: hidden;
+            }
+
+            div.year-panel div.year-month-content table.year-month-table td.selected {
+                background-color: #888888;
+                color: #FFFFFF;
+            }
+
+                div.year-panel div.year-month-content table.year-month-table span {
+                    line-height: 24px;
+                }
+
+                div.year-panel div.year-month-content table.year-month-table span.today {
+                    text-align: center;
+                    display: inline-block;
+                    width: 24px;
+                    height: 24px;
+                    line-height: 24px;
+                    -moz-border-radius: 12px;
+                    -webkit-border-radius: 12px;
+                    border-radius: 12px;
+                }
+
+i.day-marker {
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    border-width: 3px;
+    border-left-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-style: solid solid dashed dashed;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+div.month-week-panel {
+    width: 100%;
+    border-top: solid 1px #DCDCDC;
+    border-bottom: solid 1px #DCDCDC;
+    height: 24px;
+    overflow: hidden;
+    background-color: #FAFAFA;
+}
+
+    div.month-week-panel table.week-title {
+        table-layout:fixed; 
+        width:100%;
+        height: 100%;
+    }
+
+        div.month-week-panel table.week-title th {
+            text-align: left;
+            font-weight: normal;
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            border-right: solid 1px #DCDCDC;
+            overflow: hidden;
+        }
+
+        div.month-week-panel table.week-title th.last {
+            border-right: none 0px;
+        }
+
+            div.month-week-panel table.week-title th span {
+                margin-left: 10px;
+            }
+
+div.month-day-panel {
+    width: 100%;
+    overflow: auto;
+}
+
+    div.month-day-panel table.days {
+        table-layout: fixed; 
+        width: 100%;
+        height: auto;
+        color: #666666;
+        cursor: pointer;
+    }
+
+        div.month-day-panel table.days td {
+            border-right: solid 1px #DCDCDC;
+            border-bottom: solid 1px #DCDCDC;
+            overflow: hidden;
+        }
+
+        div.month-day-panel table.days td.last {
+            border-right: none 0px;
+        }
+
+        div.month-day-panel table.days td.weekend {
+            background-color: #FAFAFA;
+        }
+
+        div.month-day-panel table.days td.selected {
+            background-color: #888888;
+            color: #FFFFFF;
+        }
+
+        div.month-day-panel table.days td div {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        div.month-day-panel table.days td span.date {
+            font-size: 18px;
+            line-height: 36px;
+            margin-left: 10px;
+        }
+
+    div.month-day-panel ul.schedule {
+        width: 100%;
+        height: auto;
+        margin: 0px;
+        padding: 0px;
+    }
+
+        div.month-day-panel li.schedule-item {
+            width: 100%;
+            height: 16px;
+            line-height: 14px;
+            margin: 0px 0px 1px 0px;
+            padding: 0px;
+            list-style: none;
+            overflow: hidden;
+        }
+
+        div.month-day-panel li span {
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+div.week-day-panel, div.day-panel {
+    width: 100%;
+    height: 24px;
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+
+div.hour-panel {
+    width: 100%;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    overflow: auto;
+    border-top: solid 1px #CCCCCC;
+}
+
+table.weekday {
+    position: absolute;
+    left: 80px;
+    top: 0px;
+    table-layout:fixed; 
+    width:auto;
+    height: 100%;
+}
+
+    table.weekday th {
+        padding: 0px;
+        margin: 0px;
+        height: 24px;
+        overflow: hidden;
+        text-align: center;
+        font-weight: normal;
+        cursor: pointer;
+    }
+
+        table.weekday th:hover {
+            background-color: #EAEAEA;
+        }
+
+        table.weekday th:active {
+            background-color: #666666;
+            color: #FFFFFF;
+        }
+
+div.day-title-panel {
+    position: absolute;
+    left: 80px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+    div.day-title-panel:hover {
+        background-color: #EAEAEA;
+    }
+
+    div.day-title-panel:active {
+        background-color: #666666;
+        color: #FFFFFF;
+    }
+
+    div.day-title-panel span {
+        margin-left: 10px;
+        line-height: 24px;
+    }
+
+ul.hour-name {
+    position: absolute;
+    background-color: #F1F1F1;
+    width: 80px;
+    height: auto;
+    top: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+    ul.hour-name li {
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+        ul.hour-name li span {
+            font-size: 20px;
+            line-height: 24px;
+            color: #BCBCBC;
+            margin-left: 5px;
+        }
+
+    ul.hour-name li.odd {
+    }
+
+table.weekhour {
+    position: absolute;
+    left: 80px;
+    top: 0px;
+    table-layout:fixed; 
+    width:auto;
+    height: auto;
+}
+
+    table.weekhour td {
+        height: 24px;
+        text-align: center;
+        border-right: solid 1px #EFEFEF;
+        border-bottom: solid 1px #CCCCCC;
+    }
+
+    table.weekhour td.odd {
+        border-bottom: dotted 1px #CCCCCC;
+    }
+
+    table.weekhour td.weekend {
+        background-color: #FAFAFA;
+    }
+
+    table.weekhour td.today {
+        background-color: #F1F1F1;
+    }
+
+.current-time {
+    position: absolute;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    height: 16px;
+    line-height: 16px;
+    text-align: right;
+    left: 0px;
+    top: 10000px;
+}
+
+    .current-time span {
+        font-size: 12px;
+        margin-right: 3px;
+    }
+
+.current-time-top {
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+div.schedule-item-panel {
+    position: absolute;
+    overflow: hidden;
+    background-color: #AAAAAA;
+    color: #FFFFFF;
+}
+
+    div.schedule-item-panel:hover {
+        background-color: #666666;
+    }
+
+    div.schedule-item-panel div.time-title {
+        width: 100%;
+        height: 24px;
+        line-height: 24px;
+    }
+
+    div.schedule-item-panel  div.time-title span {
+        margin-left: 5px;
+    }
+
+    div.schedule-item-panel div.record-panel {
+        position:absolute;
+        top: 24px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        overflow: hidden;
+    }
+
+        div.schedule-item-panel div.record-panel p {
+            margin:0px;
+            line-height: 1.5em;
+            text-overflow: ellipsis;
+            text-align: justify;
+        }
+
+.selector {
+    position: absolute;
+    background-color: transparent;
+    border: solid 2px #666666;
+    display: none;
+    cursor: default;
+    z-index: 1000;
+    color: #FFFFFF;
+    top: -2px;
+    left: -2px;
+}
+
+span.select-time-text {
+    line-height: 24px;
+    margin-left: 5px;
+}
+
+
+.unselectable {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.click-enabled {
+}

@@ -1,0 +1,159 @@
+﻿/* image button */
+a.image-button-32 {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(../../images/image-button-32.png);
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+}
+
+a.direct-32 {
+    background-image: url(../../images/direction32.png);
+}
+/* image button */
+a.button-add-32 {
+    background-position: 0px -32px;
+}
+
+    a.button-add-32:hover {
+        background-position: 0px 0px;
+    }
+
+a.button-minus-32 {
+    background-position: -32px -32px;
+}
+
+    a.button-minus-32:hover {
+        background-position: -32px 0px;
+    }
+
+a.button-today-32 {
+    background-position: -64px -32px;
+}
+
+    a.button-today-32:hover {
+        background-position: -64px 0px;
+    }
+
+a.button-search-32 {
+    background-position: -96px -32px;
+}
+
+    a.button-search-32:hover {
+        background-position: -96px 0px;
+    }
+
+a.button-ok-32 {
+    background-position: -128px -32px;
+}
+
+    a.button-ok-32:hover {
+        background-position: -128px 0px;
+    }
+
+a.button-close-32 {
+    background-position: -160px -32px;
+}
+
+    a.button-close-32:hover {
+        background-position: -160px 0px;
+    }
+
+a.button-upload-32 {
+    background-position: -192px -32px;
+}
+
+    a.button-upload-32:hover {
+        background-position: -192px 0px;
+    }
+
+a.button-download-32 {
+    background-position: -224px -32px;
+}
+
+    a.button-download-32:hover {
+        background-position: -224px 0px;
+    }
+
+
+a.button-back-32 {
+    background-position: -256px -32px;
+}
+
+    a.button-back-32:hover {
+        background-position: -256px 0px;
+    }
+
+a.button-star-32 {
+    background-position: -288px -32px;
+}
+
+    a.button-star-32:hover {
+        background-position: -288px 0px;
+    }
+
+a.button-play-32 {
+    background-position: -320px -32px;
+}
+
+    a.button-play-32:hover {
+        background-position: -320px 0px;
+    }
+
+a.button-stop-32 {
+    background-position: -352px -32px;
+}
+
+    a.button-stop-32:hover {
+        background-position: -352px 0px;
+    }
+
+a.button-pause-32 {
+    background-position: -384px -32px;
+}
+
+    a.button-pause-32:hover {
+        background-position: -384px 0px;
+    }
+
+a.button-refresh-32 {
+    background-position: -416px -32px;
+}
+
+    a.button-refresh-32:hover {
+        background-position: -416px 0px;
+    }
+
+/* image direction */
+a.button-up-32 {
+    background-position: -96px -64px;
+}
+
+    a.button-up-32:hover {
+        background-position: -96px -96px;
+    }
+
+a.button-down-32 {
+    background-position: -64px -96px;
+}
+
+    a.button-down-32:hover {
+        background-position: -64px -64px;
+    }
+
+a.button-left-32 {
+    background-position: 0px -64px;
+}
+
+    a.button-left-32:hover {
+        background-position: -32px -64px;
+    }
+
+a.button-right-32 {
+    background-position: -32px -96px;
+}
+
+    a.button-right-32:hover {
+        background-position: 0px -96px;
+    }

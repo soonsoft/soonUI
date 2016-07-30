@@ -1,0 +1,317 @@
+/*日历主体*/
+div.calendar-panel {
+    position: absolute;
+    width: 210px;
+    height: auto;
+    border-style: solid;
+    border-width: 2px;
+    background-color: #FFFFFF;
+    color: #333333;
+    font-size: 12px;
+    display: none;
+    overflow: hidden;
+    z-index: 10000;
+    line-height: 1em;
+}
+
+    /*年月标题显示*/
+    div.calendar-panel div.cal-title-panel {
+        width: 100%;
+        height: 27px;
+        line-height: 27px;
+        background-color: #F1F1F1;
+    }
+
+    div.calendar-panel input.calendar-button {
+        text-align: center;
+        height: 21px;
+        width: 56px;
+        border-width:2px;
+        border-style: solid;
+        background-color:transparent;
+        margin-top: 6px;
+        display: inline;
+        font-size: 12px;
+    }
+
+    div.calendar-panel a.calendar-button {
+        display: inline-block;
+        vertical-align:top;
+        margin-top: 3px;
+        cursor: pointer;
+        background-image: url(../../images/image-button-24.png);
+        width:24px;
+        height:24px;
+    }
+
+    div.calendar-panel a.today-button {
+        background-position: -48px -24px;
+    }
+
+        div.calendar-panel a.today-button:hover {
+            background-position: -48px 0px;
+        }
+
+    div.calendar-panel a.clear-button {
+        background-position: -192px -24px;
+    }
+
+        div.calendar-panel a.clear-button:hover {
+            background-position: -192px 0px;
+        }
+
+    div.calendar-panel a.ok-button {
+        background-position: -96px -24px;
+    }
+
+        div.calendar-panel a.ok-button:hover {
+            background-position: -96px 0px;
+        }
+
+    div.calendar-panel a.cancel-button {
+        background-position: -120px -24px;
+    }
+
+        div.calendar-panel a.cancel-button:hover {
+            background-position: -120px 0px;
+        }
+
+    /*日期显示div*/
+    div.calendar-panel div.date-panel {
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+
+    div.calendar-panel td {
+        
+    }
+
+        div.calendar-panel td:hover {
+        }
+
+        div.calendar-panel td.selected {
+            color: #FFFFFF !important;
+        }
+
+        div.calendar-panel td.selected:hover {
+            color: #FFFFFF;
+        }
+
+div.date-panel div.week-panel {
+    width: 100%;
+    background: #F1F1F1;
+}
+
+    /*星期显示*/
+    div.date-panel div.week-panel table {
+        table-layout: fixed;
+        border-spacing:0px;
+        border-collapse:collapse;
+    }
+
+    div.date-panel div.week-panel th {
+        padding:0px;
+        text-align: center;
+        font-weight: normal;
+        color: #000000;
+        width: 30px;
+        height: 24px;
+        overflow: hidden;
+    }
+
+        div.date-panel div.week-panel th.weekend {
+            color:#b41313;
+        }
+
+div.date-panel div.days-panel {
+    width: 100%;
+    background: #FFFFFF;
+}
+
+    /*日显示*/
+    div.date-panel div.days-panel table {
+        table-layout: fixed;
+        border-spacing:0px;
+        border-collapse:collapse;
+    }
+
+    div.date-panel div.days-panel td {
+        width: 30px;
+        height: 24px;
+        padding: 0px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        div.date-panel div.days-panel td span {
+            line-height: 24px;
+        }
+
+        div.date-panel div.days-panel td.other-month {
+            color: #888888;
+        }
+
+            div.date-panel div.days-panel td.other-month:hover {
+            }
+
+        div.date-panel div.days-panel td.day-today {
+        }
+
+/*操作面板*/
+div.calendar-panel div.ctrl-panel {
+    width: 100%;
+    background-color: #F1F1F1;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
+    div.calendar-panel div.ctrl-panel input.time-input {
+        border: none 0px;
+        height: 24px;
+        width: 24px;
+        font-size: 14px;
+        color: #666666;
+        vertical-align: top;
+        padding: 0px;
+        margin-top: 4px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        text-align: center;
+        background-color: transparent !important;
+    }
+
+div.calendar-panel div.date-title {
+    width: 186px;
+    float: left;
+    height: 100%;
+    text-align: center;
+}
+
+/*年月选择面板*/
+div.calendar-panel div.set-date-panel {
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: none;
+    position: absolute;
+}
+
+div.calendar-panel div.set-title {
+    width: 100%;
+    height: 23px;
+    line-height: 23px;
+    font-size: 12px;
+}
+
+    div.calendar-panel div.set-title span {
+        margin-left: 5px;
+    }
+    
+    div.calendar-panel div.set-title .title-fieldset {
+        border-left: none 0px;
+        border-bottom: none 0px;
+        border-right: none 0px;
+        border-top-style: solid;
+        border-top-width: 1px;
+        overflow: hidden;
+        width: 90%;
+        height: 100%;
+        margin: auto;
+    }
+    
+    div.calendar-panel div.set-title .title-legend {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin: auto;
+    }
+
+div.calendar-panel div.set-year-panel {
+    width: 100%;
+    height: auto;
+}
+
+    div.calendar-panel div.set-year-panel table {
+        table-layout: fixed;
+        border-spacing:0px;
+        border-collapse:collapse;
+    }
+
+    div.calendar-panel div.set-year-panel td {
+        padding:0px;
+        width: 42px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+div.calendar-panel div.set-month-panel {
+    width: 100%;
+    height: auto;
+}
+
+    div.calendar-panel div.set-month-panel table {
+        table-layout: fixed;
+        border-spacing:0px;
+        border-collapse:collapse;
+    }
+
+    div.calendar-panel div.set-month-panel td {
+        padding:0px;
+        width: 52px;
+        border-top-style: none;
+        border-top-width: 0px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+div.calendar-panel div.prev {
+    border-width: 6px;
+    border-color: transparent #888888 transparent transparent;
+    border-style: dashed solid dashed dashed;
+    margin-top: 5px;
+    float: left;
+    line-height: 0px;
+    cursor: pointer;
+}
+
+    div.calendar-panel div.prev:hover {
+    }
+
+div.calendar-panel a.option {
+    text-decoration: none;
+}
+
+div.calendar-panel div.next {
+    border-width: 6px;
+    border-color: transparent transparent transparent #888888;
+    border-style: dashed dashed dashed solid;
+    margin-top: 5px;
+    float: left;
+    line-height: 0px;
+    cursor: pointer;
+}
+
+    div.calendar-panel div.next:hover {
+    }
+
+/*日历框样式*/
+input.date-text {
+    background-image: url(../../images/form-info.png);
+    background-position:right -48px;
+    background-repeat:no-repeat;
+    padding-right: 24px;
+}
+
+input.date-text::-ms-clear {
+    display:none;
+}
+
+input.dateChooser-clear {
+    background-position: right -144px !important;
+}

@@ -1,0 +1,305 @@
+﻿div.tile-back {
+    position: relative;
+    overflow: auto;
+    background-color: #F1F1F1;
+}
+
+div.tile-group-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+}
+
+    div.tile-group-panel div.title-panel {
+        width: 100%;
+        height: 48px;
+        line-height: 64px;
+        overflow: hidden;
+    }
+
+        div.tile-group-panel div.title-panel span {
+            font-family: 'Segoe UI','Microsoft YaHei';
+            color: #666666;
+            font-size: 18px;
+        }
+
+div.tiles-panel {
+    position: relative;
+    width: 100%;
+    color: #FFFFFF;
+    font-family: 'Segoe UI','Microsoft YaHei';
+}
+
+    div.tiles-panel .tile {
+        position: absolute;
+        font-size: 12px;
+    }
+
+    div.tiles-panel .small {
+        width: 60px;
+        height: 60px;
+    }
+
+    div.tiles-panel .medium {
+        width: 128px;
+        height: 128px;
+    }
+
+    div.tiles-panel .wide {
+        width: 264px;
+        height: 128px;
+    }
+
+    div.tiles-panel .large {
+        width: 264px;
+        height: 264px;
+    }
+
+    div.tiles-panel a.tile-link {
+        cursor: pointer;
+        position: absolute;
+        display: inline-block;
+        z-index: 100;
+        background-color: #FFFFFF;
+        -moz-opacity: .0;
+        filter: Alpha(opacity=0);
+        opacity: .0;
+    }
+
+        div.tiles-panel a.tile-link:active {
+            background-color: #000000;
+            -moz-opacity: .3;
+            filter: Alpha(opacity=30);
+            opacity: .3;
+        }
+
+    div.tiles-panel div.tile-content {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        bottom: 24px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+        div.tiles-panel div.tile-content div.update-panel {
+            position: absolute;
+            overflow: hidden;
+            left: 0px;
+        }
+
+        div.tiles-panel div.tile-content p {
+            margin: 10px;
+            padding: 0px;
+            line-height: 16px;
+            font-size: 10pt;
+        }
+
+    div.tiles-panel div.tile-title {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: 100%;
+        height: 24px;
+        line-height: 24px;
+    }
+
+        div.tiles-panel div.tile-title span {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+    div.tiles-panel img.tile-icon {
+        position: absolute;
+    }
+
+    div.tiles-panel img.small-icon {
+        position: absolute;
+        display: none;
+        width: 32px;
+        height: 32px;
+        right: 5px;
+        bottom: 5px;
+    }
+
+    div.tiles-panel img.show {
+        display: inline-block;
+    }
+
+/* datetime tile */
+.time-wide {
+    overflow: hidden;
+    text-align: center;
+}
+
+    .time-wide span {
+        font-size: 72px;
+        line-height: 104px;
+    }
+
+        .time-wide span.time-spliter {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+.time-medium {
+    overflow: hidden;
+    text-align: center;
+}
+
+    .time-medium span {
+        font-size: 42px;
+        line-height: 50px;
+    }
+
+        .time-medium span.hour-text {
+            position: absolute;
+            top: 0px;
+            left: 40px;
+        }
+
+        .time-medium span.hour {
+            position: absolute;
+            top: 30px;
+            left: 88px;
+            font-size: 12px;
+            line-height: 12px;
+        }
+
+        .time-medium span.minute-text {
+            position: absolute;
+            top: 50px;
+            left: 40px;
+        }
+
+        .time-medium span.minute {
+            position: absolute;
+            top: 62px;
+            left: 88px;
+            font-size: 12px;
+            line-height: 12px;
+        }
+
+    .time-medium hr {
+        position: absolute;
+        left: 20px;
+        top: 51px;
+        width: 88px;
+        margin: 0px;
+        padding: 0px;
+        border: none 0px;
+        height: 0px;
+        border-top: solid 1px #FFFFFF;
+    }
+
+    .time-medium span.time-spliter {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+.date-wide {
+    overflow: hidden;
+}
+
+    .date-wide span.year {
+        margin-left: 5px;
+        font-size: 18px;
+        line-height: 36px;
+    }
+
+    .date-wide span.date {
+        margin-left: 5px;
+        font-size: 24px;
+    }
+
+.date-medium {
+    overflow: hidden;
+}
+
+    .date-medium span {
+        margin-left: 5px;
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+        .date-medium span.day {
+            position: absolute;
+            right: 10px;
+            bottom: 0px;
+            font-size: 48px;
+            line-height: 56px;
+        }
+
+/* weather tile */
+.weather-panel {
+    overflow: hidden;
+    position: absolute;
+}
+
+    .weather-panel li {
+        border-bottom: 1px solid #CCCCCC;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        position: relative;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 25px;
+        cursor: default;
+        *float: left;
+    }
+
+        .weather-panel li.curr {
+        }
+
+    .weather-panel .image-info {
+        width: 100%;
+        height: 134px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+    }
+
+        .weather-panel .image-info div {
+            margin-left: 5px;
+            margin-top: 3px;
+        }
+
+            .weather-panel .image-info div.temperature {
+                margin-top: 36px;
+                font-size: 26px;
+                line-height: 1;
+            }
+
+    .weather-panel li.curr .text-info {
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        position: absolute;
+        color: #FFFFFF;
+        filter: Alpha(opacity=60);
+        -moz-opacity: .6;
+        opacity: .6;
+        background-color: #000000;
+    }
+
+    .weather-panel .text-info {
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        color: #FFFFFF;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .weather-panel span {
+        line-height: 25px;
+        margin-left: 5px;
+        margin-right: 5px;
+        white-space: nowrap;
+    }

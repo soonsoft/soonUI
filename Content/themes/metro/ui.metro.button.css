@@ -1,0 +1,164 @@
+﻿/* 
+    default (24 * 24) 
+*/
+/* image button */
+a.image-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(../../images/image-button-24.png);
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+}
+
+a.direct {
+    background-image: url(../../images/direction24.png);
+}
+
+ 
+a.button-add {
+    background-position: 0px -24px;
+}
+
+    a.button-add:hover {
+        background-position: 0px 0px;
+    }
+
+a.button-minus {
+    background-position: -24px -24px;
+}
+
+    a.button-minus:hover {
+        background-position: -24px 0px;
+    }
+
+a.button-today {
+    background-position: -48px -24px;
+}
+
+    a.button-today:hover {
+        background-position: -48px 0px;
+    }
+
+a.button-search {
+    background-position: -72px -24px;
+}
+
+    a.button-search:hover {
+        background-position: -72px 0px;
+    }
+
+a.button-ok {
+    background-position: -96px -24px;
+}
+
+    a.button-ok:hover {
+        background-position: -96px 0px;
+    }
+
+a.button-close {
+    background-position: -120px -24px;
+}
+
+    a.button-close:hover {
+        background-position: -120px 0px;
+    }
+
+a.button-upload {
+    background-position: -144px -24px;
+}
+
+    a.button-upload:hover {
+        background-position: -144px 0px;
+    }
+
+a.button-download {
+    background-position: -168px -24px;
+}
+
+    a.button-download:hover {
+        background-position: -168px 0px;
+    }
+
+a.button-back {
+    background-position: -192px -24px;
+}
+
+    a.button-back:hover {
+        background-position: -192px 0px;
+    }
+
+a.button-star {
+    background-position: -216px -24px;
+}
+
+    a.button-star:hover {
+        background-position: -216px 0px;
+    }
+
+a.button-play {
+    background-position: -240px -24px;
+}
+
+    a.button-play:hover {
+        background-position: -240px 0px;
+    }
+
+a.button-stop {
+    background-position: -264px -24px;
+}
+
+    a.button-stop:hover {
+        background-position: -264px 0px;
+    }
+
+a.button-pause {
+    background-position: -288px -24px;
+}
+
+    a.button-pause:hover {
+        background-position: -288px 0px;
+    }
+
+a.button-refresh {
+    background-position: -312px -24px;
+}
+
+    a.button-refresh:hover {
+        background-position: -312px 0px;
+    }
+
+/* image direction */
+a.button-up {
+    background-position: -72px -48px;
+}
+
+    a.button-up:hover {
+        background-position: -72px -72px;
+    }
+
+a.button-down {
+    background-position: -48px -72px;
+}
+
+    a.button-down:hover {
+        background-position: -48px -48px;
+    }
+
+a.button-left {
+    background-position: 0px -48px;
+}
+
+    a.button-left:hover {
+        background-position: -24px -48px;
+    }
+
+a.button-right {
+    background-position: -24px -72px;
+}
+
+    a.button-right:hover {
+        background-position: 0px -72px;
+    }
+
+

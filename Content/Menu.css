@@ -1,0 +1,293 @@
+#body {
+    position: relative;
+}
+
+.navigation-panel {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    z-index: 100;
+    display: block;
+}
+
+.content-container {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    z-index: 99;
+}
+
+.navigation-panel-narrow {
+    width: 48px;
+}
+
+/*浏览器小于等于1024时显示的菜单图标*/
+a.menu-icon {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    filter: Alpha(opacity=70);
+    opacity: .7;
+}
+
+    a.menu-icon img {
+        position: relative;
+        margin-left: 8px;
+        margin-top: 8px;
+        width: 32px;
+        height: 32px;
+        border: none 0px;
+    }
+
+    a.menu-icon:hover {
+        filter: Alpha(opacity=100);
+        opacity: 1;
+    }
+
+a.menu-show {
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}
+
+.menu-icon-background {
+    display: none;
+    position: absolute;
+    width: 48px;
+    height: 100%;
+}
+
+    a.menu-icon:hover .menu-icon-background {
+        display: inline-block;
+    }
+
+    a.menu-icon:active .menu-icon-background {
+        filter: Alpha(opacity=70);
+        opacity: .7;
+    }
+    
+    a.menu-show .menu-icon-background {
+        display: inline-block;
+    }
+
+.navigation-panel b,
+.navigation-panel u {
+    display: block;
+    margin: 0px !important;
+    padding: 0px !important;
+    font-weight: normal !important;
+    text-decoration: none !important;
+}
+
+/* Menu Layout */
+.navigation-panel dl.menu-list {
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF;
+    overflow: hidden;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+.navigation-panel dt, 
+.navigation-panel li {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    -icab-text-overflow: ellipsis;
+    -khtml-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.navigation-panel a {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    display: inline-block;
+    width: 100%;
+    background-color: #000000;
+    filter: Alpha(opacity=0);
+    opacity: 0;
+}
+
+    .navigation-panel a:hover {
+        text-decoration: none;
+    }
+
+.navigation-panel .menu-item-background {
+    width: 100%;
+    height: 100%;
+    position: absolute !important;
+    display: none;
+}
+        
+.navigation-panel .menu-item-color {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    filter: Alpha(opacity=20);
+    opacity: .2;
+}
+        
+.navigation-panel .menu-item-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.navigation-panel dt {
+    height: 48px;
+    font-size: 15px;
+    position: relative;
+    background-color: transparent;
+}
+
+.navigation-panel .icon {
+    display: inline-block;
+    height: 32px;
+    width: 32px;
+    vertical-align: top;
+    margin-left: 8px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+    .navigation-panel .icon img {
+        height: 32px;
+        width: 32px;
+        vertical-align: top;
+        margin: 0px;
+        border: none 0px;
+    }
+
+.navigation-panel dt span {
+    margin-left: 8px;
+    line-height: 48px;
+}
+
+.navigation-panel .allow {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    position: absolute;
+    right: 8px;
+    top: 12px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.navigation-panel dt .menu-item-container {
+    position: absolute;
+    width: auto;
+    left: 0px;
+    right: 32px;
+}
+
+    .navigation-panel .menu-item-container .allow {
+        left: 100%;
+    }
+
+.navigation-panel-narrow dt .menu-item-container {
+    overflow: hidden;
+    width: 48px;
+}
+
+.navigation-panel dd {
+    display: none;
+    height: 0px;
+    overflow: hidden;
+    background-color: transparent;
+    position: relative;
+}
+
+.navigation-panel ul {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+}
+
+.navigation-panel li {
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    position: relative;
+}
+
+.navigation-panel li span {
+    margin-left: 47px;
+}
+
+.navigation-panel .submenu-panel {
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    display: none;
+    top: 0px;
+    left: 0px;
+}
+
+    .navigation-panel .submenu-panel .submenu-background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        filter: Alpha(opacity=10);
+        opacity: .1;
+    }
+
+    .navigation-panel .submenu-panel .submenu-list {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .navigation-panel .submenu-panel .submenu-list li {
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        overflow: hidden;
+    }
+
+    .navigation-panel .submenu-panel .submenu-list li span {
+        margin-left: 16px;
+    }
+
+/* Menu UI Style */
+.navigation-panel dt, 
+.navigation-panel li {
+    filter: Alpha(opacity=65);
+    opacity: .65;
+    cursor: pointer;
+}
+
+.navigation-panel dt:hover,
+.navigation-panel li:hover {
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}
+
+.navigation-panel dt:hover .menu-item-background,
+.navigation-panel li:hover .menu-item-background {
+    display: block;
+}
+
+.navigation-panel dt:active .menu-item-color,
+.navigation-panel li:active .menu-item-color {
+    background-color: #000000;
+}
+
+.navigation-panel .selected-menu {
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}
+
+dl.menu-list .current-menu {
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}

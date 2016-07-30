@@ -1,0 +1,132 @@
+.content-window {
+    position: absolute;
+    border-top-width: 4px;
+    border-top-style: solid;
+    border-color: transparent;
+    background-color: #3C3F41;
+    display: none;
+    z-index: 9999;
+}
+
+    .content-window a.close-button {
+        font: 26px/24px Tahoma,Verdana,sans-serif;
+        width: 40px;
+        height: 40px;
+        top: 0px;
+        right: 0px;
+        line-height: 36px;
+        text-align: center;
+    }
+
+    .content-window div.cw-title-panel {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        overflow: hidden;
+        height: 48px;
+    }
+
+        .content-window div.cw-title-panel div.title-inner-panel {
+            padding-left: 16px;
+            padding-right: 16px;
+            height: 100%;
+        }
+
+            .content-window div.cw-title-panel div.title-inner-panel span {
+                font-size: 18px;
+                line-height: 40px;
+            }
+
+.cw-title-text-spline {
+    margin: 0px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border: none 0px;
+    height: 1px;
+}
+
+.content-window div.cw-content-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    overflow: auto;
+}
+
+    .content-window div.cw-content-panel iframe.content-frame {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+
+.content-window div.cw-ctrl-panel {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    overflow: hidden;
+    height: 48px;
+    overflow: hidden;
+    text-align: right;
+    line-height: 48px;
+}
+
+    .content-window div.cw-ctrl-panel input[type="button"] {
+        margin-right: 16px;
+    }
+
+    .content-window div.cw-ctrl-panel button {
+        margin-right: 16px;
+    }
+
+a.close-button-light, a.close-button-dark {
+    right: 5px;
+    top: 5px;
+}
+
+div.cw-mask-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+    background-color: #000000;
+    filter: Alpha(opacity=0);
+    opacity: 0;
+    z-index: 9999;
+    display: none;
+}
+
+.content-window div.dragable-title {
+    cursor: move;
+}
+
+.content-window u.resize-handle {
+    text-decoration: none;
+    display: block;
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    border: none 0px;
+    width: 0px;
+    height: 0px;
+    right: 0px;
+    bottom: 0px;
+    cursor: se-resize;
+    z-index: 100;
+    border-width: 5px;
+    border-color: transparent #666666 #666666 transparent;
+    border-style: dashed solid solid dashed;
+}
+
+.content-window a.close-button-light {
+    color: #FFFFFF;
+}

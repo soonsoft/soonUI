@@ -1,0 +1,240 @@
+﻿div.upload-file-panel {
+    width: 300px;
+    background-color: #FFFFFF;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 256px;
+    border-style:solid;
+    border-width:2px;
+    z-index:10000;
+}
+
+div.upload-file-panel-show {
+    display: block;
+}
+
+div.upload-file-panel div.upload-title {
+    width:100%;
+    height:40px;
+    background-color:#F1F1F1;
+    line-height:40px;
+    overflow:hidden;
+    font-size:1.167em;
+}
+
+    div.upload-file-panel div.upload-title span.errorCount {
+        color:#CC0033;
+    }
+
+div.upload-file-panel div.file-list-panel {
+    width:100%;
+    min-height: 48px;
+    max-height: 288px;
+    overflow:auto;
+}
+
+div.upload-file-panel ul {
+}
+
+div.upload-file-panel li {
+    height: 48px;
+    overflow: hidden;
+    position: relative;
+}
+
+div.upload-file-panel div.file-icon {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+    div.upload-file-panel div.img-icon {
+        width: 40px;
+        height: 40px;
+        margin:4px 4px 4px 4px;
+        border:none 0px;
+        background-image:url(../../images/icon.png);
+        background-position:-80px -40px;
+    }
+
+div.upload-file-panel div.info-panel {
+    position:absolute;
+    left:48px;
+    right:0px;
+    height:48px;
+}
+
+div.upload-file-panel div.file-name {
+    width:92%;
+    height:22px;
+    line-height:22px;
+    overflow:hidden;
+}
+
+div.upload-file-panel div.progress {
+    height:4px;
+    background-color:#E1E1E1;
+    width:98%;
+}
+
+div.upload-file-panel div.progress-val {
+    height:4px;
+}
+
+div.upload-file-panel div.progress-info {
+    height:22px;
+    line-height:22px;
+}
+
+div.upload-file-panel div.progress-info span.error-state {
+    color:#CC0033;
+}
+
+div.upload-file-panel span {
+    margin-right:3px;
+}
+
+a.close-button {
+    color:#868686;
+    top:5px;
+    right:3px;
+}
+
+    a.close-button:hover {
+        color:#666666;
+    }
+
+div.upload-file-panel a.retry-button {
+    position:absolute;
+    right:5px;
+    bottom:0px;
+    line-height:22px;
+    display:none;
+}
+
+/*图标*/
+div.upload-file-panel div.pptx {
+    background-position:-40px 0px;
+}
+
+div.upload-file-panel div.docx {
+    background-position:-200px 0px;
+}
+
+div.upload-file-panel div.xlsx {
+    background-position:-160px 0px;
+}
+
+div.upload-file-panel div.vdx {
+    background-position:-80px 0px;
+}
+
+div.upload-file-panel div.mpp {
+    background-position:-280px 0px;
+}
+
+div.upload-file-panel div.pst {
+    background-position:-240px 0px;
+}
+
+div.upload-file-panel div.one {
+    background-position:-120px 0px;
+}
+
+div.upload-file-panel div.txt {
+    background-position:-120px -40px;
+}
+
+div.upload-file-panel div.xml {
+    background-position:-40px -40px;
+}
+
+div.upload-file-panel div.html {
+    background-position:0px -40px;
+}
+
+div.upload-file-panel div.zip {
+    background-position:-320px 0px;
+}
+
+div.upload-file-panel div.rar {
+    background-position:-360px 0px;
+}
+
+div.upload-file-panel div.exe {
+    background-position:-80px -120px;
+}
+
+div.upload-file-panel div.jpg {
+    background-position:-160px -80px;
+}
+
+div.upload-file-panel div.png {
+    background-position:-200px -80px;
+}
+
+div.upload-file-panel div.gif {
+    background-position:-240px -80px;
+}
+
+div.upload-file-panel div.bmp {
+    background-position:-120px -80px;
+}
+
+div.upload-file-panel div.mp3 {
+    background-position:0px -80px;
+}
+
+div.upload-file-panel div.wma {
+    background-position:-80px -80px;
+}
+
+div.upload-file-panel div.m4a {
+    background-position:-40px -120px;
+}
+
+div.upload-file-panel div.mp4 {
+    background-position:-320px 0px;
+}
+
+div.upload-file-panel div.avi {
+    background-position:-40px -80px;
+}
+
+div.upload-file-panel div.wmv {
+    background-position:-360px -80px;
+}
+
+div.upload-file-panel div.mkv {
+    background-position:0px -120px;
+}
+
+div.upload-file-panel div.psd {
+    background-position:-320px -40px;
+}
+
+div.upload-file-panel div.pdf {
+    background-position:-280px -80px;
+}
+
+div.upload-file-panel div.swf {
+    background-position:-240px -40px;
+}
+
+div.upload-file-panel div.ai {
+    background-position:-280px -40px;
+}
+
+div.upload-file-panel div.aep {
+    background-position:-360px -40px;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+﻿div.simple-uploader-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    display: none;
+}
+
+    div.simple-uploader-panel iframe {
+        width: 0px;
+        height: 0px;
+        visibility: hidden;
+    }
+
+div.simple-uploader-file {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    overflow: hidden;
+    opacity: 0.0001;
+    filter: alpha(opacity=1);
+    -moz-opacity:.0001;
+    z-index: 9999999;
+    cursor: pointer;
+}
+
+input.simple-input-file {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 200px;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}

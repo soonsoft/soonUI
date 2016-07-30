@@ -1,0 +1,16 @@
+﻿a.image-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(../../images/image-button-24.png);
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+}
+
+a.button-clean {
+    background-position: 0px -24px;
+}
+
+    a.button-clean:hover {
+        background-position: 0px 0px;
+    }

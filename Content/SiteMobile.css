@@ -1,0 +1,16 @@
+﻿body {
+    font-size: 12px;
+}
+
+div#head {
+    min-width: 0px;
+}
+
+
+div#body {
+    min-width: 0px;
+}
+
+.content-panel {
+    min-width: 0px;
+}

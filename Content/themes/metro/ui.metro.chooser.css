@@ -1,0 +1,122 @@
+﻿div.chooser-panel {
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 2px;
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    width: auto;
+    height: auto;
+    z-index: 10000;
+}
+
+    div.chooser-panel div.item-title-panel {
+        background-color: #F1F1F1;
+        height: 30px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+        div.chooser-panel div.item-title-panel div.title-item {
+            position: absolute;
+            top: 0px;
+            overflow: hidden;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+        }
+
+    div.chooser-panel div.item-list-panel {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+        div.chooser-panel div.item-list-panel div.chooser-list-panel {
+            position: absolute;
+            top: 0px;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        div.chooser-panel div.item-list-panel ul {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: auto;
+        }
+
+        div.chooser-panel div.item-list-panel li {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+.focus-choose-element {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    border-style: solid;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: transparent;
+    left: 0px;
+}
+
+.chooser-panel-choose-item {
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: transparent;
+    width: 100%;
+    color: #888888;
+    text-align: center;
+    font-size: 14px;
+}
+
+.chooser-panel-choose-item-empty {
+    cursor: default;
+}
+
+.chooser-panel-choose-item-selected {
+}
+
+div.chooser-panel div.chooser-ctrl-panel {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: right;
+    background-color: #F1F1F1;
+}
+
+    div.chooser-panel div.chooser-ctrl-panel button {
+        margin-top: 5px;
+        margin-right: 5px;
+        height: 21px;
+        width: 56px;
+        line-height: 16px;
+    }
+
+input.select-text {
+    background-image: url(../../images/form-info.png);
+    background-position:right -94px;
+    background-repeat:no-repeat;
+    padding-right: 24px;
+}
+
+input.select-text::-ms-clear {
+    display:none;
+}
+
+input.chooser-clear {
+    background-position: right -144px !important;
+}

@@ -1,0 +1,912 @@
+@import url(font-awesome.css);
+
+html {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-size: 0.813em;
+    font-family: 'Microsoft YaHei', "Segoe UI", Segoe, Tahoma, Arial, Verdana, sans-serif;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    color: #333333;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+body, ol, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, fieldset, pr, pc {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+section, header, footer, address, article, aside, nav, menu {
+    display: block;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+/* 主题颜色 */
+.theme-background-color {
+    background-color: #FFFFFF;
+}
+
+.theme-toolbar-color,
+.theme-action-color {
+    background-color: #F1F1F1;
+}
+
+.theme-border-color {
+    border-color: #E5E5E5;
+}
+
+.theme-font-color {
+    color: #333333;
+}
+
+.theme-ctrl-background-color {
+    background-color: #FAFAFA;
+}
+
+/* 默认超链接 */
+a {
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    a:active {
+        background-color: transparent;
+    }
+    
+ /* 清除浮动，在浮动元素的父级容器上使用 */
+.clear, .toolbar {
+    zoom: 1;
+}
+
+    .clear:after, .toolbar:after {
+        content:"";
+        display:block;
+        height:0;
+        line-height:0;
+        clear:both;
+        visibility:hidden;
+    }
+
+#head {
+    height: 48px;
+    width: 100%;
+    min-width: 768px;
+    position:relative;
+    top:0px;
+    left:0px;
+    z-index:9999;
+    overflow: hidden;
+}
+
+#body {
+    height: auto;
+    width: 100%;
+    min-width: 768px;
+    position: relative;
+    background-color: #FFFFFF;
+    overflow: hidden;
+}
+
+#foot {
+    height: 30px;
+    background-color: #F1F1F1;
+    overflow: hidden;
+    display: none;
+}
+
+#backBtn {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+    vertical-align: middle;
+    background-image: url(../Content/images/direction24.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+
+    #backBtn:hover {
+        background-position: -24px 0px;
+    }
+
+/*标题*/
+h1#title {
+    display: block;
+    height: 100%;
+    float: left;
+    width: 240px;
+    position: relative;
+    font-weight: normal;
+    overflow: hidden;
+}
+
+    h1#title span {
+        color: #FFFFFF;
+        font-family: 'Segoe UI', 'Microsoft YaHei light', 'Microsoft YaHei';
+        font-size: 20px;
+        line-height: 44px;
+        margin-left: 10px;
+    }
+
+    #head ul {
+        height: 100%;
+    }
+
+        #head ul li {
+            list-style: none;
+            float: left;
+            padding: 0px;
+            margin: 0px;
+            height: 100%;
+        }
+
+/*副标题*/
+ul#headerTags {
+    float: left;
+    position: relative;
+    width: auto;
+}
+
+    ul#headerTags li {
+        line-height: 48px;
+        font-size: 16px;
+        margin-left: 20px;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+
+    ul#headerTags li.tab-button {
+        display:block;
+        height: 48px;
+        margin-top: 0px;
+        line-height: 48px;
+        text-align: center;
+        text-decoration: none;
+        color: #FFFFFF !important;
+        position: relative;
+        filter: Alpha(opacity=60);
+        opacity: .6;
+    }
+    
+        ul#headerTags li.tab-button i.pointer {
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            margin-left: -10px;
+            width: 0px;
+            height: 0px;
+            display: none;
+            border-width: 10px;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-left-color: transparent;
+            border-bottom-color: #F1F1F1;
+            border-style: dashed dashed solid dashed;
+        }
+
+    ul#headerTags li.tab-button-selection {
+        filter: Alpha(opacity=100);
+        opacity: 1;
+    }
+    
+        ul#headerTags li.tab-button-selection i.pointer {
+            display: block;
+        }
+
+/*控制按钮*/
+ul#headerCtrls {
+    position: relative;
+    float: right;
+}
+
+    ul#headerCtrls li {
+        height: 100%;
+        width: 48px;
+        position: relative;
+        overflow: visible;
+        text-align: center;
+    }
+    
+    ul#headerCtrls div.extender {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        right: 0px;
+        overflow: hidden;
+        display: none;
+    }
+    
+    ul#headerCtrls div.extender-show {
+        display: block;
+    }
+
+    ul#headerCtrls a.ctrl-button {
+        position: relative;
+        color: #FFFFFF;
+        font-size: 18px;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-top: 14px;
+        vertical-align: top;
+        line-height: 18px;
+        filter: Alpha(opacity=60);
+        opacity: .6;
+    }
+
+        ul#headerCtrls a.ctrl-button:hover {
+            filter: Alpha(opacity=100);
+            opacity: 1;
+        }
+        
+    ul#headerCtrls .global-search-panel {
+        width: auto;
+        height: auto;
+        border: 1px solid #FFFFFF;
+        margin-top: 12px;
+        margin-right: 10px;
+    }
+        
+    ul#headerCtrls #globalSearch {
+        background-color: #FFFFFF !important;
+        border-style: none !important;
+        border-width: 0px !important;
+        width: 160px;
+        color: #000000 !important;
+        filter: Alpha(opacity=30);
+        opacity: .3;
+    }
+    
+        ul#headerCtrls #globalSearch:focus {
+            filter: Alpha(opacity=60);
+            opacity: .6;
+        }
+
+    div#user {
+        height: 32px;
+        width: 32px;
+        color: #FFFFFF;
+        margin-top: 8px;
+        margin-left: auto;
+        margin-right: auto;
+        border: solid 1px transparent;
+        border-radius: 16px; 
+        overflow: hidden;
+    }
+    
+        div#user:active {
+            filter: Alpha(opacity=60);
+            opacity: .6;
+        }
+
+        div#user img.cover {
+            height: 100%;
+            width: 100%;
+            background: #878787 url(images/protrait.png);
+            float: left;
+            cursor: pointer;
+        }
+
+/* toolbar */
+.toolbar {
+    width: 100%;
+    height: 40px;
+    background-color: #F1F1F1;
+    color: #666666;
+    overflow: hidden;
+}
+
+    .toolbar .tool-action-button {
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        font-size: 18px;
+        color: #666666;
+        overflow: hidden;
+    }
+    
+        .toolbar .tool-action-button:hover {
+            background-color: #DDDDDD;
+        }
+        
+        .toolbar .tool-action-button:active {
+            background-color: #BBBBBB;
+        }
+        
+    .toolbar .toolbar-extend {
+        width: 100%;
+        height: 120px;
+        background-color: #EAEAEA;
+        position: absolute;
+        z-index: 9999;
+    }
+    
+    .toolbar .tool-extend-pin-button {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        font-size: 14px;
+        line-height: 24px;
+        z-index: 10000;
+        text-align: center;
+        color: #666666;
+    }
+    
+        .toolbar .extend-spliter {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 0px;
+            border: none 0px;
+            width: 1px;
+            background-color: #AAAAAA;
+            height: 100%;
+        }
+
+.tools {
+    margin-left: 10px;
+    height: 100%;
+    overflow: hidden;
+    float: left;
+}
+
+    .tools li {
+        float: left;
+        list-style: none;
+        height: 100%;
+        margin-right: 10px;
+        line-height: 40px;
+    }
+    
+    .tools li.action-buttons {
+        margin: 0px;
+    }
+
+    .tools input[type="text"], 
+    .tools textarea, 
+    .tools select {
+        background-color: transparent;
+        border: 1px solid #AAAAAA;
+        height: 22px;
+        width: 100px;
+    }
+
+    .tools select {
+        height: 24px;
+    }
+
+.icon-button, .tool-button {
+    text-align: center;
+    height: 24px;
+    line-height: 20px;
+    margin: 0px;
+    padding: 0px;
+    min-width: 24px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #666666;
+    color: #666666;
+    overflow: hidden;
+    background-color:#F1F1F1;
+    cursor: pointer;
+    outline: 0px none;
+}
+
+.tool-button {
+    min-width: 60px;
+    font-size: 12px;
+}
+
+    .tool-button:focus {
+        padding: 0px;
+    }
+
+.icon-button {
+    border-radius: 50%;
+    line-height: 1em;
+    height: 24px;
+}
+
+    .icon-button .fa {
+        font-size: 14px;
+    }
+
+    .icon-button:disabled, 
+    .tool-button:disabled {
+        color:#AAAAAA;
+        border-color:#AAAAAA;
+    }
+
+.tool-button-color {
+    border-color:#8D8E92;
+    color:#666666;
+}
+
+.tool-text-button {
+    font-size: 14px;
+    filter: alpha(opacity = 80);
+    opacity: .8;
+    cursor: pointer;
+}
+
+    .tool-text-button:hover {
+        text-decoration: none !important;
+        filter: alpha(opacity = 100);
+        opacity: 1;
+    }
+
+/* ctrls */
+input[type="text"], 
+input[type="password"], 
+textarea, 
+select {
+    background-color: transparent;
+    border: 1px solid #AAAAAA;
+    margin: 0px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    line-height: 22px;
+    font-size: 12px;
+    font-family: 'Microsoft YaHei', "Segoe UI", Segoe, Tahoma, Arial, Verdana, sans-serif;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+input[type="text"], 
+input[type="password"] {
+    height: 22px;
+}
+
+select {
+    height: 24px;
+}
+
+    input[type="text"]:focus, 
+    input[type="password"]:focus, 
+    textarea:focus, 
+    select:focus {
+        color: #000000;
+        text-decoration: none;
+        outline: none 0px;
+    }
+
+    input[type="text"][readonly] {
+        color: #888888;
+        cursor: default;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+    }
+
+textarea {
+    height: 63px;
+    resize: none;
+    overflow: auto;
+}
+
+    textarea[readonly] {
+        color: #888888;
+        cursor: default;
+    }
+
+    textarea:disabled {
+        cursor: not-allowed;
+    }
+
+/* buttons */
+.button {
+    min-width: 80px;
+    height: 24px;
+    line-height: 24px;
+    border: 0px solid;
+    color: #FFFFFF;
+    background-color: #666666;
+    font-size: 12px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+    .button:active {
+        background-color: #434343 !important;
+        color: #FFFFFF;
+    }
+    .button:disabled{
+        background-color:#AAAAAA !important;
+        color:#EEEEEE;
+    }
+    
+a.link-button {
+    display: inline-block;
+    width: auto;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    border: 2px solid #8D8E92;
+    color: #666666;
+    padding: 0px;
+    margin: 0px;
+    font-size: 12px;
+}
+
+    a.link-button:hover {
+        border: 2px solid #333333;
+        color: #333333;
+        text-decoration:none;
+    }
+
+    a.link-button:active {
+        outline: none;
+        background-color: #434343;
+        color: #FFFFFF;
+        text-decoration:none;
+    }
+
+.toggle-button {
+    display: inline-block;
+    width: 60px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    color: #333333;
+}
+
+    .toggle-button:hover {
+        color: #0066FF;
+        text-decoration: none;
+    }
+
+.toggle-button-selection {
+    border-bottom: 2px solid #0066FF;
+    color: #0066FF;
+}
+
+/* 个人设置 */
+section.user-settings {
+    position: absolute;
+    top: 36px;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    overflow: auto;
+}
+
+    section.user-settings hr {
+        width: 220px;
+        height: 1px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: none 0px;
+        background-color: #AAAAAA;
+    }
+
+    section.user-settings div.user-info {
+        padding-left: 10px;
+        /* 34px */
+        padding-right: 10px;
+    }
+
+        section.user-settings div.user-info div.cover {
+            width: 72px;
+            height: 72px;
+            border: solid 1px #AAAAAA;
+            border-radius: 36px;
+            overflow: hidden;
+            float: left;
+            margin-right: 10px;
+        }
+
+            section.user-settings div.user-info div.cover img {
+                width: 100%;
+                height: 100%;
+            }
+
+        section.user-settings div.user-info div.info {
+            width: auto;
+            height: 72px;
+            overflow: hidden;
+            float: left;
+        }
+
+            section.user-settings div.user-info div.info span {
+                line-height: 1em;
+            }
+
+    section.user-settings div.light-color {
+        padding-left: 10px;
+    }
+
+        section.user-settings h3.group-title {
+            font-size: 15px;
+            line-height: 1.2em;
+            font-weight: normal;
+        }
+
+        section.user-settings div.light-color a {
+            display: inline-block;
+            vertical-align: top;
+            background-color:transparent;
+            width:24px;
+            height:24px;
+            cursor:pointer;
+            margin-top: 8px;
+            margin-right: 8px;
+        }
+
+    section.user-settings div.cmd-list {
+        width: 100%;
+    }
+
+        section.user-settings div.cmd-list li {
+            list-style: none;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            position: relative;
+        }
+
+            section.user-settings div.cmd-list li:hover {
+                background-color: #E0E0E0;
+            }
+
+            section.user-settings div.cmd-list li span {
+                margin-left: 10px;
+                font-size: 15px;
+            }
+
+            section.user-settings div.cmd-list li a {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                left: 0px;
+                filter: Alpha(opacity=1);
+                opacity: 0;
+                background-color: #000000;
+            }
+
+                section.user-settings div.cmd-list li a:active {
+                    filter: Alpha(opacity=30);
+                    opacity: 0.3;
+                }
+
+/* 系统设置 */
+/* 通知中心 */
+
+/* ui.ctrls.*** */
+aside.sidebar-panel {
+    position: absolute;
+    background-color: #EAEAEA;
+    width: 240px;
+    height: 100%;
+    top: 0px;
+    bottom: 0px;
+    border-left: solid 1px #DCDCDC;
+    z-index: 9999;
+    overflow: hidden;
+    display: none;
+}
+
+/*滚动条样式*/
+/*IE*/
+html
+{
+    /*滑块*/
+    scrollbar-face-color: #AAAAAA;
+    -ms-scrollbar-face-color: #AAAAAA;
+    /*高亮色*/
+    scrollbar-highlight-color :#F1F1F1;
+    -ms-scrollbar-highlight-color :#F1F1F1;
+    /*3D高亮色 win8下无效*/
+    scrollbar-3dlight-color: #F1F1F1;
+    -ms-scrollbar-3dlight-color: #F1F1F1;
+    /*阴影 win8下无效*/
+    scrollbar-darkshadow-color: #F1F1F1;
+    -ms-scrollbar-darkshadow-color: #F1F1F1;
+    /*阴影 win8下无效*/
+    scrollbar-shadow-color: #F1F1F1;
+    -ms-scrollbar-shadow-color: #F1F1F1;
+    /*箭头*/
+    scrollbar-arrow-color: #666666;
+    -ms-scrollbar-arrow-color: #666666;
+    /*滚动条*/
+    scrollbar-track-color: #F1F1F1;
+    -ms-scrollbar-track-color: #F1F1F1;
+    /*基础*/
+    scrollbar-base-color: #F1F1F1;
+    -ms-scrollbar-base-color: #F1F1F1;
+}
+
+/*Webkit chrome opera safari*/
+/* 滚动条宽度 */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+/* 横向纵向同时出现是角的样式 */
+::-webkit-scrollbar-corner {
+    background-color: #F1F1F1;
+}
+
+/* 定义滚动条渐增按扭的样式 */
+/* 向下 */
+::-webkit-scrollbar-button:vertical:increment {
+    height: 12px;
+    background-color: #F1F1F1;
+    background-image: url(images/arrow.png);
+    background-position: 0px -48px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:vertical:increment:hover {
+    background-position: 0px -60px;
+}
+/* 向上 */
+::-webkit-scrollbar-button:vertical:decrement {
+    height: 12px;
+    background-color: #F1F1F1;
+    background-image: url(images/arrow.png);
+    background-position: 0px -12px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:vertical:decrement:hover {
+    background-position: 0px -24px;
+}
+/* 向右 */
+::-webkit-scrollbar-button:horizontal:increment {
+    width: 12px;
+    background-color: #F1F1F1;
+    background-image: url(images/arrow.png);
+    background-position: 0px -120px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:horizontal:increment:hover {
+    background-position: 0px -132px;
+}
+/* 向左 */
+::-webkit-scrollbar-button:horizontal:decrement {
+    width: 12px;
+    background-color: #F1F1F1;
+    background-image: url(images/arrow.png);
+    background-position: 0px -84px;
+    border: none 0px;
+}
+::-webkit-scrollbar-button:horizontal:decrement:hover {
+    background-position: 0px -96px;
+}
+
+/* 垂直滚动条的第一层轨道*/ 
+::-webkit-scrollbar-track:vertical {
+    background-color: #F1F1F1;
+    border: 1px solid #F1F1F1; 
+}
+::-webkit-scrollbar-track:horizontal {
+    background-color: #F1F1F1;
+    border: 1px solid #F1F1F1; 
+}
+
+/* 垂直滚动条的滑动块 */ 
+::-webkit-scrollbar-thumb:vertical {
+    height: 48px;
+    background-color: #AAAAAA; 
+}
+::-webkit-scrollbar-thumb:horizontal {
+    height: 48px;
+    background-color: #AAAAAA; 
+}
+
+/*滚动条交汇处*/
+::-webkit-scrollbar-corner:vertical { 
+    background-color: #F1F1F1;
+} 
+::-webkit-scrollbar-resizer:vertical { 
+    background-color: #F1F1F1; 
+}
+
+/*UI Style*/
+a.close-button {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    text-decoration: none;
+    font: 18px/16px Tahoma,Verdana,sans-serif;
+    width: 14px;
+    height: 14px;
+    color: #666666;
+    cursor: pointer;
+    opacity: .7;
+    filter: Alpha(opacity=70);
+}
+
+    a.close-button:hover{
+        opacity: 1;
+        filter: Alpha(opacity=100);
+    }
+
+div.mask-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+    z-index: 10000;
+    display: none;
+}
+
+.cancel-user-select {
+	-ms-user-select: none;
+	–webkit-user-select:none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+/* message box */
+div.message-box {
+    display: none;
+    position: absolute;
+    top: 88px;
+    left: 0px;
+    min-height: 80px;
+    height: auto;
+    width: 320px;
+    color: #FFFFFF;
+    overflow:hidden;
+    z-index:999999;
+}
+
+    div.message-box p {
+        line-height: 16px;
+        margin-left: 10px;
+        margin-right: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 0px;
+    }
+
+div.message-box-error {
+    background-color: #CC0033 !important;
+}
+
+    div.message-box a {
+        color:#F1F1F1;
+    }
+
+    div.message-box a:hover {
+        color: #FFFFFF;
+    }
+
+div.message-box a.close-button{
+    right: 5px;
+    top: 5px;
+    color: #FFFFFF;
+}

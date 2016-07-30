@@ -1,0 +1,299 @@
+.grid-view {
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-color: #E5E5E5;
+}
+
+    .grid-view div.grid-head {
+        width: 100%;
+        height: 30px;
+        overflow: hidden;
+    }
+
+    .grid-view table.table-head {
+        table-layout: fixed;
+        width: 100%;
+        color: #333333;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+
+        .grid-view table.table-head th {
+            padding: 0px;
+            height: 29px;
+            line-height: 29px;
+            font-weight: normal;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            border-bottom: solid 1px #E5E5E5;
+            border-right: solid 1px #E5E5E5;
+        }
+
+            .grid-view table.table-head th.last-cell {
+                border-right: none 0px;
+            }
+
+            .grid-view table.table-head th.scroll-cell {
+                border-right: none 0px;
+            }
+
+            .grid-view table.table-head th.sorter {
+                cursor:pointer;
+            }
+
+                .grid-view table.table-head th.sorter:hover {
+                    background-color:#F1F1F1;
+                }
+
+                .grid-view table.table-head th.sorter i {
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    color: #666666;
+                    margin-right: 5px;
+                    vertical-align: baseline;
+                }
+
+                    .grid-view table.table-head th.sorter i.fa-sort-asc {
+                        vertical-align: middle;
+                    }
+
+                    .grid-view table.table-head th.sorter i.fa-sort-desc {
+                        vertical-align: text-top;
+                    }
+
+        .grid-view table.table-head span {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+    .grid-view div.grid-body {
+        width: 100%;
+        position: relative;
+        top: 0px;
+        left: 0px;
+        overflow: auto;
+    }
+
+        .grid-view div.grid-body div.data-prompt {
+            position: absolute;
+            overflow:hidden;
+            left: 0px;
+            top: 50%;
+            width: 100%;
+            line-height: 30px;
+            text-align: center;
+            display: none;
+        }
+
+            .grid-view div.grid-body div.data-prompt span {
+                font-size: 16px;
+            }
+
+            .grid-view div.grid-body div.data-prompt a {
+                font-size: 16px;
+            }
+
+    .grid-view table.table-body {
+        table-layout: fixed;
+        width: 100%;
+        color: #666666;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+
+        .grid-view table.table-body tr {
+        }
+
+            .grid-view table.table-body tr:hover {
+                background-color: #F1F1F1;
+                color: #666666;
+            }
+
+            .grid-view table.table-body tr.row-selected {
+                color: #FFFFFF;
+            }
+            
+                .grid-view table.table-body tr.row-selected td {
+                    border-right-color: transparent;
+                }
+
+                .grid-view table.table-body tr.row-selected a {
+                    color: #FFFFFF;
+                }
+
+        .grid-view table.table-body td {
+            padding: 0px;
+            height: 29px;
+            line-height: 20px;
+            font-weight: normal;
+            text-align: left;
+            border-bottom: solid 1px #E5E5E5;
+            border-right: solid 1px #E5E5E5;
+        }
+
+            .grid-view table.table-body td.last-cell {
+                border-right: none 0px;
+            }
+
+            .grid-view table.table-body td.cell-selected {
+                color: #FFFFFF;
+            }
+
+                .grid-view table.table-body td.cell-selected a {
+                    color: #FFFFFF;
+                }
+
+        .grid-view table.table-body span {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+            .grid-view table.table-body span.state-text {
+                margin-left: 0px;
+                margin-right: 0px;
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                text-align: center;
+                color: #FFFFFF;
+                line-height: 16px;
+                font-size: 12px;
+            }
+
+            .grid-view table.table-body span.state-true {
+                background-color:#54C70C;
+            }
+
+            .grid-view table.table-body span.state-false {
+                background-color:#FF2968;
+            }
+
+        .grid-view table.table-body p {
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+        .grid-view table.table-body a {
+            margin-left: 5px;
+            margin-right: 5px;
+            text-decoration: none;
+        }
+
+            .grid-view table.table-body a:hover {
+                text-decoration: underline;
+            }
+
+        .grid-view table.table-body i.fold {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            margin-top: 0px;
+            margin-left: 5px;
+            vertical-align: middle;
+            overflow: hidden;
+            line-height: 11px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .grid-view table.table-body tr.row-selected i.fold, 
+        .grid-view table.table-body td.cell-selected i.fold {
+            color: #FFFFFF !important;
+        }
+
+        .grid-view table.table-body i.unfold {
+        }
+
+        .grid-view table.table-body tr.row-selected i.unfold, 
+        .grid-view table.table-body td.cell-selected i.unfold {
+            color: #FFFFFF !important;
+        }
+
+    .grid-view div.view-foot {
+        height: 30px;
+        background: #F1F1F1;
+        line-height: 30px;
+    }
+
+    .grid-view div.data-info {
+        width: 40%;
+        float: left;
+        overflow: hidden;
+    }
+
+        .grid-view div.data-info span {
+            font-size: 1em;
+            margin-left: 10px;
+        }
+
+    .grid-view div.page-panel {
+        width: 60%;
+        float: right;
+        text-align: right;
+        overflow: hidden;
+    }
+
+        .grid-view div.page-panel a.pager-button {
+            font-size: 1.3em;
+            color: #666666;
+            margin-left: 0px;
+            margin-right: 0px;
+            padding-left: 10px;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+
+            .grid-view div.page-panel a.pager-button:hover {
+                color: #FFFFFF;
+                text-decoration: none;
+            }
+
+        .grid-view div.page-panel span.pager-current {
+            font-size: 1.3em;
+            padding-left: 10px;
+            padding-right: 10px;
+            cursor: default;
+        }
+
+    .grid-view div.progress-panel {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .grid-view div.progress-bar {
+        margin-top: 5px;
+        float: left;
+        height: 12px;
+        background-color: #E1E1E1;
+        overflow: hidden;
+    }
+
+    .grid-view div.progress-value {
+        height: 12px;
+    }
+
+    .grid-view div.progress-text {
+        float: right;
+        text-align: right;
+        width: 52px;
+    }
+
+        .grid-view div.progress-text span {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+    .grid-view table.table-body td.cell-selected div.progress-text span {
+        color: #FFFFFF;
+    }
+
+    .grid-view table.table-body tr.row-selected div.progress-text span {
+        color: #FFFFFF;
+    }

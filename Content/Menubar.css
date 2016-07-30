@@ -1,0 +1,226 @@
+#body {
+    position: relative;
+}
+
+div.navigation-panel {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    background-color: #F1F1F1;
+    border-right: 1px solid #DCDCDC;
+    z-index: 100;
+}
+
+div.page-content {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    z-index: 99;
+}
+
+/*浏览器小于等于1024时显示的菜单图标*/
+a.menu-icon {
+    display: inline-block;
+    vertical-align: top;
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+    margin-top: 8px;
+    cursor: pointer;
+    filter: Alpha(opacity=70);
+    opacity: .7;
+}
+
+a.menu-icon img {
+    width: 32px;
+    height: 32px;
+    border: none 0px;
+}
+
+a.menu-icon:hover {
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}
+
+a.menu-show {
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}
+
+/*Menu Begin*/
+dl.menu-list {
+    width: 100%;
+    height: auto;
+    color: #333333;
+}
+
+    dl.menu-list span {
+        white-space: nowrap;
+    }
+
+    dl.menu-list dt, dl.menu-list li {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        -icab-text-overflow: ellipsis;
+        -khtml-text-overflow: ellipsis;
+        -moz-text-overflow: ellipsis;
+        -webkit-text-overflow: ellipsis;
+    }
+
+    dl.menu-list a {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        display: inline-block;
+        width: 100%;
+        background-color: #333333;
+        filter: Alpha(opacity=0);
+        opacity: 0;
+        color: #333333;
+    }
+
+    dl.menu-list a:hover {
+        text-decoration: none;
+    }
+
+    dl.menu-list a:active {
+        filter: Alpha(opacity=20);
+        opacity: .2;
+    }
+
+    dl.menu-list dt.selected-menu, dl.menu-list dd li.selected-menu {
+    }
+
+        dl.menu-list dt.selected-menu b, dl.menu-list dd li.selected-menu span {
+            filter: Alpha(opacity=100);
+            opacity: 1;
+        }
+
+        dl.menu-list dt.selected-menu b, dl.menu-list dd li.selected-menu b {
+        }
+
+    dl.menu-list dt {
+        height: 40px;
+        font-size: 15px;
+        position: relative;
+        filter: Alpha(opacity=70);
+        opacity: .7;
+        cursor: pointer;
+        background-color: transparent;
+    }
+
+        dl.menu-list dt:hover {
+            filter: Alpha(opacity=100);
+            opacity: 1;
+        }
+
+        dl.menu-list dt:hover b {
+        }
+
+    dl.menu-list dt b {
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+        width: 4px;
+        height: 40px;
+        vertical-align: top;
+        background-color: transparent;
+    }
+
+        dl.menu-list dt.current-menu {
+            background-color: #FFFFFF;
+            filter: Alpha(opacity=100);
+            opacity: 1;
+        }
+
+        dl.menu-list dt.current-menu b {
+            background-color: #333333;
+        }
+
+        dl.menu-list dt i {
+            display: inline-block;
+            height: 32px;
+            width: 32px;
+            vertical-align: top;
+            margin-left: 5px;
+            margin-top: 4px;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #333333;
+        }
+
+        dl.menu-list dt i img {
+            height: 32px;
+            width: 32px;
+            vertical-align: top;
+            margin: 0px;
+            border: none 0px;
+        }
+
+        dl.menu-list dt span {
+            margin-left: 5px;
+            line-height: 40px;
+        }
+
+    dl.menu-list dd {
+        display: none;
+        height: 0px;
+        overflow: hidden;
+        background-color: transparent;
+        position: relative;
+    }
+
+        dl.menu-list dd ul {
+            cursor: pointer;
+            position: absolute;
+            width: 100%;
+        }
+
+        dl.menu-list dd li {
+            height: 30px;
+            line-height: 30px;
+            font-size: 13px;
+            position: relative;
+        }
+
+    dl.menu-list dd li:hover {
+    }
+
+        dl.menu-list dd li:hover span {
+            filter: Alpha(opacity=100);
+            opacity: 1;
+        }
+
+    dl.menu-list dd li b {
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+        width: 4px;
+        height: 30px;
+        vertical-align: top;
+        background-color: transparent;
+    }
+
+    dl.menu-list dd li span {
+        margin-left: 43px;
+        filter: Alpha(opacity=70);
+        opacity: .7;
+    }
+
+dl.menu-list dd.current-menu {
+    background-color: #FFFFFF;
+}
+
+dl.menu-list dd.current-menu li {
+}
+
+dl.menu-list dd.current-menu b {
+    background-color: #333333;
+    filter: Alpha(opacity=100);
+    opacity: 1;
+}
+
+/*Menu End*/

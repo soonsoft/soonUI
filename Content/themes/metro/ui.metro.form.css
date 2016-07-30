@@ -1,0 +1,161 @@
+/* form ctrl style */
+.input-checkbox {
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    line-height: 14px !important;
+    margin-right: 5px;
+    background-image: url(../../images/form.png);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+}
+
+.input-checkbox-checked {
+    background-position: 0px -14px;
+}
+
+.input-checkbox-disabled {
+    background-position: 0px -56px;
+}
+
+.input-checkbox-checked-disabled {
+    background-position: 0px -70px;
+}
+
+.input-checkbox input {
+    padding: 0px;
+    margin: 0px;
+    width: 0px;
+    height: 0px;
+    margin-right: 5px;
+}
+
+.input-radio {
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    line-height: 14px !important;
+    margin-right: 5px;
+    background-image: url(../../images/form.png);
+    background-position: 0px -84px;
+    background-repeat: no-repeat;
+}
+
+.input-radio-checked {
+    background-position: 0px -98px;
+}
+
+.input-radio-disabled {
+    background-position: 0px -140px;
+}
+
+.input-radio-checked-disabled {
+    background-position: 0px -154px;
+}
+
+.input-radio input {
+    padding: 0px;
+    margin: 0px;
+    width: 0px;
+    height: 0px;
+    margin-right: 5px;
+}
+
+/* from ctrl panel */
+aside.form-ctrl-panel {
+    width: 240px;
+    position: absolute;
+    z-index: 9000;
+    top: 0px;
+    color: #333333;
+    background-color: #F1F1F1;
+    border-left-style: solid;
+    border-left-width: 1px;
+    display: none;
+    opacity: 0;
+    filter: Alpha(opacity=1);
+}
+
+section.ctrl-title-panel {
+    width: 100%;
+    height: 40px;
+}
+
+section.ctrl-content-panel {
+    width: 100%;
+    height: auto;
+    overflow: auto;
+}
+
+section.ctrl-button-panel {
+    width: 100%;
+    text-align: right;
+    overflow: hidden;
+    height: 24px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+aside.form-ctrl-panel a.right {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-image: url(../../images/direction24.png);
+    width: 24px;
+    height: 24px;
+    background-position: -24px -72px;
+}
+
+    aside.form-ctrl-panel a.right:hover {
+        background-position: 0px -72px;
+    }
+
+/*ctrl panel form*/
+.ctrl-form {
+    width: 190px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .ctrl-form label {
+        line-height: 36px;
+    }
+
+    .ctrl-form span.required {
+        line-height: 36px;
+        color: #F00921;
+        margin-left: 3px;
+    }
+
+/* fold panel */
+dl.fold-panel {
+}
+
+    dl.fold-panel .fold-panel-title {
+        font-size: 11pt;
+        margin-top: 10px;
+        height: 30px;
+        line-height: 30px;
+        cursor: pointer;
+    }
+
+        dl.fold-panel .fold-panel-title div.fold-close {
+            border-width: 1px;
+            border-style: solid;
+            float: left;
+            margin-top: 6px;
+            margin-right: 5px;
+            height: 16px;
+            width: 16px;
+            line-height: 14px;
+            font-size: 11pt;
+        }
+
+        dl.fold-panel .fold-panel-title div.fold-open {
+            background-color: #333333;
+            color: #FFFFFF;
+        }
+
+    dl.fold-panel dd {
+    }

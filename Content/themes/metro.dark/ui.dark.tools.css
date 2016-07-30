@@ -1,0 +1,265 @@
+/********* filter tools ***********/
+div.filter-tools-panel {
+    width: auto;
+    height: 24px;
+    line-height: 22px;
+    overflow:hidden;
+    margin-top:0px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.filter-tools-item {
+    margin: 0px;
+    padding: 0px;
+    width: auto;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    border-top: solid 1px transparent;
+    border-bottom: solid 1px transparent;
+    border-right: solid 1px transparent;
+    height:22px;
+    cursor: pointer;
+}
+
+.filter-tools-item-hide {
+    display: none;
+}
+
+.filter-tools-item-first {
+    border-left: solid 1px transparent;
+}
+
+    .filter-tools-item input {
+        width: 0px;
+        height: 0px;
+        margin: 0px;
+        padding: 0px;
+        visibility: hidden;
+        display: none;
+    }
+
+    .filter-tools-item span {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+
+/********* hover view tools ***********/
+div.hover-view-panel {
+    position: absolute;
+    width: 160px;
+    min-height: 24px;
+    max-height: 160px;
+    border-style: solid;
+    border-width: 2px;
+    background-color: #3C3F41;
+    font-size: 12px;
+    display: none;
+    overflow:auto;
+    z-index: 10000;
+}
+
+    div.hover-view-panel span {
+        line-height:24px;
+        margin-left:3px;
+        margin-right:3px;
+    }
+
+    div.hover-view-panel p {
+        padding:0px;
+        margin:0px;
+    }
+
+    div.hover-view-panel a {
+    }
+    
+    
+/********* Confirm Button ***********/
+ .confirm-button {
+     position: relative;
+     overflow: hidden;
+     cursor: default;
+ }
+ 
+    .confirm-button .text-state {
+        display:inline-block;
+        width:100%;
+        height:100%;
+        margin-left:0%;
+    }
+ 
+    .confirm-button .confirm-state {
+        display:block;
+        position:absolute;
+        top:0px;
+        left:100%;
+        width:100%;
+        height:100%;
+        text-align: center;
+        color:#FFFFFF;
+        font-style:normal;
+        overflow: hidden;
+    }
+    
+    .confirm-button:active .confirm-state {
+        background-color: transparent !important;
+        color: #333333;
+    }
+    
+/********* Switch Button ***********/
+.switch-button {
+    display: inline-block;
+    position: relative;
+    height: 24px;
+    line-height: 24px !important;
+    width: 44px;
+    position: relative;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+    .switch-button .switch-inner {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border-radius: 12px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #AAAAAA;
+        width: 40px;
+        height: 20px;
+    }
+    
+    .switch-button .switch-thumb {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 9px;
+        top: 3px;
+        left: 3px;
+        background-color: #AAAAAA;
+    }
+    
+    .switch-button input {
+        position: absolute;
+        left: -20px;
+    }
+    
+.switch-text {
+    margin-left:10px;
+    vertical-align:middle;
+    line-height: 24px !important;
+    font-size: 14px;
+}
+    
+    .switch-lollipop .switch-inner {
+        border-radius: 2px;
+        border: none 0px;
+        height: 4px;
+        background-color: #AAAAAA;
+        top: 10px;
+    }
+    
+    .switch-lollipop .switch-thumb {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 12px;
+        top: 0px;
+        left: 0px;
+        background-color: #1D1F21;
+        border: solid 2px #AAAAAA;
+    }
+    
+    .switch-marshmallow .switch-inner {
+        border-radius: 8px;
+        border: none 0px;
+        height: 16px;
+        background-color: #AAAAAA;
+        top: 4px;
+        filter: Alpha(opacity=50);
+        opacity: .5;
+    }
+    
+    .switch-marshmallow .switch-thumb {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 12px;
+        top: 0px;
+        left: 0px;
+        background-color: #AAAAAA;
+        border: solid 2px #AAAAAA;
+    }
+    
+/********* Extend Button ***********/
+.extend-button-panel {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    overflow: visible;
+}
+
+.extend-button-background {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #3C3F41;
+    filter: Alpha(opacity=0);
+    opacity: 1;
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    overflow: hidden;
+}
+
+.extend-button-panel .extend-button, .extend-button-panel .center-icon {
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 50%;
+    filter: Alpha(opacity=60);
+    opacity: .6;
+}
+
+    .extend-button-panel .extend-button:hover {
+        filter: Alpha(opacity=100);
+        opacity: 1;
+    }
+    
+    .extend-button-panel .center-icon {
+        filter: Alpha(opacity=100);
+        opacity: 1;
+    }
+    
+    .extend-button-panel .center-icon {
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+    }
+    
+    .extend-button-panel .center-none {
+        border-width: 1px;
+        border-style: solid;
+        margin-top: -1px;
+        margin-left: -1px;
+    }
+    
+    .extend-button-panel .background-panel {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        overflow: visible;
+        border-radius: 50%;
+        border-color: #5D5F60;
+        border-style: solid;
+        filter: Alpha(opacity=70);
+        opacity: .7;
+    }
