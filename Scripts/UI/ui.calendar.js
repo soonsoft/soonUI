@@ -219,7 +219,7 @@
         today: function () {
             this.doChange("today");
         },
-        showTimeLine: function (parent) {
+        showTimeLine: function (parent, unitHourHeight) {
             if (!this.currentTime) {
                 this.currentTime = $("<div class='current-time border-highlight font-highlight' />");
                 this.currentTime.css("width", timeTitleWidth + "px");
@@ -236,7 +236,7 @@
             var updateTimeFunc = function () {
                 var time = formatTime(new Date());
                 var index = that.timeToIndex(time),
-                    top = that.timeToPosition(time, hourHeight),
+                    top = that.timeToPosition(time, unitHourHeight),
                     ct = that.currentTime;
                 ct.html("<span>" + time.substring(0, 5) + "</span>");
                 if (index == 0) {
@@ -268,7 +268,7 @@
         changeView: function (viewName) {
             var view = this.views[viewName];
             if (!view) {
-                ui.error("没有注册" + viewName + "视图");
+                throw new Error("没有注册" + viewName + "视图");
             }
 
             var result = this.fire(viewChanging, this.currentView, view);
@@ -1006,7 +1006,7 @@
             this._setCellWidth(this.dayPanel.width());
         },
         removeSchedules: function () {
-            ui.error("not support");
+            throw new Error("not support");
         },
         clearSchedules: function(removeAction) {
             var i = 1,
@@ -1172,18 +1172,38 @@
             });
         },
         _createHourName: function () {
-            this.hourNames = $("<ul class='hour-name' />");
-
-            var count = this.calendar._getTimeCellCount(),
+            var table, colgroup, tbody, tr, td,
+                count = this.calendar._getTimeCellCount(),
                 height = count * 24 + (count),
                 i = 0, j,
                 li = null;
+                
+            this.hourNames = $("<div class='hour-name' />");
+            table = $("<table class='hour-name-table unselectable' cellspacing='0' cellpadding='0' />");
+            colgroup = $("<colgroup />");
+            colgroup
+                .append("<col style='width:0px;' />")
+                .append("<col />");
+            table.append(colgroup);
+            tbody = $("<tbody />");
             for (; i < 24; i++) {
-                li = $("<li />");
-                li.css("height", height + "px");
-                li.append("<span>" + i + "</span>");
-                this.hourNames.append(li);
+                for(j = 0; j < count; j++) {
+                    tr = $("<tr />");
+                    td = $("<td />");
+                    if((j + 1) % count) {
+                        td.addClass("odd");
+                    }
+                    tr.append(td);
+                    if(j === 0) {
+                        td = $("<td rowspan='2' />");
+                        td.append("<h3 class='hour-name-text'>" + i + "</h3>");
+                        tr.append(td);
+                    }
+                    tbody.append(tr);
+                }
             }
+            table.append(tbody);
+            this.hourNames.append(table);
             this.hourPanel.append(this.hourNames);
         },
         _createHour: function () {
@@ -1368,7 +1388,7 @@
                 beginTime = formatTime(scheduleInfo.beginDate);
                 endTime = formatTime(scheduleInfo.endDate, scheduleInfo.beginDate);
                 scheduleInfo.beginRowIndex = this.calendar.timeToIndex(beginTime);
-                scheduleInfo.endRowIndex = this.calendar.timeToIndex(endTime);
+                scheduleInfo.endRowIndex = this.calendar.timeToIndex(endTime) - 1;
 
                 this.addScheduleItem(
                     $(this.hourTable[0].rows[scheduleInfo.beginRowIndex].cells[scheduleInfo.columnIndex]),
@@ -1520,8 +1540,16 @@
             this.month = day.getMonth();
             this.day = day.getDate();
         },
+        _getUnitHourNameHeight: function() {
+            var table;
+            if(!this.hourNames) {
+                return hourHeight;
+            }
+            table = this.hourNames.children("table").get(0);
+            return $(table.tBodies[0].rows[0].cells[1]).outerHeight() / this.calendar._getTimeCellCount();
+        },
         checkChange: function () {
-            this.calendar.showTimeLine(this.hourPanel);
+            this.calendar.showTimeLine(this.hourPanel, this._getUnitHourNameHeight());
             var day = this.calendar.currentDate;
             if (day >= this.startDate && day <= this.endDate) {
                 return false;
@@ -1718,8 +1746,9 @@
             this.month = day.getMonth();
             this.day = day.getDate();
         },
+        _getUnitHourNameHeight: WeekView.prototype._getUnitHourNameHeight,
         checkChange: function () {
-            this.calendar.showTimeLine(this.hourPanel);
+            this.calendar.showTimeLine(this.hourPanel, this._getUnitHourNameHeight());
             var day = this.calendar.currentDate;
             if (this.year == day.getFullYear() && this.month == day.getMonth() && this.day == day.getDate()) {
                 return false;

@@ -114,8 +114,8 @@
         var val = this.prop("checked");
         if (val != checked) {
             this.prop("checked", !val);
-            cbxBtn.setCheckedChange(this);
         }
+        cbxBtn.setCheckedChange(this);
     };
 
     $.fn.metroRadio = function () {
@@ -137,8 +137,8 @@
         var val = this.prop("checked");
         if (val != checked) {
             this.prop("checked", !val);
-            rdoBtn.setCheckedChange(this);
         }
+        rdoBtn.setCheckedChange(this);
     };
 
     ///表单折叠
@@ -194,7 +194,7 @@
         _create: function () {
             this._super();
             if(!this.parent) {
-                ui.error("parent is not exists");
+                throw new Error("parent is not exists");
             }
             this.contentPanel = null;
             this.top = 0;

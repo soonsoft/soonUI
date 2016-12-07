@@ -95,23 +95,15 @@
                 for (i = 0; i < this.bodies.length; i++) {
                     elem = $(this.bodies[i]);
                     elem.css("left", val + "px");
-                    width = parseInt(elem.css("width"), 10) || null;
-                    if($.isNumeric(width)) {
-                        val += width;
-                    } else {
-                        val += this.bodyWidth;
-                    }
+                    width = parseInt(elem.css("width"), 10) || 0;
+                    val += width;
                 }
             } else {
                 for (i = 0; i < this.bodies.length; i++) {
                     elem = $(this.bodies[i]);
                     elem.css("top", val + "px");
-                    height = parseInt(elem.css("height"), 10) || null;
-                    if($.isNumeric(width)) {
-                        val += width;
-                    } else {
-                        val += this.bodyHeight;
-                    }
+                    height = parseInt(elem.css("height"), 10) || 0;
+                    val += height;
                 }
             }
         },
@@ -326,7 +318,7 @@
                 tabChangingImpl = null;
             }
             if (!$.isFunction(tabChangedImpl)) {
-                ui.error("loadDataFunc方法必须实现！");
+                throw new Error("loadDataFunc方法必须实现！");
             }
             var tm = new TabManager();
             if ($.isFunction(tabChangingImpl)) {

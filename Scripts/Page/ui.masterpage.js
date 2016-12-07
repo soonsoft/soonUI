@@ -58,7 +58,7 @@
                 }
             } else {
                 if(!option || !option.parent) {
-                    throw ui.error("option is null");
+                    throw new Error("option is null");
                 }
                 sidebar = ui.ctrls.Sidebar(option, element);
                 sidebar.hiding(function(e) {
@@ -568,7 +568,7 @@
             //初始化当前用户的主题ID
             var tid = ui.theme.getCurrentThemeId();
             if (!tid) {
-                throw ui.error("没有导入css主题文件");
+                throw new Error("没有导入css主题文件");
             }
             ui.theme.setThemeId(tid);
             ui.fire("themeChanged", ui.theme.getCurrentThemeInfo());
@@ -576,11 +576,18 @@
         pageInit: function (initObj, caller) {
             var func = null,
                 caller = caller || this;
+            var message = ["页面初始化[", "", "]发生错误，", ""];
             if (ui.core.isPlainObject(initObj)) {
                 for (var key in initObj) {
                     func = initObj[key];
                     if ($.isFunction(func)) {
-                        func.call(caller);
+                        try {
+                            func.call(caller);
+                        } catch (e) {
+                            message[1] = key;
+                            message[3] = e.message;
+                            ui.errorShow(message.join(""));
+                        }
                     }
                 }
             }
@@ -591,12 +598,13 @@
             return SidebarManager();
         },
         //准备动态磁贴
-        getTileOptions: function (option, menus, parentField, idField) {
+        getTileOptions: function (option, updateHandlers, menus, parentField, idField) {
             if (!Array.isArray(menus) || menus.length == 0)
                 return option;
             var menuTree = ui.data.listToTree(menus, parentField, idField);
             var options = [];
             if (option) {
+                this._findUpdateHandlers(option, updateHandlers);
                 options.push(option);
             }
             var item = null;
@@ -623,11 +631,49 @@
                         if(t)
                             option.tiles.push(t);
                     }
-                    if(option.tiles.length > 0)
+                    if (option.tiles.length > 0) {
+                        this._findUpdateHandlers(option, updateHandlers);
                         options.push(option);
+                    }
                 }
             }
             return options;
+        },
+        _findUpdateHandlers: function(option, handlers) {
+            var i, j, k, t, h, breakFlag;
+            if (!option.tiles || !handlers) {
+                return;
+            }
+            if (!Array.isArray(option.updateHandlers)) {
+                option.updateHandlers = [];
+            }
+            for (i = 0; i < option.tiles.length; i++) {
+                t = option.tiles[i];
+                for (j = 0; j < handlers.length; j++) {
+                    breakFlag = false;
+                    h = handlers[j];
+                    if(!h) {
+                        continue;
+                    }
+                    if (Array.isArray(h.tileNames)) {
+                        for (k = 0; k < h.tileNames.length; k++) {
+                            if (t.name === h.tileNames[k]) {
+                                option.updateHandlers.push(h);
+                                handlers[j] = null;
+                                breakFlag = true;
+                                break;
+                            }
+                        }
+                    } else if(t.name === h.tileNames) {
+                        option.updateHandlers.push(h);
+                        handlers[j] = null;
+                        breakFlag = true;
+                    }
+                    if (breakFlag) {
+                        break;
+                    }
+                }
+            }
         },
         _createTile: function (item) {
             if (!item.IsTile) {

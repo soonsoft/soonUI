@@ -47,6 +47,7 @@
             margin-left:20px;
             background-color:#3C3F41;
             float:left;
+            overflow: hidden;
         }
         
         .image-preview {
@@ -161,7 +162,7 @@
                             data.img.addImageZoomer(imageZoomer);
                         });
                         
-                        $("#watchImg").setImage("../Content/images/bingImage.jpg", 400, 300).done(function(data) {
+                        $("#watchImg").setImage("../Content/images/bingImage.jpg", 400, 300, "fitCenter").done(function(data) {
                             data.img.parent().imageWatcher();
                         });
                         $("#watchImg2").setImage("../Content/images/11.jpg", 400, 300).done(function(data) {

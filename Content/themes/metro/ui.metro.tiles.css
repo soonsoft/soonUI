@@ -16,13 +16,8 @@ div.tile-group-panel {
         height: 48px;
         line-height: 64px;
         overflow: hidden;
+        font-size: 18px;
     }
-
-        div.tile-group-panel div.title-panel span {
-            font-family: 'Segoe UI','Microsoft YaHei';
-            color: #666666;
-            font-size: 18px;
-        }
 
 div.tiles-panel {
     position: relative;

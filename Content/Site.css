@@ -409,7 +409,8 @@ ul#headerCtrls {
     border-color: #666666;
     color: #666666;
     overflow: hidden;
-    background-color:#F1F1F1;
+    background-color:transparent;
+    background-image: url(images/input-bg.gif);
     cursor: pointer;
     outline: 0px none;
 }
@@ -417,6 +418,7 @@ ul#headerCtrls {
 .tool-button {
     min-width: 60px;
     font-size: 12px;
+    line-height: 22px;
 }
 
     .tool-button:focus {
@@ -463,6 +465,7 @@ input[type="password"],
 textarea, 
 select {
     background-color: transparent;
+    background-image: url(images/input-bg.gif);
     border: 1px solid #AAAAAA;
     margin: 0px;
     padding-left: 1px;
@@ -715,6 +718,34 @@ aside.sidebar-panel {
     display: none;
 }
 
+/*  自定义滚动条*/
+.scroll-view {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.scroll-track {
+    overflow: visible;
+    position: absolute;
+}
+
+.scroll-thumb {
+    position: absolute;
+    background-color: #000000;
+    filter: alpha(opacity=30);
+    opacity: .3;
+}
+
+.scroll-thumb:active {
+    filter: alpha(opacity=60);
+    opacity: .6;
+}
+
+.scroll-thumb-large {
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
 /*滚动条样式*/
 /*IE*/
 html
@@ -840,15 +871,16 @@ a.close-button {
     font: 18px/16px Tahoma,Verdana,sans-serif;
     width: 14px;
     height: 14px;
+    line-height: 12px;
     color: #666666;
     cursor: pointer;
-    opacity: .7;
     filter: Alpha(opacity=70);
+    opacity: .7;
 }
 
     a.close-button:hover{
-        opacity: 1;
         filter: Alpha(opacity=100);
+        opacity: 1;
     }
 
 div.mask-panel {
@@ -874,39 +906,76 @@ div.mask-panel {
 div.message-box {
     display: none;
     position: absolute;
-    top: 88px;
     left: 0px;
     min-height: 80px;
     height: auto;
     width: 320px;
-    color: #FFFFFF;
     overflow:hidden;
+    border-top-width: 4px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-color: transparent;
     z-index:999999;
 }
 
-    div.message-box p {
-        line-height: 16px;
-        margin-left: 10px;
-        margin-right: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding: 0px;
+    div.message-box .message-item {
+        padding-left: 36px;
+        padding-top: 8px;
+        padding-right: 24px;
+        padding-bottom: 8px; 
+        height: auto;
+        position: relative;
     }
 
-div.message-box-error {
-    background-color: #CC0033 !important;
-}
+    div.message-box .message-icon {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    div.message-box .mb-message {
+        color: #0A91F0;
+    }
+
+    div.message-box .mb-warn {
+        color: #F1B436;
+    }
+
+    div.message-box .mb-error {
+        color: #BB1337;
+    }
+
+    div.message-box .mb-success {
+        color: #2ECC71;
+    }
+
+    div.message-box .mb-failed {
+        color: #DC3160;
+    }
+
+    div.message-box .message-content {
+        line-height: 1.5em;
+    }
 
     div.message-box a {
-        color:#F1F1F1;
+        filter: Alpha(opacity=70);
+        opacity: .7;
     }
 
     div.message-box a:hover {
-        color: #FFFFFF;
+        filter: Alpha(opacity=100);
+        opacity: 1;
     }
 
 div.message-box a.close-button{
-    right: 5px;
-    top: 5px;
-    color: #FFFFFF;
+    right: 2px;
+    top: 2px;
+    z-index: 99999;
 }

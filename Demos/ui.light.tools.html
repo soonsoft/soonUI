@@ -89,6 +89,9 @@
             <input id="switchButton3" type="checkbox" value="1" />
             <label for="switchButton3" class="switch-text">关</label>
             <br /><br />
+            <input id="switchButton4" type="checkbox" value="1" />
+            <label for="switchButton4" class="switch-text">关</label>
+            <br /><br />
             <button id="delFormButton" class="button">删除</button>
             <br /><br />
             <button id="payButton" class="button">付款</button>
@@ -160,7 +163,18 @@
                         var swt3 = $("#switchButton3").switchButton({
                             style: "marshmallow"
                         });
-                        swt2.changed(function() {
+                        var swt4 = $("#switchButton4").switchButton();
+                        swt3.changed(function() {
+                            if(this.checked()) {
+                                swt4.checked(true);
+                                this.switchBox.next().text("开");
+                            } else {
+                                swt4.checked(false);
+                                this.switchBox.next().text("关");
+                            }
+                        });
+                        
+                        swt4.changed(function() {
                             if(this.checked()) {
                                 this.switchBox.next().text("开");
                             } else {

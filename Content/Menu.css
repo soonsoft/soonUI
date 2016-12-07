@@ -120,6 +120,11 @@ a.menu-show {
         text-decoration: none;
     }
 
+    /* IE8兼容性 */
+    .navigation-panel a:active {
+        background-color: #000000;
+    }
+
 .navigation-panel .menu-item-background {
     width: 100%;
     height: 100%;

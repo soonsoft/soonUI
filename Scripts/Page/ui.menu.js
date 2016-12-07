@@ -245,14 +245,18 @@
                 elem = elem.parent();
             }
 
+            var subElem = elem.next();
+            if(subElem.length == 0 || subElem.nodeName() !== "DD") {
+                return;
+            }
+
             var openFunc = $.proxy(function () {
+                var submenuPanel = null;
                 this.currentMenu = elem;
                 this.currentMenu.addHighlight(currentClass, "background");
-                var subElem = this._getSubmenuElement();
-                if (subElem) {
-                    subElem.addHighlight(currentClass, "background");
-                    this.subShow(subElem, this.hasAnimation);
-                }
+                submenuPanel = this._getSubmenuElement();
+                submenuPanel.addHighlight(currentClass, "background");
+                this.subShow(submenuPanel, this.hasAnimation);
             }, this);
 
             var closeFunc = $.proxy(function () {
@@ -513,6 +517,9 @@
         },
         _setSubmenuList: function() {
             var dd = this._getSubmenuElement(false);
+            if(!dd) {
+                return;
+            }
             var htmlBuilder = [];
             var i = 0,
                 list = dd.children().children(),
@@ -525,7 +532,7 @@
         _submenuShow: function (elem, animation) {
             var animator = null,
                 option = null,
-                submenuListShowFunc = null;;
+                submenuListShowFunc = null;
             if (this.isShow()) {
                 this._submenuUnfold.apply(this, arguments);
             } else {

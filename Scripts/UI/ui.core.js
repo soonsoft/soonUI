@@ -8,7 +8,7 @@
         // e.g. var ui = require("ui")(window);
         module.exports = global.document ? factory(global, true) : function(w) {
             if (!w.document) {
-                throw new Error("ui.core.js requires a window with a document")
+                throw new TypeError("ui.core.js requires a window with a document")
             }
             return factory(w);
         };
@@ -16,7 +16,9 @@
         factory(global);
     }
 }(typeof window !== "undefined" ? window : this, function(window, noGlobal) {
-    var ui = window.ui = {};
+    var ui = window.ui = {
+        version: "2.5"
+    };
 
     //常用正则表达式
     ui._rhtml = /<(\S*?)[^>]*>.*?<\/\1>|<.*? \/>/i;
@@ -249,9 +251,17 @@
         return option;
     };
     //动态设置图片的src并自动调整图片的尺寸和位置
-    $.fn.setImage = function (src, displayWidth, displayHeight) {
+    $.fn.setImage = function (src, displayWidth, displayHeight, fillMode) {
+        var option;
         if (this.nodeName() != "IMG") {
             return;
+        }
+        if(ui.core.isPlainObject(src)) {
+            option = src;
+            src = option.src;
+            displayWidth = option.displayWidth;
+            displayHeight = option.displayHeight;
+            fillMode = option.fillMode;
         }
         var parent = this.parent();
         if (arguments.length < 2) {
@@ -268,9 +278,9 @@
                 displayHeight = 240;
             }
         }
-        return reloadImage(this, src, displayWidth, displayHeight);
+        return reloadImage(this, src, displayWidth, displayHeight, fillMode);
     };
-    function reloadImage (img, src, displayWidth, displayHeight) {
+    function reloadImage (img, src, displayWidth, displayHeight, fillMode) {
         if (core.type(src) !== "string" || src.length == 0) {
             return;
         }
@@ -278,7 +288,8 @@
             var reimg = new Image();
             reimg.onload = function () {
                 reimg.onload = null;
-                var size = setImageAndSize(img, reimg.src, displayWidth, displayHeight, reimg.width, reimg.height);
+                var size = setImageAndSize(img, reimg.src, displayWidth, displayHeight, reimg.width, reimg.height, fillMode);
+                
                 size.img = img;
                 resolve(size);
             };
@@ -290,49 +301,94 @@
         });
         return promise;
     }
-    function setImageAndSize (img, src, displayWidth, displayHeight, imgWidth, imgHeight) {
-        var width = imgWidth, 
-            height = imgHeight;
-        img.css({
-            "margin-top": "0px",
-            "margin-left": "0px"
-        });
-        if (displayWidth > displayHeight) {
-            if(imgHeight > displayHeight) {
-                height = displayHeight;
-            }
-            width = Math.floor(imgWidth * (height / imgHeight));
-            if (width > displayWidth) {
-                width = displayWidth;
-                height = Math.floor(imgHeight * (width / imgWidth));
-                img.css("margin-top", Math.floor((displayHeight - height) / 2) + "px");
+    var fillModeFunc = {
+        fitCenter: function(displayWidth, displayHeight, imgWidth, imgHeight) {
+            var css = {
+                "margin-top": "0px",
+                "margin-left": "0px",
+                "vertical-align": "top"
+            };
+            var width = imgWidth, 
+                height = imgHeight;
+            if (displayWidth > displayHeight) {
+                if(imgHeight > displayHeight) {
+                    height = displayHeight;
+                }
+                width = Math.floor(imgWidth * (height / imgHeight));
+                if (width > displayWidth) {
+                    width = displayWidth;
+                    height = Math.floor(imgHeight * (width / imgWidth));
+                    css["margin-top"] = Math.floor((displayHeight - height) / 2) + "px";
+                } else {
+                    css["margin-left"] = Math.floor((displayWidth - width) / 2) + "px";
+                    css["margin-top"] = Math.floor((displayHeight - height) / 2) + "px";
+                }
             } else {
-                img.css("margin-left", Math.floor((displayWidth - width) / 2) + "px");
-                img.css("margin-top", Math.floor((displayHeight - height) / 2) + "px");
+                if(width > displayWidth) {
+                    width = displayWidth;
+                }
+                height = Math.floor(imgHeight * (width / imgWidth));
+                if (height > displayHeight) {
+                    height = displayHeight;
+                    width = Math.floor(imgWidth * (height / imgHeight));
+                    css["margin-left"] = Math.floor((displayWidth - width) / 2) + "px";
+                } else {
+                    css["margin-left"] = Math.floor((displayWidth - width) / 2) + "px";
+                    css["margin-top"] = Math.floor((displayHeight - height) / 2) + "px";
+                }
             }
-        } else {
-            if(width > displayWidth) {
-                width = displayWidth;
-            }
-            height = Math.floor(imgHeight * (width / imgWidth));
-            if (height > displayHeight) {
+            css["width"] = width + "px";
+            css["height"] = height + "px";
+            return css;
+        },
+        centerCrop: function(displayWidth, displayHeight, imgWidth, imgHeight) {
+            var css = {
+                "margin-top": "0px",
+                "margin-left": "0px",
+                "vertical-align": "top"
+            };
+            var width = imgWidth, 
+                height = imgHeight;
+            if (displayWidth > displayHeight) {
                 height = displayHeight;
                 width = Math.floor(imgWidth * (height / imgHeight));
-                img.css("margin-left", Math.floor((displayWidth - width) / 2) + "px");
+                if(width > displayWidth) {
+                    css["margin-left"] = -(Math.floor((width - displayWidth) / 2)) + "px";
+                } else if(width < displayWidth) {
+                    width = displayWidth;
+                    height = Math.floor(imgHeight * (width / imgWidth));
+                    css["margin-top"] = -(Math.floor((height - displayHeight) / 2)) + "px";
+                }
             } else {
-                img.css("margin-left", Math.floor((displayWidth - width) / 2) + "px");
-                img.css("margin-top", Math.floor((displayHeight - height) / 2) + "px");
+                width = displayWidth;
+                height = Math.floor(imgHeight * (width / imgWidth));
+                if(height > displayHeight) {
+                    css["margin-top"] = -(Math.floor((height - displayHeight) / 2)) + "px";
+                } else if(height < displayHeight) {
+                    height = displayHeight;
+                    width = Math.floor(imgWidth * (height / imgHeight));
+                    css["margin-left"] = -(Math.floor((width - displayWidth) / 2)) + "px";
+                }
             }
+            css["width"] = width + "px";
+            css["height"] = height + "px";
+            return css;
         }
-        img.css({
-            "width": width + "px",
-            "height": height + "px",
-            "vertical-align": "top"
-        });
+    };
+    function setImageAndSize (img, src, displayWidth, displayHeight, imgWidth, imgHeight, fillMode) {
+        var css;
+        fillMode = fillModeFunc[fillMode + ""];
+        if(!$.isFunction(fillMode)) {
+            fillMode = fillModeFunc.fitCenter;
+        }
+        css = fillMode.call(img, displayWidth, displayHeight, imgWidth, imgHeight);
+        img.css(css);
         img.prop("src", src);
         return {
-            width: width,
-            height: height
+            width: parseFloat(css.width),
+            height: parseFloat(css.height),
+            fillWidth: imgWidth,
+            fillHeight: imgHeight
         };
     }
     //为jquery添加操作stylesheet的方法
@@ -640,9 +696,8 @@
             window.console.log(str);
         }
     };
-    //异常
-    ui.error = function (msg) {
-        throw new Error(msg);
+    ui.get = function(obj, propertyName) {
+
     };
     //常用对象
     //获取浏览器滚动条的宽度
@@ -1037,6 +1092,32 @@
             return index;
         };
     }
+    // String.prototype
+    // trim
+    if(typeof String.prototype.trim !== "function") {
+        String.protocol.trim = function() {
+            return ui.str.trim(this);
+        };
+    }
+    // Function.prototype
+    // bind
+    if(typeof Function.prototype.bind !== "function") {
+        Function.prototype.bind = function(o) {
+            var self = this,
+                boundArgs = arguments;
+            return function() {
+                var args = [],
+                    i;
+                for(i = 1; i < boundArgs.length; i++) {
+                    args.push(boundArgs[i]);
+                }
+                for(i = 0; i < arguments.length; i++) {
+                    args.push(arguments[i]);
+                }
+                return self.apply(o, args);
+            };
+        };
+    }
 
     // Array Object
     ui.ArrayObject = function () {
@@ -1137,7 +1218,7 @@
         },
         set: function (key, value) {
             if (typeof key !== "string") {
-                ui.error("the key must be string");
+                throw new TypeError("the key must be string");
             }
             if (this.contains(key)) {
                 this[this._keys[key]] = value;
@@ -2370,161 +2451,188 @@
 
 // Json2
 ; (function () {
-    if (!window.JSON) {
-        window.JSON = {};
-    }
-    var JSON = window.JSON;
-    function f(n) {
-        return n < 10 ? '0' + n : n;
+    if (typeof JSON !== "object") {
+        JSON = {};
     }
 
-    if (typeof Date.prototype.toJSON !== 'function') {
-        Date.prototype.toJSON = function (key) {
+    "use strict";
+    var rx_one = /^[\],:{}\s]*$/;
+    var rx_two = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g;
+    var rx_three = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
+    var rx_four = /(?:^|:|,)(?:\s*\[)+/g;
+    var rx_escapable = /[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+    var rx_dangerous = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+
+    function f(n) {
+        return n < 10
+            ? "0" + n
+            : n;
+    }
+
+    function this_value() {
+        return this.valueOf();
+    }
+    if (typeof Date.prototype.toJSON !== "function") {
+        Date.prototype.toJSON = function () {
             return isFinite(this.valueOf())
-                ? this.getUTCFullYear() + '-' +
-                    f(this.getUTCMonth() + 1) + '-' +
-                    f(this.getUTCDate()) + 'T' +
-                    f(this.getUTCHours()) + ':' +
-                    f(this.getUTCMinutes()) + ':' +
-                    f(this.getUTCSeconds()) + 'Z'
+                ? this.getUTCFullYear() + "-" +
+                        f(this.getUTCMonth() + 1) + "-" +
+                        f(this.getUTCDate()) + "T" +
+                        f(this.getUTCHours()) + ":" +
+                        f(this.getUTCMinutes()) + ":" +
+                        f(this.getUTCSeconds()) + "Z"
                 : null;
         };
-
-        String.prototype.toJSON =
-            Number.prototype.toJSON =
-            Boolean.prototype.toJSON = function (key) {
-                return this.valueOf();
-            };
+        Boolean.prototype.toJSON = this_value;
+        Number.prototype.toJSON = this_value;
+        String.prototype.toJSON = this_value;
     }
 
-    var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-        escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-        gap,
-        indent,
-        meta = {
-            '\b': '\\b',
-            '\t': '\\t',
-            '\n': '\\n',
-            '\f': '\\f',
-            '\r': '\\r',
-            '"': '\\"',
-            '\\': '\\\\'
-        },
-        rep;
+    var gap;
+    var indent;
+    var meta;
+    var rep;
 
     function quote(string) {
-        escapable.lastIndex = 0;
-        return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
-            var c = meta[a];
-            return typeof c === 'string'
-                ? c
-                : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-        }) + '"' : '"' + string + '"';
+        rx_escapable.lastIndex = 0;
+        return rx_escapable.test(string)
+            ? "\"" + string.replace(rx_escapable, function (a) {
+                var c = meta[a];
+                return typeof c === "string"
+                    ? c
+                    : "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
+            }) + "\""
+            : "\"" + string + "\"";
     }
 
     function str(key, holder) {
-        var i,          // The loop counter.
-            k,          // The member key.
-            v,          // The member value.
-            length,
-            mind = gap,
-            partial,
-            value = holder[key];
-        if (value && typeof value === 'object' &&
-                typeof value.toJSON === 'function') {
+        var i;          // The loop counter.
+        var k;          // The member key.
+        var v;          // The member value.
+        var length;
+        var mind = gap;
+        var partial;
+        var value = holder[key];
+        if (value && typeof value === "object" &&
+                typeof value.toJSON === "function") {
             value = value.toJSON(key);
         }
-        if (typeof rep === 'function') {
+        if (typeof rep === "function") {
             value = rep.call(holder, key, value);
         }
-
         switch (typeof value) {
-            case 'string':
-                return quote(value);
-            case 'number':
-                return isFinite(value) ? String(value) : 'null';
-            case 'boolean':
-            case 'null':
-                return String(value);
-            case 'object':
-                if (!value) {
-                    return 'null';
-                }
-                gap += indent;
-                partial = [];
+        case "string":
+            return quote(value);
 
-                if (Object.prototype.toString.apply(value) === '[object Array]') {
-                    length = value.length;
-                    for (i = 0; i < length; i += 1) {
-                        partial[i] = str(i, value) || 'null';
-                    }
-                    v = partial.length === 0
-                        ? '[]'
-                        : gap
-                            ? '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']'
-                            : '[' + partial.join(',') + ']';
-                    gap = mind;
-                    return v;
-                }
+        case "number":
+            return isFinite(value)
+                ? String(value)
+                : "null";
 
-                if (rep && typeof rep === 'object') {
-                    length = rep.length;
-                    for (i = 0; i < length; i += 1) {
-                        if (typeof rep[i] === 'string') {
-                            k = rep[i];
-                            v = str(k, value);
-                            if (v) {
-                                partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                            }
-                        }
-                    }
-                } else {
-                    for (k in value) {
-                        if (Object.prototype.hasOwnProperty.call(value, k)) {
-                            v = str(k, value);
-                            if (v) {
-                                partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                            }
-                        }
-                    }
+        case "boolean":
+
+        case "null":
+            return String(value);
+
+        case "object":
+            if (!value) {
+                return "null";
+            }
+            gap += indent;
+            partial = [];
+            if (Object.prototype.toString.apply(value) === "[object Array]") {
+                length = value.length;
+                for (i = 0; i < length; i += 1) {
+                    partial[i] = str(i, value) || "null";
                 }
                 v = partial.length === 0
-                    ? '{}'
+                    ? "[]"
                     : gap
-                        ? '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}'
-                        : '{' + partial.join(',') + '}';
+                        ? "[\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "]"
+                        : "[" + partial.join(",") + "]";
                 gap = mind;
                 return v;
+            }
+            if (rep && typeof rep === "object") {
+                length = rep.length;
+                for (i = 0; i < length; i += 1) {
+                    if (typeof rep[i] === "string") {
+                        k = rep[i];
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (
+                                gap
+                                    ? ": "
+                                    : ":"
+                            ) + v);
+                        }
+                    }
+                }
+            } else {
+                for (k in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (
+                                gap
+                                    ? ": "
+                                    : ":"
+                            ) + v);
+                        }
+                    }
+                }
+            }
+            v = partial.length === 0
+                ? "{}"
+                : gap
+                    ? "{\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "}"
+                    : "{" + partial.join(",") + "}";
+            gap = mind;
+            return v;
         }
     }
-    if (typeof JSON.stringify !== 'function') {
+
+    // If the JSON object does not yet have a stringify method, give it one.
+    if (typeof JSON.stringify !== "function") {
+        meta = {
+            "\b": "\\b",
+            "\t": "\\t",
+            "\n": "\\n",
+            "\f": "\\f",
+            "\r": "\\r",
+            "\"": "\\\"",
+            "\\": "\\\\"
+        };
         JSON.stringify = function (value, replacer, space) {
             var i;
-            gap = '';
-            indent = '';
-            if (typeof space === 'number') {
+            gap = "";
+            indent = "";
+            if (typeof space === "number") {
                 for (i = 0; i < space; i += 1) {
-                    indent += ' ';
+                    indent += " ";
                 }
-            } else if (typeof space === 'string') {
+            } else if (typeof space === "string") {
                 indent = space;
             }
             rep = replacer;
-            if (replacer && typeof replacer !== 'function' &&
-                    (typeof replacer !== 'object' ||
-                    typeof replacer.length !== 'number')) {
-                throw new Error('JSON.stringify');
+            if (replacer && typeof replacer !== "function" &&
+                    (typeof replacer !== "object" ||
+                    typeof replacer.length !== "number")) {
+                throw new Error("JSON.stringify");
             }
-            return str('', { '': value });
+            return str("", {"": value});
         };
     }
 
-    if (typeof JSON.parse !== 'function') {
+    // If the JSON object does not yet have a parse method, give it one.
+    if (typeof JSON.parse !== "function") {
         JSON.parse = function (text, reviver) {
             var j;
             function walk(holder, key) {
-                var k, v, value = holder[key];
-                if (value && typeof value === 'object') {
+                var k;
+                var v;
+                var value = holder[key];
+                if (value && typeof value === "object") {
                     for (k in value) {
                         if (Object.prototype.hasOwnProperty.call(value, k)) {
                             v = walk(value, k);
@@ -2538,28 +2646,28 @@
                 }
                 return reviver.call(holder, key, value);
             }
-
             text = String(text);
-            cx.lastIndex = 0;
-            if (cx.test(text)) {
-                text = text.replace(cx, function (a) {
-                    return '\\u' +
-                        ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+            rx_dangerous.lastIndex = 0;
+            if (rx_dangerous.test(text)) {
+                text = text.replace(rx_dangerous, function (a) {
+                    return "\\u" +
+                            ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
                 });
             }
-
-            if (/^[\],:{}\s]*$/
-                    .test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
-                        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-                        .replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-
-                j = eval('(' + text + ')');
-
-                return typeof reviver === 'function'
-                    ? walk({ '': j }, '')
+            if (
+                rx_one.test(
+                    text
+                        .replace(rx_two, "@")
+                        .replace(rx_three, "]")
+                        .replace(rx_four, "")
+                )
+            ) {
+                j = eval("(" + text + ")");
+                return (typeof reviver === "function")
+                    ? walk({"": j}, "")
                     : j;
             }
-            throw new SyntaxError('JSON.parse');
+            throw new SyntaxError("JSON.parse");
         };
     }
 }())
@@ -3016,7 +3124,7 @@
                     continue;
                 type = ui.core.type(copy);
                 if (type === "object" || type === "array") {
-                    result[key] = arguments.callee.call(this, copy);
+                    result[key] = arguments.callee.call(this, copy, ignore);
                 } else {
                     result[key] = copy;
                 }
@@ -3094,7 +3202,7 @@
                         return this[pField];
                     };
                 } else {
-                    ui.error("parentField isn't String or Function");
+                    throw new TypeError("parentField isn't String or Function");
                 }
             }
             if (!$.isFunction(valueField)) {
@@ -3104,7 +3212,7 @@
                         return this[vField];
                     };
                 } else {
-                    ui.error("valueField isn't String or Function");
+                    throw new TypeError("valueField isn't String or Function");
                 }
             }
             if (ui.core.type(childrenField) !== "string") {
@@ -3177,7 +3285,7 @@
                         return this[pField];
                     };
                 } else {
-                    ui.error("parentField isn't String or Function");
+                    throw new TypeError("parentField isn't String or Function");
                 }
             }
             if (!$.isFunction(valueField)) {
@@ -3187,7 +3295,7 @@
                         return this[vField];
                     };
                 } else {
-                    ui.error("valueField isn't String or Function");
+                    throw new TypeError("valueField isn't String or Function");
                 }
             }
             if (ui.core.type(childrenField) !== "string") {
@@ -3219,10 +3327,12 @@
                 }
             }
             for (var key in tempList) {
-                temp = tempList[key];
-                if (!temp.hasOwnProperty(flagField)) {
-                    root = temp;
-                    break;
+                if(tempList.hasOwnProperty(key)) {
+                    temp = tempList[key];
+                    if (!temp.hasOwnProperty(flagField)) {
+                        root = temp;
+                        break;
+                    }
                 }
             }
             return root[childrenField];
@@ -3258,8 +3368,14 @@
         return true;
     }
     function unauthorizedHandler(context) {
+        var url = location.href;
+        var index;
         alert("等待操作超时，您需要重新登录");
-        location.replace(location.href);
+        index = url.indexOf("#");
+        if(index > 0) {
+            url = url.substring(0, index);
+        }
+        location.replace();
         return false;
     }
     function forbiddenHandler(context) {
@@ -3313,7 +3429,7 @@
             if (type === "array" || ui.core.isPlainObject(args)) {
                 args = JSON.stringify(args);
             } else {
-                args = "{}";
+                args = "";
             }
         }
 
@@ -3354,7 +3470,7 @@
         ajaxPostOnce: function (btn, url, args, success, error, option) {
             btn = ui.getJQueryElement(btn);
             if(!btn) {
-                throw ui.error("没有正确设置要禁用的按钮");
+                throw new Error("没有正确设置要禁用的按钮");
             }
             if(!option) {
                 option = {};
@@ -3399,10 +3515,7 @@
         ajaxAll: function () {
             var promises;
             if (arguments.length == 1) {
-                promises = arguments[0];
-                if (!(promises)) {
-                    promises = [promises];
-                }
+                promises = [arguments[0]];
             } else if (arguments.length > 1) {
                 promises = [].slice.call(arguments, 0);
             } else {
@@ -3444,6 +3557,7 @@
         name = nameArray[1];
 
         if (!prototype) {
+            //默认所有的控件都继承自Widget
             prototype = base;
             base = ui.Widget;
         }
@@ -4010,6 +4124,9 @@
     //控件分页逻辑，Gridview, ReportView, flowView
     var pageHashPrefix = "page";
     ui.ctrls.Pager = function(option) {
+        if(!option) {
+            option = {};
+        }
         this.pageNumPanel = null;
         this.pageInfoPanel = null;
 
@@ -4064,7 +4181,7 @@
             
             if(this.pageInfoFormatter) {
                 for(var key in this.pageInfoFormatter) {
-                    if($.isFunction(this.pageInfoFormatter[key])) {
+                    if(this.pageInfoFormatter.hasOwnProperty(key) && $.isFunction(this.pageInfoFormatter[key])) {
                         this.pageInfoPanel
                                 .append(this.pageInfoFormatter[key].call(this, pageInfo[key]));
                     }
@@ -4098,6 +4215,7 @@
                 }
             }
 
+            //当start不是从1开始时显示带有特殊标记的首页
             if (start > 1)
                 this.pageNumPanel.append(this._createPageButton("1..."));
             for (var i = start, btn; i <= end; i++) {
@@ -4108,6 +4226,7 @@
                 }
                 this.pageNumPanel.append(btn);
             }
+            //当end不是最后一页时显示带有特殊标记的尾页
             if (end < pageCount)
                 this.pageNumPanel.append(this._createPageButton("..." + pageCount));
         },
@@ -4202,6 +4321,198 @@
             if (len <= 0) {
                 this._setPageHash(pageIndex);
             }
+        }
+    };
+
+    //可以触摸滑动，可以用滚轮（默认是垂直滚动，鼠标落在轨道上可以根据轨道方向横向或纵向滚动），可以用鼠标拖拽
+    ui.ctrls.ScrollBar = function(option) {
+        if(this instanceof ui.ctrls.ScrollBar) {
+            this.initial(option);
+        } else {
+            return new ui.ctrls.ScrollBar(option);
+        }  
+    };
+    ui.ctrls.ScrollBar.prototype = {
+        initial: function(option) {
+            var defaultOption = {
+                wheel: true,
+                touch: true,
+                scroll: true
+            };
+            this.option = $.extend(defaultOption, option);
+
+            this.smallSize = 4;
+            this.activeSize = 12;
+            this.limitSize = 120;
+
+            this.verticalTrack = null;
+            this.verticalThumb = null;
+            this.verticalThumbTop = 0;
+            this.verticalThumbSize = 0;
+
+            this.horizontalTrack = null;
+            this.horizontalThumb = null;
+            this.horizontalThumbLeft = 0;
+            this.horizontalThumbSize = 0;
+
+            this.container = ui.getJQueryElement(option.container);
+            this.containerWidth = 0;
+            this.containerHeight = 0;
+
+            this.majorTarget = null;
+            this.scrollTargets = [];
+            this.scrollTop = 0;
+            this.scrollLeft = 0;
+
+            this._prepareContainer();
+            this._bindEvents();
+        },
+        _prepareContainer: function() {
+            if(!this.container) {
+                return;
+            }
+
+            this.container.addClass("scroll-view");
+            this.containerWidth = this.container.width();
+            this.containerHeight = this.container.height();
+
+            this._createVerticalbar();
+            this._createHorizontalBar();
+        },
+        _createVerticalbar: function() {
+            var that = this;
+            this.verticalTrack = $("<div class='scroll-track' />");
+            this.verticalTrack.css({
+                "height": this.containerHeight + "px",
+                "width": this.smallSize + "px",
+                "top": "0px",
+                "right": "0px"
+            });
+            this.verticalThumb = $("<div class='scroll-thumb' />");
+            this.verticalThumb.css({
+                "right": "0px",
+                "width": this.smallSize + "px"
+            });
+            this.verticalThumb.mouseover(function() {
+                that.verticalThumb.css("width", that.activeSize + "px");
+                that.cancelVerticalThumbLargeStyle = true;
+            });
+            this.verticalThumb.mouseout(function() {
+                if(that.cancelVerticalThumbLargeStyle) {
+                    that.verticalThumb.css("width", that.smallSize + "px");
+                    that.cancelVerticalThumbLargeStyle = false;
+                }
+            });
+            this.verticalTrack.append(this.verticalThumb);
+            this.container.append(this.verticalTrack);
+        },
+        _createHorizontalBar: function() {
+            var that = this;
+            this.horizontalTrack = $("<div class='scroll-track' />");
+            this.horizontalTrack.css({
+                "width": this.containerWidth + "px",
+                "height": this.smallSize + "px",
+                "left": "0px",
+                "bottom": "0px"
+            });
+            this.horizontalThumb = $("<div class='scroll-thumb' />");
+            this.horizontalThumb.css({
+                "bottom": "0px",
+                "height": this.smallSize + "px"
+            });
+            this.horizontalThumb.mouseover(function() {
+                that.horizontalThumb.css("height", that.activeSize + "px");
+                that.cancelHorizontalThumbLargeStyle = true;
+            });
+            this.horizontalThumb.mouseout(function() {
+                if(that.cancelHorizontalThumbLargeStyle) {
+                    that.horizontalThumb.css("height", that.smallSize + "px");
+                    that.cancelHorizontalThumbLargeStyle = false;
+                }
+            });
+            this.horizontalTrack.append(this.horizontalThumb);
+            this.container.append(this.horizontalTrack);
+        },
+        _bindEvents: function() {
+            var that = this;
+            //滚轮事件
+            this.container.mousewheel(function(e) {
+                var value = -(e.delta * 36);
+                that.onScroll(value);
+            });
+        },
+        calculateVertical: function() {
+            var height = this.container.height(),
+                scrollHeight = this.majorTarget.outerHeight(),
+                size;
+            if(height < scrollHeight) {
+                size = this.calculateThumbSize(width, scrollWidth);
+                this.verticalTrack.css("display", "block");
+                this.verticalThumb.css("height", size + "px");
+            } else {
+                this.verticalTrack.css("display", "none");
+            }
+
+            this.scrollWidth = scrollWidth;
+            this.verticalThumbTop = 0;
+            this.verticalThumbSize = size;
+            this.scrollTop = 0;
+        },
+        calculateHorizontal: function() {
+            var width = this.container.width(),
+                scrollWidth = this.majorTarget.outerWidth(),
+                size;
+            if(width < scrollWidth) {
+                size = this.calculateThumbSize(height, scrollHeight);
+                this.horizontalTrack.css("display", "block");
+                this.horizontalThumb.css("width", size + "px");
+            } else {
+                this.horizontalTrack.css("display", "none");
+            }
+
+            this.scrollHeight = scrollHeight;
+            this.horizontalThumbLeft = 0;
+            this.horizontalThumbSize = size;
+            this.scrollLeft = 0;
+        },
+        calculateThumbSize: function(visibleValue, contentValue) {
+            var value = visibleValue * (visibleValue / contentValue);
+            if(value < this.limitSize) {
+                value = this.limitSize;
+            }
+            return value;
+        },
+        setTargets: function() {
+            var i = 0,
+                len = arguments.length;
+            var target;
+            this.scrollTargets = [];
+            this.majorTarget = null;
+            for(; i < len; i++) {
+                target = ui.getJQueryElement(arguments[i]);
+                if(target != null) { 
+                    this.scrollTargets.push(target);
+                }
+            }
+            if(this.scrollTargets.length > 0) {
+                this.majorTarget = this.scrollTargets[0];
+                this.calculateVertical();
+                this.calculateHorizontal();
+            }
+        },
+        onScroll: function(scrollValue) {
+            var currentValue = -this.scrollTop;
+            currentValue += scrollValue;
+            this.majorTarget.css("margin-top", currentValue + "px");
+            this.scrollTop = -currentValue;
+
+            if(this.option.scroll) {
+
+            }
+
+            
+
+            //ui.msgshow(scrollValue);
         }
     };
 })(ui.core)

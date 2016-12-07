@@ -12,7 +12,8 @@ body {
     background-color: #1D1F21;
 }
 
-.theme-toolbar-color {
+.theme-toolbar-color,
+.theme-action-color {
     background-color: #3C3F41;
 }
 
@@ -66,7 +67,6 @@ ul#headerTags li.tab-button i.pointer {
 .tool-button {
     border-color: #AAAAAA;
     color: #AAAAAA;
-    background-color:#3C3F41;
 }
 
     .icon-button:disabled, 

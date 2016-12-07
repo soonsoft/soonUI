@@ -130,9 +130,13 @@
                 styleCss = {};
                 css = oldStyle.split(";");
                 for (i = 0, l = css.length; i < l; i++) {
-                    cssItem = $.trim(css[i]);
-                    cssItem = cssItem.split(":");
-                    styleCss[cssItem[0]] = cssItem[1];
+                    cssItem = ui.str.trim(css[i]);
+                    if(cssItem) {
+                        cssItem = cssItem.split(":");
+                        if(cssItem.length == 2) {
+                            styleCss[ui.str.trim(cssItem[0]).toLowerCase()] = ui.str.trim(cssItem[1]);
+                        }
+                    }
                 }
                 elem.data("oldStyle", styleCss);
             }
@@ -146,6 +150,7 @@
             elem.removeClass(errorClass);
             elem.removeAttr("style");
             if (oldStyle) {
+                oldStyle["visibility"] = "visible";
                 elem.css(oldStyle);
                 elem.removeData("oldStyle");
             }

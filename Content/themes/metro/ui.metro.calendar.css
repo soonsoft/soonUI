@@ -124,7 +124,7 @@ div.month-week-panel {
             height: 24px;
             line-height: 24px;
             font-size: 14px;
-            border-right: solid 1px #DCDCDC;
+            border-right: solid 1.4px #DCDCDC;
             overflow: hidden;
         }
 
@@ -271,7 +271,7 @@ div.day-title-panel {
         line-height: 24px;
     }
 
-ul.hour-name {
+.hour-name {
     position: absolute;
     background-color: #F1F1F1;
     width: 80px;
@@ -281,23 +281,34 @@ ul.hour-name {
     margin: 0px;
 }
 
-    ul.hour-name li {
-        list-style: none;
-        padding: 0px;
-        margin: 0px;
-        overflow: hidden;
-        width: 100%;
+.hour-name-table {
+    table-layout:fixed;
+    width: 100%;
+    height: auto;
+}
+
+    .hour-name-table td {
+        height: 24px;
+        text-align: center;
+        border-right: solid 1px transparent;
+        border-bottom: solid 1px transparent;
     }
 
-        ul.hour-name li span {
-            font-size: 20px;
-            line-height: 24px;
-            color: #BCBCBC;
-            margin-left: 5px;
-        }
-
-    ul.hour-name li.odd {
+    .hour-name-table td.odd {
+        border-bottom: dotted 1px transparent;
     }
+
+.hour-name-text {
+    padding: 0px;
+    margin: 0px;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    height: 100%;
+    color: #BCBCBC;
+    padding-left: 5px;
+    text-align: left;
+}
 
 table.weekhour {
     position: absolute;
@@ -308,6 +319,7 @@ table.weekhour {
     height: auto;
 }
 
+    /* chrome和firefox下，缩放后1px会变成0.6667导致显示出现偏差 */
     table.weekhour td {
         height: 24px;
         text-align: center;

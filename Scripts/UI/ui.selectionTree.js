@@ -46,6 +46,7 @@
                 childField: null,
                 data: null,
                 canSelectNode: false,
+                //默认展开的层级，false(0)：显示第一层级，true：显示所有层级，数字：显示的层级值(0表示根级别，数值从1开始)
                 defaultOpen: false,
                 lazy: false
             };
@@ -81,16 +82,27 @@
                 this._getParent = getValue;
             }
 
+            if(this.option.defaultOpen === false) {
+                this.openLevel = 0;
+            } else {
+                if(ui.core.type(this.option.defaultOpen) === "number") {
+                    this.openLevel = this.option.defaultOpen <= 0 ? 0 : this.option.defaultOpen;
+                } else {
+                    this.openLevel = 1000;
+                }
+            }
+
             if(this.option.lazy) {
                 if($.isFunction(this.option.lazy.hasChildren)) {
                     this._hasChildren = this.option.lazy.hasChildren;
                 }
                 if($.isFunction(this.option.lazy.loadChildren)) {
-                    this._loadChildren = this.option.lazy.laodChildren;
+                    this._loadChildren = this.option.lazy.loadChildren;
+                    //当数据延迟加载是只能默认加载根节点
+                    this.openLevel = 0;
                 }
 
                 this.onTreeNodeClick = this.onTreeNodeLazyClick;
-                this.option.defaultOpen = false;
                 this.option.lazy = true;
             } else {
                 this.option.lazy = false;
@@ -160,10 +172,12 @@
                 }
             }
             for (var key in tempList) {
-                temp = tempList[key];
-                if (!temp.hasOwnProperty(flagField)) {
-                    root = temp;
-                    break;
+                if(tempList.hasOwnProperty(key)) {
+                    temp = tempList[key];
+                    if (!temp.hasOwnProperty(flagField)) {
+                        root = temp;
+                        break;
+                    }
                 }
             }
             this.option.childField = childField;
@@ -200,7 +214,8 @@
                 if (this._hasChildren(item)) {
                     children = this._getChildren(item);
                     dd = $("<dd />");
-                    if (this.option.defaultOpen === true) {
+
+                    if (level + 1 <= this.openLevel) {
                         dt.append(this._createNodeButton(level, unflodClass, "fa-angle-down"));
                     } else {
                         dt.append(this._createNodeButton(level, "fa-angle-right"));
@@ -210,7 +225,11 @@
                         dt.append(cbx);
                     }
 
-                    if (!this.option.lazy) {
+                    if (this.option.lazy) {
+                        if(level + 1 <= this.openLevel) {
+                            this._loadChildren(dt, dd, item);
+                        }
+                    } else {
                         childDL = $("<dl />");
                         this._treeDataToTree(children, childDL, level + 1, id, item);
                         dd.append(childDL);
@@ -298,7 +317,7 @@
                 outArgument = { dt: null };
             this._setTreeValues(this.option.data, valueData, 0, null, outArgument);
             if(outArgument.dt) {
-                this.fire(selected, 
+                this.fire(selected,
                     outArgument.dt, this._wrapTreeData(this.getNodeData(outArgument.dt)));
             }
         },
@@ -318,7 +337,7 @@
             var outArgument = { dt: null };
             this._setTreeValues(this.option.data, values, 0, null, outArgument);
             if(outArgument.dt) {
-                this.fire(selected, 
+                this.fire(selected,
                     outArgument.dt, this._wrapTreeData(this.getNodeData(outArgument.dt)));
             }
         },
@@ -542,7 +561,7 @@
                 this.onTreeNodeClick(e);
                 return;
             }
-            
+
             isCheckbox = nodeName === "INPUT";
             while (nodeName !== "DT") {
                 if (elem.hasClass(listPanelClass))
@@ -704,7 +723,7 @@
             }
             if (this.option.multiple) {
                 // TODO: 考虑让auto complete tree能支持多选
-                throw ui.error("autoCompleterTree can not support multiple!");
+                throw new Error("autoCompleterTree can not support multiple!");
             }
             this._super();
             var that = this;
@@ -717,10 +736,19 @@
                 .on("keyup", function(e) {
                     that.onCompleterKeyup(e);
                 });
+            if(ui.core.ieVersion < 9) {
+                this.__oldFire__ = this.fire;
+                this.fire = function() {
+                    this._callAndCancelPropertyChange(this.__oldFire__, arguments);
+                };
+            }
             this.element.textinput(function(e) {
                 var elem = $(e.target),
                     value = elem.val(),
                     oldValue = elem.data("autocomplete.value");
+                if(that.cancelAutoComplete) {
+                    return;
+                }
                 if(value.length == 0) {
                     that.resetTreeList();
                     that.cancelSelection();
@@ -892,21 +920,26 @@
                 data = this.getDataByPath(path);
                 if (data) {
                     dt = this._setTreeValue(data, path, 1);
-                    //出发选择事件
+                    //触发选择事件
                     this.fire("selected", dt, this._wrapTreeData(this.getNodeData(dt)));
                 }
                 ui.hideAll();
             }
         },
         _selectItem: function() {
+            this._callAndCancelPropertyChange(this._super, arguments);
+        },
+        _callAndCancelPropertyChange: function(fn, args) {
             //修复IE8下propertyChange事件由于用户赋值而被意外触发
             this.cancelAutoComplete = true;
-            this._superApply(arguments);
+            fn.apply(this, args);
             this.cancelAutoComplete = false;
         },
         cancelSelection: function(fireEvent, justAutoCompleteListCancel) {
             if(justAutoCompleteListCancel) {
-                this.element.val("");
+                this._callAndCancelPropertyChange(function() {
+                    this.element.val("");
+                });
                 this.resetTreeList();
             } else {
                 this._super(fireEvent);

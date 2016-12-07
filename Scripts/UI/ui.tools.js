@@ -843,7 +843,7 @@
             return null;
         }
         if(this.nodeName() !== "INPUT" && this.prop("type") !== "checkbox") {
-            ui.error("switch button must be checkbox");
+            throw new Error("switch button must be checkbox");
         }
         return ui.ctrls.SwitchButton(option, this);
     };

@@ -46,6 +46,7 @@
             margin-left:20px;
             background-color:#CCCCCC;
             float:left;
+            overflow: hidden;
         }
         
         .image-preview {
@@ -156,11 +157,11 @@
                     //在布局计算后创建控件
                     afterCtrls: function () {
                         var imageZoomer = ui.images.createImageZoomer();
-                        $("#zoomImg").setImage("../Content/images/bingImage.jpg", 192, 108).done(function(data) {
+                        $("#zoomImg").setImage("../Content/images/bingImage.jpg", 192, 108, "fitCenter").done(function(data) {
                             data.img.addImageZoomer(imageZoomer);
                         });
                         
-                        $("#watchImg").setImage("../Content/images/bingImage.jpg", 400, 300).done(function(data) {
+                        $("#watchImg").setImage("../Content/images/bingImage.jpg", 400, 300, "fitCenter").done(function(data) {
                             data.img.parent().imageWatcher();
                         });
                         $("#watchImg2").setImage("../Content/images/11.jpg", 400, 300).done(function(data) {

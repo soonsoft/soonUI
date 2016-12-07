@@ -1,4 +1,12 @@
 ; (function () {
+    var MessageType = {
+        message: 0,
+        warn: 1,
+        error: 3,
+        success: 4,
+        failed: 5
+    };
+    var defaultWaitSeconds = 5;
     // 信息提示框
     function MessageBox() {
         if(this instanceof MessageBox) {
@@ -10,13 +18,46 @@
     MessageBox.prototype = {
         initial: function() {
             this.box = null;
+            this.type = MessageType;
             this.isStartHide = false;
+            this.boxAnimator = null;
+            this.width = 322;
+            this.top = 88;
+        },
+        _initAnimator: function() {
+            this.boxAnimator = ui.animator({
+                target: this.box,
+                ease: ui.AnimationStyle.easeTo,
+                onChange: function(val) {
+                    this.target.css("left", val + "px");
+                }
+            });
+            this.boxAnimator.duration = 200;
+        },
+        getIcon: function(type) {
+            if(type === MessageType.warn) {
+                return "mb-warn fa fa-exclamation-triangle";
+            } else if(type === MessageType.error) {
+                return "mb-error fa fa-times-circle";
+            } else if(type === MessageType.success) {
+                return "mb-success fa fa-check-circle-o";
+            } else if(type === MessageType.failed) {
+                return "mb-failed fa fa-times-circle-o";
+            } else {
+                return "mb-message fa fa-commenting";
+            }
         },
         getBox: function () {
+            var clientWidth,
+                clientHeight;
             if (!this.box) {
-                this.box = $("<div class='message-box background-highlight' />");
+                clientWidth = ui.core.root.clientWidth;
+                clientHeight = ui.core.root.clientHeight;
+                this.box = $("<div class='message-box theme-action-color border-highlight' />");
                 this.box.css({
-                    "left": ui.core.root.clientWidth + "px"
+                    "top": this.top + "px",
+                    "left": clientWidth + "px",
+                    "max-height": clientHeight - (this.top * 2) + "px"
                 });
                 var close = $("<a href='javascript:void(0)' class='close-button'>×</a>");
                 var that = this;
@@ -34,68 +75,78 @@
                     }
                 });
                 this.box.mouseleave(function (e) {
-                    that.waitSeconds(5);
+                    that.waitSeconds(defaultWaitSeconds);
                 });
 
                 this.box.append(close);
                 $(document.body).append(this.box);
+
+                this._initAnimator();
             }
             return this.box;
         },
         isShow: function() {
             return this.getBox().css("display") === "block";
         },
-        show: function (text, isError) {
-            var box = this.getBox(),
-                p = $("<p />");
-            if ($.isFunction(text)) {
-                p.html(text);
+        show: function (text, type) {
+            var box,
+                messageItem,
+                htmlBuilder = [];
+            
+            messageItem = $("<div class='message-item' />")
+            htmlBuilder.push("<i class='message-icon ", this.getIcon(type), "'></i>");
+            htmlBuilder.push("<div class='message-content'>");
+            if($.isFunction(text)) {
+                htmlBuilder.push(text());
             } else {
-                p.text(text + "");
+                htmlBuilder.push(ui.str.htmlEncode(text + ""));
             }
-            if (this.isShow()) {
-                box.append(p);
+            htmlBuilder.push("</div>");
+            messageItem.html(htmlBuilder.join(""));
+
+            box = this.getBox();
+            if(this.isShow()) {
+                box.append(messageItem);
                 return;
             }
-            box.children("p").remove();
-            box.append(p);
-            if (isError === true) {
-                box.addClass("message-box-error");
-            } else {
-                box.removeClass("message-box-error");
-            }
+            box.children(".message-item").remove();
+            box.append(messageItem);
             this._show(function () {
-                messagebox.waitSeconds(5);
+                messagebox.waitSeconds(defaultWaitSeconds);
             });
         },
         _show: function (completedHandler) {
-            var box = this.getBox();
+            var box = this.getBox(),
+                option,
+                clientWidth = ui.core.root.clientWidth;
             this.isStartHide = false;
 
-            box.stop();
-            box.css({
-                "left": ui.core.root.clientWidth + "px",
-                "display": "block"
-            });
-            box.animate({
-                "left": (ui.core.root.clientWidth - box.width()) + "px"
-            }, 150, "swing", completedHandler);
+            this.boxAnimator.stop();
+            option = this.boxAnimator[0];
+            option.begin = parseFloat(option.target.css("left")) || clientWidth;
+            option.end = clientWidth - this.width;
+            option.target.css("display", "block");
+            this.boxAnimator.start().done(completedHandler);
         },
         hide: function (flag) {
+            var box,
+                option,
+                that = this,
+                clientWidth = ui.core.root.clientWidth;
             if (flag) {
                 this.isClosing = true;
             }
-            var box = this.getBox();
+            box = this.getBox();
             this.isStartHide = true;
 
-            box.stop();
-            box.animate({
-                "left": ui.core.root.clientWidth + "px"
-            }, 150, "swing", function () {
+            this.boxAnimator.stop();
+            option = this.boxAnimator[0];
+            option.begin = parseFloat(option.target.css("left")) || clientWidth - this.width;
+            option.end = clientWidth;
+            this.boxAnimator.start().done(function() {
                 box.css("display", "none");
-                if (flag) {
-                    this.isClosing = false;
-                }
+                that.isClosing = false;
+                that.isStartHide = false;
             });
         },
         waitSeconds: function (seconds) {
@@ -103,7 +154,7 @@
             if (that.hideHandler)
                 window.clearTimeout(that.hideHandler);
             if (isNaN(parseInt(seconds)))
-                seconds = 5;
+                seconds = defaultWaitSeconds;
             that.hideHandler = window.setTimeout(function () {
                 that.hideHandler = null;
                 if (that.isStartHide === false) {
@@ -115,17 +166,48 @@
 
     var messagebox = MessageBox();
     ui.resize(function (e) {
-        var box;
-        if (messagebox.isShow()) {
-            box = messagebox.getBox();
-            box.css("left", (ui.core.root.clientWidth - box.width()) + "px");
+        var box = messagebox.getBox(),
+            clientWidth = ui.core.root.clientWidth,
+            clientHeight = ui.core.root.clientHeight,
+            left;
+        if(messagebox.isShow()) {
+            left = clientWidth - messagebox.width;
+        } else {
+            left = clientWidth;
         }
+        messagebox.waitSeconds(defaultWaitSeconds);
+        box.css({
+            "left": left + "px",
+            "max-height": clientHeight - (messagebox.top * 2) + "px"
+        });
     });
-    ui.msgshow = function (text, isError) {
-        messagebox.show(text, isError);
+    ui.msgshow = function (text, type) {
+        if(type === true) {
+            type = MessageType.error;
+        } else {
+            if(!type) {
+                type = MessageType.message;
+            }
+        }
+        messagebox.show(text, type);
     };
     ui.msghide = function () {
         messagebox.hide(true);
+    };
+    ui.messageShow = function(text) {
+        ui.msgshow(text, MessageType.message);
+    };
+    ui.warnShow = function(text) {
+        ui.msgshow(text, MessageType.warn);
+    };
+    ui.errorShow = function(text) {
+        ui.msgshow(text, MessageType.error);
+    };
+    ui.successShow = function(text) {
+        ui.msgshow(text, MessageType.success);
+    };
+    ui.failedShow = function(text) {
+        ui.msgshow(text, MessageType.failed);
     };
 
     // 加载提示框

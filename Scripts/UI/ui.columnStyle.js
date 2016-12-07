@@ -321,7 +321,7 @@
                     return createFunc.apply(this, arguments);
                 };
             },
-            getImage: function(width, height, prefix, defaultSrc) {
+            getImage: function(width, height, prefix, defaultSrc, fillMode) {
                 if(ui.core.type(width) !== "number" || width <= 0) {
                     width = 120;
                 }
@@ -334,7 +334,7 @@
                 prefix += "";
                 
                 if(!ui.images) {
-                    throw ui.error("require ui.images.js");
+                    throw new ReferenceError("require ui.images.js");
                 }
                 var imageZoomer = ui.images.createImageZoomer({
                     getNext: function(val) {
@@ -380,7 +380,7 @@
                         "height": height + "px"
                     });
                     imagePanel.append(image);
-                    image.setImage(prefix + imageSrc, width, height)
+                    image.setImage(prefix + imageSrc, width, height, fillMode)
                         .then(
                             function(result) {
                                 image.addImageZoomer(imageZoomer);

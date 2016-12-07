@@ -136,6 +136,7 @@
                 return;
             }
             if (errorMsg) {
+                errorMsg = error.errorMessage || "上传发生错误";
                 this.fire(error, errorMsg);
                 return;
             }

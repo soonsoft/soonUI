@@ -1456,10 +1456,12 @@
                 }
             }
             for (var key in tempList) {
-                temp = tempList[key];
-                if (!temp.hasOwnProperty(flagField)) {
-                    root = temp;
-                    break;
+                if(tempList.hasOwnProperty(key)) {
+                    temp = tempList[key];
+                    if (!temp.hasOwnProperty(flagField)) {
+                        root = temp;
+                        break;
+                    }
                 }
             }
             

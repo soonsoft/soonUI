@@ -9,6 +9,7 @@
 
     <title>UI 2.0 Demo列表</title>
     <link href="../Content/site.css" rel="stylesheet"/>
+    <link type="text/css" href="../Content/themes/metro.dark/ui.Site.metro.Dark.css" rel="stylesheet" />
 
     <link type="text/css" href="../Content/themes/metro/ui.metro.form.css" rel="stylesheet" />
     <!-- 页面样式 -->
@@ -233,7 +234,10 @@
     </header>
     <section id="body">
         <div class="toolbar">
-            <ul class="tools">
+            <ul class="tools" style="float:right">
+                <li>
+                    <button id="showMsg" class="tool-button" style="width:120px;">显示message</button>
+                </li>
             </ul>
         </div>
         <div id="demo" style="position:absolute;width:0px;height:0px;top:100px;left:100px;border-width:50px;border-color:transparent transparent #888888 transparent;border-style: dashed dashed solid dashed;"></div>
@@ -327,10 +331,12 @@
                     },
                     //在布局计算前创建控件
                     beforeCtrls: function () {
+                        /*
                         var arr = [1, 2, 3, 4, 5];
                         var arr2 = [5];
                         var result = arr.indexOf(3);
                         alert(result);
+                        */
 
                         /*
                         var result = arr.reduceRight(function(result, value) {
@@ -376,7 +382,14 @@
                     },
                     //页面控件的事件绑定，一般是页面按钮的事件绑定
                     events: function () {
-                        
+                        $("#showMsg").click(function(e) {
+                            ui.msgshow("消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息消息信息");
+                            ui.messageShow("提示信息");
+                            ui.warnShow("警告信息");
+                            ui.errorShow("错误信息");
+                            ui.successShow("操作成功");
+                            ui.failedShow("操作失败");
+                        });
                     },
                     //数据初始化
                     loadData: function() {

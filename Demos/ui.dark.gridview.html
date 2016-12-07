@@ -23,6 +23,11 @@
         form select {
             width:188px;
         }
+
+        .default-image {
+            margin-left: -12px;
+            margin-top: 3px;
+        }
     </style>
 
 
@@ -373,7 +378,7 @@
                     columns: [
                         { column: "Id", text: ui.ColumnStyle.cnfn.columnCheckboxAll, len: 40, align: "center", handler: ui.ColumnStyle.cfn.createCheckbox },
                         { text: "", len: 40, align: "right", handler: ui.ColumnStyle.cfn.rowNumber },
-                        { column: "Image", text: "缩略图", len: 120, handler: ui.ColumnStyle.cfnp.getImage(120, 90, "../", "../Content/images/disabled_d1.png") },
+                        { column: "Image", text: "缩略图", len: 96, handler: ui.ColumnStyle.cfnp.getImage(96, 96, "../", "../Content/images/disabled_d1.png", "centerCrop") },
                         { column: "Text", text: "普通文本", len: 100 },
                         { column: "DateTime", text: "日期", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatDate },
                         { column: "DateTime", text: "时间", len: 100, align: "center", handler: ui.ColumnStyle.cfn.formatTime },

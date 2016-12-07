@@ -100,7 +100,6 @@
                 init: {
                     //主题切换
                     themes: function() {
-                        
                     },
                     //在布局计算前创建控件
                     beforeCtrls: function () {
@@ -113,7 +112,8 @@
                             childField: "Children",
                             data: pageLogic.loadTreeData(),
                             canSelectNode: true,
-                            defaultOpen: true
+                            defaultOpen: 1,
+                            lazy: true
                         });
                         /*
                         pageLogic.treeView.selected(function(e, element, treeData) {

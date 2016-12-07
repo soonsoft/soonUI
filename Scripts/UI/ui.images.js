@@ -1,4 +1,36 @@
 ; (function () {
+
+    function getLargeImageSrc(img) {
+        var src = img.attr("data-large-src");
+        if(!src) {
+            src = img.prop("src");
+        }
+        return src;
+    }
+
+    function loadImageSize(src) {
+        var promise = new Promise(function(resolve, reject) {
+            var reimg = new Image();
+            var size = {
+                src: src,
+                width: -1,
+                height: -1
+            };
+            reimg.onload = function () {
+                reimg.onload = null;
+                size.width = reimg.width;
+                size.height = reimg.height;
+                resolve(size);
+            };
+            reimg.onerror = function () {
+                reject(size);
+            };
+            reimg.src = src;
+        });
+        return promise;
+    }
+
+
     //图片放大器
     ui.define("ctrls.ImageZoomer", {
         _getOption: function () {
@@ -7,7 +39,8 @@
                 onNext: null,
                 onPrev: null,
                 hasNext: null,
-                hasPrev: null
+                hasPrev: null,
+                getLargeImageSrc: null
             };
         },
         _getEvents: function () {
@@ -23,6 +56,12 @@
             this.target = null;
             this.targetTop;
             this.targetLeft;
+
+            if($.isFunction(this.option.getLargeImageSrc)) {
+                this._getLargeImageSrc = this.option.getLargeImageSrc;
+            } else {
+                this._getLargeImageSrc = getLargeImageSrc;
+            }
         },
         _init: function () {
             this.imagePanel = $("<div class='show-image-panel' />");
@@ -169,9 +208,11 @@
             if(!nextImg) {
                 return;
             }
-            this.target = nextImg;
-            this._updateButtonState();
-            this._changeView(-this.parentContent.width());
+            this._doChangeView(nextImg, function() {
+                this.target = nextImg;
+                this._updateButtonState();
+                this._changeView(-this.parentContent.width());
+            });
         },
         _doPrevView: function() {
             if(this.changeViewAnimator.isStarted) {
@@ -181,20 +222,44 @@
             if(!prevImg) {
                 return;
             }
-            this.target = prevImg;
-            this._updateButtonState();
-            this._changeView(this.parentContent.width());
+            this._doChangeView(prevImg, function() {
+                this.target = prevImg;
+                this._updateButtonState();
+                this._changeView(this.parentContent.width());
+            });
+        },
+        _doChangeView: function(changeImg, action) {
+            var largeSize = changeImg.data("LargeSize");
+            var that = this;
+            if(largeSize) {
+                action.call(this);
+            } else {
+                loadImageSize(this._getLargeImageSrc(changeImg))
+                    .then(
+                        //success
+                        function(size) {
+                            changeImg.data("LargeSize", size);
+                            action.call(that);
+                        },
+                        //failed
+                        function (size) {
+                            action.call(that);
+                        }
+                    );
+            }
         },
         _changeView: function(changeValue) {
             var temp = this.currentView;
             this.currentView = this.nextView;
             this.nextView = temp;
+            var largeSrc = this._getLargeImageSrc(this.target);
+
             var content = this._setImageSize();
             if (!content) {
                 return;
             }
             var img = this.currentView.children("img");
-            img.prop("src", this.target.prop("src"));
+            img.prop("src", largeSrc);
             img.css({
                 "left": (content.parentW - this.width) / 2 + "px",
                 "top": (content.parentH - this.height) / 2 + "px",
@@ -241,22 +306,28 @@
             });
         },
         _getActualSize: function (img) {
-            //保存原来的尺寸  
-            var mem = { w: img.width(), h: img.height() };
-            //重写
-            img.css({
-                "width": "auto",
-                "height": "auto"
-            });
-            //取得现在的尺寸 
-            var w = img.width();
-            var h = img.height();
-            //还原
-            img.css({
-                "width": mem.w + "px",
-                "height": mem.h + "px"
-            });
-            return { width: w, height: h };
+            var largeSize = img.data("LargeSize");
+            var mem, w, h;
+            if(!largeSize) {
+                //保存原来的尺寸  
+                mem = { w: img.width(), h: img.height() };
+                //重写
+                img.css({
+                    "width": "auto",
+                    "height": "auto"
+                });
+                //取得现在的尺寸 
+                w = img.width();
+                h = img.height();
+                //还原
+                img.css({
+                    "width": mem.w + "px",
+                    "height": mem.h + "px"
+                });
+                largeSize = { width: w, height: h };
+            }
+            
+            return largeSize;
         },
         _setImageSize: function () {
             if (!this.currentView) {
@@ -338,7 +409,7 @@
         _initImage: function() {
             this.image = $(this.element.children("img")[0]);
             if(this.image.length == 0) {
-                throw ui.error("元素中没有图片，无法使用图片局部查看器");
+                throw new Error("元素中没有图片，无法使用图片局部查看器");
             }
             this.imageOffsetWidth = this.image.width();
             this.imageOffsetHeight = this.image.height();
@@ -777,7 +848,24 @@
         }
         if (image instanceof ui.ctrls.ImageZoomer) {
             this.click(function(e) {
-                image.show($(e.target));
+                var target = $(e.target);
+                var largeSize = target.data("LargeSize");
+                if(largeSize) {
+                    image.show(target);
+                } else {
+                    loadImageSize(image._getLargeImageSrc(target))
+                        .then(
+                            //success
+                            function(size) {
+                                target.data("LargeSize", size);
+                                image.show(target);
+                            },
+                            //failed
+                            function(size) {
+                                image.show(target)
+                            }
+                        );
+                }
             });
         }
     };
@@ -815,10 +903,10 @@
             this.chooser = this.element.children(".image-preview-chooser");
             
             if(this.viewer.length == 0) {
-                ui.error("需要设置一个class为image-view-panel的元素");
+                throw new Error("需要设置一个class为image-view-panel的元素");
             }
             if(this.chooser.length == 0) {
-                ui.error("需要设置一个class为image-preview-chooser的元素");
+                throw new Error("需要设置一个class为image-preview-chooser的元素");
             }
             
             this.isHorizontal = this.option.direction === "horizontal";

@@ -17,7 +17,7 @@
         _init: function() {
             var that = this;
             if(!this.activeButton) {
-                ui.error("没有在headerCtrls节点下放置全局搜索按钮");
+                throw new Error("没有在headerCtrls节点下放置全局搜索按钮");
             }
             this.extender = this.activeButton.parent().children(".extender");
             this.extender.addClass("title-color");
