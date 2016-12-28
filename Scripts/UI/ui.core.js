@@ -453,29 +453,48 @@
     };
     //为jquery添加mousewheel事件
     $.fn.mousewheel = function (data, fn) {
-        var eventName = eventSupported("mousewheel", this) ? "mousewheel" : "DOMMouseScroll";
+        var mouseWheelEventName = eventSupported("mousewheel", this) ? "mousewheel" : "DOMMouseScroll";
         return arguments.length > 0 ?
-            this.on(eventName, null, data, fn) :
-            this.trigger(eventName);
+            this.on(mouseWheelEventName, null, data, fn) :
+            this.trigger(mouseWheelEventName);
     };
-    "mousewheel DOMMouseScroll".replace(rword, function (name) {
-        jQuery.event.fixHooks[name] = {
-            filter: function (event, originalEvent) {
-                var delta = 0;
-                if (originalEvent.wheelDelta) {
-                    delta = originalEvent.wheelDelta / 120;
-                    //opera 9x系列的滚动方向与IE保持一致，10后修正 
-                    if (window.opera && window.opera.version() < 10)
-                        delta = -delta;
-                } else if (originalEvent.detail) {
-                    delta = -originalEvent.detail / 3;
-                }
-                event.delta = Math.round(delta);
+    if($.fn.jquery >= "3.0.0") {
+        "mousewheel DOMMouseScroll".replace(rword, function (name) {
+            jQuery.event.special[ name ] = {
+                delegateType: name,
+                bindType: name,
+                handle: function( event ) {
+                    var delta = 0,
+                        originalEvent = event.originalEvent,
+                        ret,
+                        handleObj = event.handleObj;
 
-                return event;
-            }
-        };
-    });
+                    fixMousewheelDelta(event, originalEvent);
+                    ret = handleObj.handler.apply( this, arguments );
+                    return ret;
+                }
+            };
+        });
+    } else {
+        "mousewheel DOMMouseScroll".replace(rword, function (name) {
+            jQuery.event.fixHooks[name] = {
+                filter: fixMousewheelDelta
+            };
+        });
+    }
+    function fixMousewheelDelta(event, originalEvent) {
+        var delta = 0;
+        if (originalEvent.wheelDelta) {
+            delta = originalEvent.wheelDelta / 120;
+            //opera 9x系列的滚动方向与IE保持一致，10后修正 
+            if (window.opera && window.opera.version() < 10)
+                delta = -delta;
+        } else if (originalEvent.detail) {
+            delta = -originalEvent.detail / 3;
+        }
+        event.delta = Math.round(delta);
+        return event;
+    }
     function eventSupported(eventName, elem) {
         if (core.isDomObject(elem)) {
             elem = $(elem);
@@ -568,8 +587,14 @@
     $.fn.draggable = function (option) {
         var elem = this,
             position;
-        if (!option || !option.target || !option.parent) {
+        if (!option) {
             return;
+        }
+        if(!option.target) {
+            option.target = this;
+        }
+        if(!option.parent) {
+            option.parent = $(document.body);
         }
         if (!core.isDomObject(this[0]) || elem.nodeName() === "BODY") {
             return;

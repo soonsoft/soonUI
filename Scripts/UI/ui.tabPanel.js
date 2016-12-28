@@ -95,14 +95,14 @@
                 for (i = 0; i < this.bodies.length; i++) {
                     elem = $(this.bodies[i]);
                     elem.css("left", val + "px");
-                    width = parseInt(elem.css("width"), 10) || 0;
+                    //width = parseInt(elem.css("width"), 10) || 0;
                     val += width;
                 }
             } else {
                 for (i = 0; i < this.bodies.length; i++) {
                     elem = $(this.bodies[i]);
                     elem.css("top", val + "px");
-                    height = parseInt(elem.css("height"), 10) || 0;
+                    //height = parseInt(elem.css("height"), 10) || 0;
                     val += height;
                 }
             }
