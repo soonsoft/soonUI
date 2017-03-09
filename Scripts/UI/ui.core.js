@@ -3210,72 +3210,28 @@
         appendParams: function (url, data) {
             var s = [],
                 add = function (key, value) {
-                    value = $.isFunction(value) ? value() : (value == null ? "" : value);
+                    value = jQuery.isFunction(value) ? value() : (value == null ? "" : value);
                     s[s.length] = encodeURIComponent(key) + "=" + encodeURIComponent(value);
                 },
-                i, t, key;
-            if ((list) || list.length == 0)
-                return null;
-            var tempList = {}, temp, root,
-                item, i, id, pid,
-                flagField = "fromList";
-            var pField, vField;
-            if (!$.isFunction(parentField)) {
-                if (ui.core.type(parentField) === "string") {
-                    pField = parentField;
-                    parentField = function () {
-                        return this[pField];
-                    };
-                } else {
-                    throw new TypeError("parentField isn't String or Function");
+                i, t;
+            if ($.isArray(data)) {
+                for (i = 0; i < data.length; i++) {
+                    t = data[i];
+                    if (t.hasOwnProperty("name")) {
+                        add(t.name, t.value);
+                    }
                 }
-            }
-            if (!$.isFunction(valueField)) {
-                if (ui.core.type(valueField) === "string") {
-                    vField = valueField;
-                    valueField = function () {
-                        return this[vField];
-                    };
-                } else {
-                    throw new TypeError("valueField isn't String or Function");
+            } else if ($.isPlainObject(data)) {
+                for (key in data) {
+                    add(key, data[key]);
                 }
-            }
-            if (ui.core.type(childrenField) !== "string") {
-                childrenField = "children";
             }
 
-            for (i = 0; i < list.length; i++) {
-                item = list[i];
-                pid = parentField.call(item) + "" || "__";
-                if (tempList.hasOwnProperty(pid)) {
-                    temp = tempList[pid];
-                    temp[childrenField].push(item);
-                } else {
-                    temp = {};
-                    temp[childrenField] = [];
-                    temp[childrenField].push(item);
-                    tempList[pid] = temp;
-                }
-                id = valueField.call(item) + "";
-                if (tempList.hasOwnProperty(id)) {
-                    temp = tempList[id];
-                    item[childrenField] = temp[childrenField];
-                    tempList[id] = item;
-                    item[flagField] = true;
-                } else {
-                    item[childrenField] = [];
-                    item[flagField] = true;
-                    tempList[id] = item;
-                }
+            if (s.length > 0) {
+                return url + (url_rquery.test(url) ? "&" : "?") + s.join("&").replace(r20, "+");
+            } else {
+                return url;
             }
-            for (var key in tempList) {
-                temp = tempList[key];
-                if (!temp.hasOwnProperty(flagField)) {
-                    root = temp;
-                    break;
-                }
-            }
-            return root[childrenField];
         }
     };
 
@@ -3437,8 +3393,37 @@
         }
         context.errorFn(context.error);
     }
+    function buildKeyValueParameters(args) {
+        var builder = [],
+            add = function(key, valueOrFunction) {
+                if(!key) return;
+                var value = $.isFunction( valueOrFunction ) ?
+				    valueOrFunction() :
+				    valueOrFunction;
+                builder.push(
+                    encodeURIComponent(key)
+                    + "="
+                    + encodeURIComponent(value == null ? "" : value));
+            };
+        if(Array.isArray(args)) {
+            for(i = 0; i < args.length; i++) {
+                add(args[i].name, args[i].value);
+            }
+        } else {
+            for(i in args) {
+                if(args.hasOwnProperty(i)) {
+                    add(i, args[i]);
+                }
+            }
+        }
+        return builder.join("&");
+    }
+    function buildJsonParameters(args) {
+        return JSON.stringify(args);
+    }
     function ajaxCall(method, url, args, successFn, errorFn, option) {
         var type,
+            paramFn,
             ajaxOption,
             context = {
                 error: {}
@@ -3447,15 +3432,6 @@
             errorFn = successFn;
             successFn = args;
             args = null;
-        }
-
-        type = ui.core.type(args);
-        if (type !== "string") {
-            if (type === "array" || ui.core.isPlainObject(args)) {
-                args = JSON.stringify(args);
-            } else {
-                args = "";
-            }
         }
 
         ajaxOption = {
@@ -3469,6 +3445,24 @@
         if (option) {
             ajaxOption = $.extend(ajaxOption, option);
         }
+        
+        //准备参数
+        type = ui.core.type(args);
+        if(ajaxOption.contentType.indexOf("application/json") > -1) {
+            paramFn = buildJsonParameters;
+        } else {
+            paramFn = buildKeyValueParameters;
+        }
+        if (type !== "string") {
+            if (type === "array" || ui.core.isPlainObject(args)) {
+                args = paramFn(args);
+            } else if(args === null || args === undefined || isNaN(args)) {
+                args = "";
+            } else {
+                args = args + "";
+            }
+        }
+
         if ($.isFunction(successFn)) {
             context.successFn = successFn;
             ajaxOption.success = function(d, s, r) {
@@ -3486,13 +3480,20 @@
 
     //Ajax
     ui.ajax = {
-        ajaxGet: function (url, args, success, error, option) {
-            return ajaxCall("GET", url, args, success, error, option);
+        ajaxGet: function (url, args, success, failure, option) {
+            if(!option) option = {};
+            option.contentType = "application/x-www-form-urlencoded";
+            return ajaxCall("GET", url, args, success, failure, option);
         },
-        ajaxPost: function (url, args, success, error, option) {
-            return ajaxCall("POST", url, args, success, error, option);
+        ajaxPost: function (url, args, success, failure, option) {
+            return ajaxCall("POST", url, args, success, failure, option);
         },
-        ajaxPostOnce: function (btn, url, args, success, error, option) {
+        ajaxPostForm: function(url, args, success, failure, option) {
+            if(!option) option = {};
+            option.contentType = "application/x-www-form-urlencoded";
+            return ajaxCall("POST", url, args, success, failure, option);
+        },
+        ajaxPostOnce: function (btn, url, args, success, failure, option) {
             btn = ui.getJQueryElement(btn);
             if(!btn) {
                 throw new Error("没有正确设置要禁用的按钮");
@@ -3535,7 +3536,7 @@
             }
             
             option.complete = func;
-            return ajaxCall("POST", url, args, success, error, option);
+            return ajaxCall("POST", url, args, success, failure, option);
         },
         ajaxAll: function () {
             var promises;
