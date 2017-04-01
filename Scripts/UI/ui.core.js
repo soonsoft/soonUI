@@ -67,9 +67,26 @@
     var rwindow = /^[object (Window|DOMWindow|global)]$/;
     var relement = /^[object HTML\w+Element]$;/;
     var isTouchAvailable = "ontouchstart" in window;
+    var typeNames = "Boolean Number String Function Array Date RegExp Object Error";
 
-    "Boolean Number String Function Array Date RegExp Object Error".replace(rword, function (name) {
+    typeNames.replace(rword, function (name) {
         class2type["[object " + name + "]"] = name.toLowerCase();
+    });
+    //获取类型
+    core.type = function(obj) {
+	if (obj === null) {
+            return String(obj);
+        }
+        // 早期的webkit内核浏览器实现了已废弃的ecma262v4标准，可以将正则字面量当作函数使用，因此typeof在判定正则时会返回function
+        return typeof obj === "object" || typeof obj === "function" ?
+                class2type[serialize.call(obj)] || "object" :
+                typeof obj;
+    };
+    typeNames.replace(rword, function(name) {
+        var lowerName = name.toLowerCase();
+        core["is" + name] = function(obj) {
+            return this.type(obj) === lowerName;
+        };
     });
 
     core.root = root;
@@ -87,19 +104,7 @@
         }
     }
     core.ieVersion = IE();
-
-    //获取类型
-    function getType(obj) {
-        if (obj === null) {
-            return String(obj);
-        }
-        // 早期的webkit内核浏览器实现了已废弃的ecma262v4标准，可以将正则字面量当作函数使用，因此typeof在判定正则时会返回function
-        return typeof obj === "object" || typeof obj === "function" ?
-                class2type[serialize.call(obj)] || "object" :
-                typeof obj;
-    }
-
-    core.type = getType;
+	
     core.isWindow = function (obj) {
         if (!obj)
             return false;
