@@ -21,7 +21,7 @@
                 data: null,
                 displayCount: 10,
                 formatText: false,
-                showRemoveButton: true,
+                showRemoveButton: true
             };
         },
         _getEvents: function () {
