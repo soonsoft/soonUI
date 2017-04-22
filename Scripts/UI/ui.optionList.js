@@ -150,7 +150,7 @@
                     },
                     duration: 300
                 });
-            }).done(doRemove());
+            }).done(doRemove);
         },
         setData: function (data) {
             if (Array.isArray(data)) {
