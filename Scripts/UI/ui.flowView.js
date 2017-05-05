@@ -577,7 +577,7 @@
             var itemElem = null;
             if (!itemData) return;
             if (!Array.isArray(this.data) || this.data.length == 0) {
-                this.appendRow(itemData);
+                this.appendItem(itemData);
                 return;
             }
             if (itemIndex < 0) {
@@ -591,7 +591,7 @@
                 this._updateIndexes(itemIndex);
                 this.setLocation();
             } else {
-                this.appendRow(itemData);
+                this.appendItem(itemData);
             }
         }
     });
