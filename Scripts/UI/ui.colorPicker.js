@@ -46,7 +46,7 @@
         };
 
         pickerPanel.farbtastic(this);
-        colorPicker.farbtastic = this.pickerPanel[0].farbtastic;
+        colorPicker.farbtastic = pickerPanel[0].farbtastic;
         colorPicker.setColorValue = function() {
             setColorValue.apply(this.farbtastic, arguments);
         };
