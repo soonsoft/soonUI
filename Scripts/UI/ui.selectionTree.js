@@ -919,7 +919,7 @@
                 path = this.currentCompleterElement.attr("data-path");
                 data = this.getDataByPath(path);
                 if (data) {
-                    dt = this._setTreeValue(data, path, 1);
+                    dt = this._setTreeValue(data, path);
                     //触发选择事件
                     this.fire("selected", dt, this._wrapTreeData(this.getNodeData(dt)));
                 }
