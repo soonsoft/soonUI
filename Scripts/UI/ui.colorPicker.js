@@ -28,34 +28,34 @@
             return;
         }
         
-        var colorPicker = ui.ctrls.DropDownPanel(option, this);
-        var pickerPanel = $("<div class='color-picker border-highlight' />");
+        var colorPicker = ui.ctrls.DropDownPanel(option, this),
+            pickerPanel = $("<div class='color-picker border-highlight' />"),
+            oldHideFn;
         
         colorPicker.pickerPanel = pickerPanel;
         colorPicker._showClass = showClass;
         
         colorPicker.wrapElement(this, colorPicker.pickerPanel);
         colorPicker._init();
+        oldHideFn = colorPicker.hide;
+        colorPicker.hide = function() {
+            if (document.dragging) {
+                return "retain";
+            }
+            oldHideFn.call(this);
+        };
 
         pickerPanel.farbtastic(this);
-        colorPicker = pickerPanel[0].farbtastic;
-
-        colorPicker.hide = hide;
-        colorPicker.setColorValue = setColorValue;
-
+        colorPicker.farbtastic = this.pickerPanel[0].farbtastic;
+        colorPicker.setColorValue = function() {
+            setColorValue.apply(this.farbtastic, arguments);
+        };
         colorPicker.setColorValue(this);
-
         pickerPanel.click(function (e) {
             e.stopPropagation();
         });
-        return colorPicker;
-    };
 
-    var hide = function () {
-        if (document.dragging) {
-            return "retain";
-        }
-        this._super();
+        return colorPicker;
     };
 
     var setColorValue = function (target, color) {
