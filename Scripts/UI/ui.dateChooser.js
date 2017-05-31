@@ -301,7 +301,7 @@
                 this.minuteText.val(temp);
                 ctrlPanel.append(this.minuteText);
                 ctrlPanel.append("<span style='margin-left:2px;margin-right:2px;'>:</span>");
-                temp = this._now.getDate();
+                temp = this._now.getSeconds();
                 temp = temp < 10 ? "0" + temp : temp;
                 this.secondText = $("<input type='text' class='second time-input font-highlight-hover' />");
                 this.secondText.val(temp);
