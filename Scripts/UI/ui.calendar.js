@@ -569,15 +569,20 @@
         },
         clearSchedules: function() {
             var cells = this.yearPanel.children(),
-                dayCell,
+                dayCell, rows, cells,
                 item,
-                i = 0, 
-                len = cells.length;
-            for (; i < len; i++) {
+                i, j, k;
+            for (i = 0; i < 12; i++) {
                 dayCell = $(cells[i]);
-                item = this.children("i");
-                if (item.length > 0) {
-                    item.remove();
+                rows = dayCell.children(".year-month-content").children()[0].tBodies[0].rows;
+                for(j = 0; j < rows.length; i++) {
+                    cells = rows[j].cells;
+                    for(k = 0; k < cells.length; k++) {
+                        item = $(cells[k]).children("day-marker");
+                        if(item.length > 0) {
+                            item.remove();
+                        }
+                    }
                 }
             }
         },
