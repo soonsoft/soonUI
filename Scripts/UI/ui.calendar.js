@@ -861,7 +861,7 @@
             }
             first = 1;
             for (; i < 6; i++) {
-                tr = $("<tr />")
+                tr = $("<tr />");
                 for (j = 0; j < 7; j++) {
                     td = $("<td />").append("<div />");
                     if (j == weekend.saturday || j == weekend.sunday) {
