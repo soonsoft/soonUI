@@ -1200,7 +1200,7 @@
                     }
                     tr.append(td);
                     if(j === 0) {
-                        td = $("<td rowspan='2' />");
+                        td = $("<td rowspan='" + count + "' />");
                         td.append("<h3 class='hour-name-text'>" + i + "</h3>");
                         tr.append(td);
                     }
