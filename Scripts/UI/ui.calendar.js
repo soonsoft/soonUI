@@ -1212,8 +1212,8 @@
             this.hourPanel.append(this.hourNames);
         },
         _createHour: function () {
-            this.hourTable = $("<table class='weekhour unselectable' cellspacing='0' cellpadding='0' />"),
-                tbody = $("<tbody />"),
+            this.hourTable = $("<table class='weekhour unselectable' cellspacing='0' cellpadding='0' />");
+            var tbody = $("<tbody />"),
                 colgroup = $("<colgroup />");
             var i = 0;
             for (; i < 7; i++) {
@@ -1641,9 +1641,9 @@
         },
         _createHourName: WeekView.prototype._createHourName,
         _createHour: function () {
-            this.hourTable = $("<table class='weekhour unselectable' cellspacing='0' cellpadding='0' />"),
-                tbody = $("<tbody />");
-            var tr = null,
+            this.hourTable = $("<table class='weekhour unselectable' cellspacing='0' cellpadding='0' />");
+            var tbody = $("<tbody />"),
+                tr = null,
                 td = null,
                 count = this.calendar._getTimeCellCount(),
                 len = 24 * count, i;
