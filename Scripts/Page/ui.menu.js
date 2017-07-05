@@ -473,8 +473,7 @@
         },
         // modern
         _menuGrow: function (animation) {
-            var subElem = null,
-                that = this;
+            var subElem;
             if (this.currentMenu) {
                 //展开选中菜单的子菜单
                 this.submenuPanel.removeHighlight(currentClass, "background");
@@ -493,14 +492,12 @@
             this._fireResize();
         },
         _menuNarrow: function (animation) {
-            var subElem = null,
-                callback = null,
-                that = this;
+            var subElem,
+                callback;
             if (this.currentMenu) {
                 //折叠已经展开的子菜单
                 subElem = this._getSubmenuElement(false);
                 if (subElem) {
-                    subElemHeight = this
                     this._submenuFold(subElem, false, function () {
                         subElem.removeHighlight(currentClass, "background");
                         subElem.css("display", "none");
