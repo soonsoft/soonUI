@@ -573,6 +573,8 @@
             }
         },
         _submenuHide: function (elem, animation, endFunc) {
+            var animator,
+                that;
             if (this.isShow()) {
                 this._submenuFold.apply(this, arguments);
             } else {
@@ -592,7 +594,7 @@
                 option.end = -(this.menubarWidth - this.menubarNarrowWidth);
 
                 animator.onEnd = endFunc;
-                var that = this;
+                that = this;
                 animator.start().done(function () {
                     that.submenuList.html("");
                 });
