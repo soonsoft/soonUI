@@ -1136,7 +1136,6 @@
 
             this.viewPanel.append(this.weekDayPanel).append(this.hourPanel);
             this.selector = Selector(this, this.hourPanel, this.hourTable);
-            this.selector.active();
 
             this.hourAnimator = ui.animator(this.hourPanel, {
                 ease: ui.AnimationStyle.easeTo,
@@ -1618,7 +1617,6 @@
 
             this.viewPanel.append(this.dayPanel).append(this.hourPanel);
             this.selector = Selector(this, this.hourPanel, this.hourTable);
-            this.selector.active();
             
             this.hourAnimator = ui.animator(this.hourPanel, {
                 ease: ui.AnimationStyle.easeTo,
