@@ -242,7 +242,7 @@
                 if (index == 0) {
                     ct.addClass("current-time-top").css("top", top + "px");
                 } else {
-                    ct.removeClass("current-time-top").css("top", top - ui.scrollbarWidth + "px")
+                    ct.removeClass("current-time-top").css("top", top - 17 + "px")
                 }
                 that.timeoutHandler = window.setTimeout(
                     arguments.callee, updateInterval);
