@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--网站logo-->
+    <link rel="shortcut icon" href="../Content/icons/favicon.ico" type="image/x-icon" />
+
+    <title>布局模式2</title>
+    <!-- 页面样式 -->
+    <style type="text/css">
+        html,
+        body {
+            padding: 0px;
+            margin: 0px;
+            color: #333;
+            width: 100%;
+            height: auto;
+        }
+
+        section, header, footer, address, article, aside, nav, menu {
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        #wrap {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        
+        #head {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 64px;
+            z-index: 99;
+        }
+        
+        #body {
+            position: relative;
+            padding-top: 64px;
+            width: 100%;
+            height: auto; 
+            z-index: 98;
+        }
+        
+        #contains {
+            width: 100%;
+            height: auto;
+            position: relative;
+            background-color: #fff;
+            z-index: 98;
+        }
+        
+        #font-wrap {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        
+        #font {
+            width: 100%;
+            height: 400px;
+            position: fixed;
+            z-index: 97;
+            left: 0px;
+            bottom: 0px;
+        }
+        
+        .content {
+            width: 100%;
+            max-width: 1600px;
+            margin: auto;
+            height:auto;
+        }
+
+        .head-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color:#fff;
+            opacity: .7;
+        }
+
+        .head-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background-color: #aaa;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 8px;
+            margin-left: 8px;
+        }
+
+        .baner {
+            max-width: 1600px;
+            width: 100%;
+            padding: 0;
+            margin: auto;
+        }
+
+        .baner:before {
+            content: "";
+            display: inline-block;
+            padding-bottom: 37.5%;
+            width: .1px;
+            vertical-align: middle;
+        }
+
+        .baner-item {
+            width: 100%;
+            height: 100%;
+        }
+
+        .item-list {
+            zoom: 1;
+            overflow: hidden;
+            width: 100%;
+            height: auto;
+            padding-top: 6%;
+        }
+
+        .item-list:before,
+        .item-list:after {
+            content: "";
+            display: block;
+            height: 0;
+            line-height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .item-list:after {
+            clear: both;
+        }
+
+        .block-item {
+            width: 41%;
+            margin-bottom: 6%;
+            margin-right: 6%;
+            background-color: #aaa;
+            float: left;
+        }
+
+            .block-item:before {
+                content: "";
+                display: inline-block;
+                padding-bottom: 100%;
+                width: .1px;
+                vertical-align: middle;
+            }
+
+        .block-item-1st {
+            margin-left: 6%;
+        }
+
+        .demo-list {
+            padding-top: 2%;
+        }
+
+        .demo-item {
+            width: 22.5%;
+            margin-bottom: 2%;
+            margin-right: 2%;
+            background-color: #aaa;
+            float: left;
+        }
+
+            .demo-item:before {
+                content: "";
+                display: inline-block;
+                padding-bottom: 100%;
+                width: .1px;
+                vertical-align: middle;
+            }
+
+        .demo-item-1st {
+            margin-left: 2%;
+        }
+
+
+        @media screen and (min-width:1200px) {
+        }
+
+        @media screen and (min-width: 960px) and (max-width: 1199px) {
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 959px) {
+        }
+
+        @media only screen and (min-width: 480px) and (max-width: 767px) {
+            .block-item { 
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .block-item-1st {
+                margin-left: 0;
+            }
+
+            .demo-item {
+                width: 100%;
+                margin-bottom: 6%;
+                margin-right: 0;
+            }
+
+            .demo-item-1st {
+                margin-left: 0;
+            }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .block-item { 
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .block-item-1st {
+                margin-left: 0;
+            }
+
+            .demo-item {
+                width: 100%;
+                margin-bottom: 6%;
+                margin-right: 0;
+            }
+
+            .demo-item-1st {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <section id="head">
+            <div class="head-background"></div>
+            <div class="head-content">
+                <div class="content" style="height:100%;">
+                    <i class="logo"></i>
+                </div>
+            </div>
+        </section>
+        <section id="body">
+            <section id="contains">
+                <div class="content" style="background-color:#f1f1f1;">
+                    <ul class="baner" style="background-color:#aaa;">
+                        <li class="baner-item"></li>
+                        <li class="baner-item"></li>
+                    </ul>
+                </div>
+                <div class="content" style="background-color:#dcdcdc;max-height:none;">
+                    <ul class="item-list">
+                        <li class="block-item block-item-1st"></li>
+                        <li class="block-item"></li>
+                        <li class="block-item block-item-1st"></li>
+                        <li class="block-item"></li>
+                    </ul>
+                </div>
+                <div class="content" style="background-color:#f1f1f1">
+                    <ul class="baner" style="background-color:#aaa;">
+                        <li class="baner-item"></li>
+                        <li class="baner-item"></li>
+                    </ul>
+                </div>
+                <div class="content" style="background-color:#dcdcdc">
+                    <ul class="item-list demo-list">
+                        <li class="demo-item demo-item-1st"></li>
+                        <li class="demo-item"></li>
+                        <li class="demo-item"></li>
+                        <li class="demo-item"></li>
+                    </ul>
+                </div>
+            </section>
+            <section id="font-wrap">
+                <div id="font" style="background-color:#111322">
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+                </div>
+            </section>
+        </section>
+    </div>
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>
