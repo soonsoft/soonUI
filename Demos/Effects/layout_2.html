@@ -13,11 +13,18 @@
     <style type="text/css">
         html,
         body {
-            padding: 0px;
-            margin: 0px;
-            color: #333;
+            padding: 0;
+            margin: 0;
             width: 100%;
             height: auto;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', "Segoe UI", Segoe, Tahoma, Arial, Verdana, sans-serif;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            color: #333;
         }
 
         section, header, footer, address, article, aside, nav, menu {
@@ -44,6 +51,7 @@
             top: 0px;
             width: 100%;
             height: 64px;
+            line-height: 64px;
             z-index: 99;
         }
         
@@ -104,13 +112,55 @@
         }
 
         .logo {
-            width: 48px;
-            height: 48px;
+            position: absolute;
+            height: 100%;
+            width: 200px;
+            top: 0;
+            left: 0;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
             background-color: #aaa;
             display: inline-block;
             vertical-align: top;
-            margin-top: 8px;
-            margin-left: 8px;
+            margin-top: 16px;
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+
+        .logo-title {
+            display: inline-block;
+            vertical-align: top;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navigation-list {
+            position: absolute;
+            left: 200px;
+            right: 0;
+            top: 0;
+            height: 100%;
+            zoom: 1;
+        }
+
+            .navigation-list:after {
+                content:"";
+                display:block;
+                height:0;
+                line-height:0;
+                clear:both;
+                visibility:hidden;
+            }
+
+        .navigation-item {
+            height: 100%;
+            margin-left: 10px;
+            float: left;
+            font-size: 1em;
         }
 
         .baner {
@@ -257,8 +307,30 @@
         <section id="head">
             <div class="head-background"></div>
             <div class="head-content">
-                <div class="content" style="height:100%;">
-                    <i class="logo"></i>
+                <div class="content" style="height:100%;position:relative;">
+                    <div class="logo">
+                        <i class="logo-icon"></i><h3 class="logo-title">云之国</h3>
+                    </div>
+                    <ul class="navigation-list">
+                        <li class="navigation-item">
+                            <a href="javascript:void(0)">首页</a>
+                        </li>
+                        <li class="navigation-item">
+                            <a href="javascript:void(0)">公司简介</a>
+                        </li>
+                        <li class="navigation-item">
+                            <a href="javascript:void(0)">团队</a>
+                        </li>
+                        <li class="navigation-item">
+                            <a href="javascript:void(0)">解决方案</a>
+                        </li>
+                        <li class="navigation-item">
+                            <a href="javascript:void(0)">成功案例</a>
+                        </li>
+                        <li class="navigation-item">
+                            <a href="javascript:void(0)">联系我们</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
