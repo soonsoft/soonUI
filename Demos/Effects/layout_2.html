@@ -25,6 +25,7 @@
             font-variant: normal;
             font-weight: normal;
             color: #333;
+            font-size: 0.813em;
         }
 
         body, ol, ul, li, dl, dt, dd, form, fieldset, pr, pc {
@@ -290,7 +291,7 @@
             height: 100%;
             margin-left: 10px;
             float: left;
-            font-size: 1em;
+            font-size: 1.125em;
         }
 
         .baner {
@@ -339,7 +340,7 @@
             width: 41%;
             margin-bottom: 6%;
             margin-right: 6%;
-            background-color: #aaa;
+            position: relative;
             float: left;
         }
 
@@ -353,6 +354,56 @@
 
         .block-item-1st {
             margin-left: 6%;
+        }
+
+        .item-container {
+            position: absolute;
+            display: block;
+            border: none !implement;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .block-picture {
+            width: 100%;
+            height: 70%;
+            overflow: hidden;
+        }
+
+        .item-container img {
+            width: 100%;
+            height: 100%;
+            background-color: #aaa;
+        }
+
+        .item-container:hover img {
+            -webkit-transform: scale(1.2, 1.2);
+            -webkit-transition: -webkit-transform .5 ease 0;
+            -ms-transform: scale(1.2, 1.2);
+            -ms-transition: -ms-transform .5 ease 0;
+            -moz-transform: scale(1.2, 1.2);
+            -moz-transition: -moz-transform .5 ease 0;
+            transform: scale(1.2, 1.2);
+            transition: transform .5 ease 0;
+        }
+
+        .block-text {
+            width: 100%;
+            height: 30%;
+        }
+
+        .block-heading {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 0;
+            line-height: 40px;
+            font-weight: normal;
+        }
+        .block-description {
+            line-height: 20px;
         }
 
         .demo-list {
@@ -390,6 +441,25 @@
         }
 
         @media only screen and (min-width: 480px) and (max-width: 767px) {
+            .normal-hamburg {
+                display: block;
+            }
+
+            .navigation-list {
+                left: 0;
+                right: 0;
+                top: 100%;
+                width: 100%;
+                height: auto;
+            }
+
+            .navigation-item {
+                height: 64px;
+                width: 100%;
+                margin-left: 0;
+                background-color: rgba(255,255,255,.7);
+            }
+
             .block-item { 
                 width: 100%;
                 margin-right: 0;
@@ -479,10 +549,50 @@
                 </div>
                 <div class="content" style="background-color:#dcdcdc;max-height:none;">
                     <ul class="item-list">
-                        <li class="block-item block-item-1st"></li>
-                        <li class="block-item"></li>
-                        <li class="block-item block-item-1st"></li>
-                        <li class="block-item"></li>
+                        <li class="block-item block-item-1st">
+                            <a class="item-container" href="javascript:void(0)">
+                                <div class="block-picture">
+                                    <img />
+                                </div>
+                                <div class="block-text">
+                                    <h3 class="block-heading">大型信息系统</h3>
+                                    <span class="block-description">描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="block-item">
+                            <a class="item-container" href="javascript:void(0)">
+                                <div class="block-picture">
+                                    <img />
+                                </div>
+                                <div class="block-text">
+                                    <h3 class="block-heading">大型三维GIS系统</h3>
+                                    <span class="block-description">描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="block-item block-item-1st">
+                            <a class="item-container" href="javascript:void(0)">
+                                <div class="block-picture">
+                                    <img />
+                                </div>
+                                <div class="block-text">
+                                    <h3 class="block-heading">移动互联网</h3>
+                                    <span class="block-description">描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="block-item">
+                            <a class="item-container" href="javascript:void(0)">
+                                <div class="block-picture">
+                                    <img />
+                                </div>
+                                <div class="block-text">
+                                    <h3 class="block-heading">互联网站点</h3>
+                                    <span class="block-description">描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息</span>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="content" style="background-color:#f1f1f1">
