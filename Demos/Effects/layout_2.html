@@ -105,19 +105,28 @@
             z-index: 98;
         }
         
-        #font-wrap {
+        #foot-wrap {
             position: relative;
             width: 100%;
             height: 400px;
         }
         
-        #font {
+        #foot {
             width: 100%;
             height: 400px;
             position: fixed;
             z-index: 97;
             left: 0px;
             bottom: 0px;
+            text-align: center;
+            color: #aaa;
+        }
+
+        hr {
+            margin: 0;
+            padding: 0;
+            height: 1px;
+            border: none;
         }
         
         .content {
@@ -430,6 +439,42 @@
             margin-left: 2%;
         }
 
+
+        .foot-company-icon {
+            width: 96px;
+            height: 96px;
+            background-color: #aaa;
+            display: block;
+            margin: 60px auto 20px auto;
+        }
+
+        .foot-company-name,
+        .foot-copyright {
+            font-size: 13px;
+            height: 24px;
+            line-height: 24px;
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+        }
+
+        .foot-hr {
+            background-color: #444;
+            width: 80%;
+            margin: 20px auto 20px auto;
+        }
+
+        .foot-record {
+            font-size: 12px;
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        .foot-record:hover {
+            color: #aaa;
+            text-decoration: underline;
+        }
+
         /* 相应显示面积 */
         @media screen and (min-width:1200px) {
         }
@@ -610,13 +655,14 @@
                     </ul>
                 </div>
             </section>
-            <section id="font-wrap">
-                <div id="font" style="background-color:#111322">
-                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
-                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
-                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
-                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
-                    <h1 style="height:64px;color:#FFFFFF;opacity:.5;font-size:40px;margin:0px;padding:0px;line-height:64px;text-align:center;">Foot Foot Foot</h1>
+            <section id="foot-wrap">
+                <div id="foot" style="background-color:#111322">
+                    <i class="foot-company-icon"></i>
+                    <h6 class="foot-company-name">南京云之国信息技术有限公司</h5>
+                    <h6 class="foot-company-name">Nanjing Cloud Kingdom information technology Co.,Ltd.</h5>
+                    <h6 class="foot-copyright">Copyright© 2017 版权所有</h6>
+                    <hr class="foot-hr" />
+                    <a class="foot-record" href="javascript:void(0)">苏ICP备17042019号</a>
                 </div>
             </section>
         </section>
