@@ -145,7 +145,7 @@
             top: 0;
             left: 0;
             background-color:#fff;
-            opacity: .7;
+            opacity: .9;
         }
 
         .head-content {
@@ -486,6 +486,10 @@
         }
 
         @media only screen and (min-width: 480px) and (max-width: 767px) {
+            .baner:before {
+                padding-bottom: 56.25%;
+            }
+
             .normal-hamburg {
                 display: block;
             }
@@ -496,6 +500,7 @@
                 top: 100%;
                 width: 100%;
                 height: auto;
+                display: none;
             }
 
             .navigation-item {
@@ -505,27 +510,33 @@
                 background-color: rgba(255,255,255,.7);
             }
 
+            .item-list {
+                padding-top: 0;
+            }
+
             .block-item { 
-                width: 100%;
-                margin-right: 0;
+                width: 90%;
+                margin: 5%;
             }
 
             .block-item-1st {
-                margin-left: 0;
+                margin-left: 5%;
             }
 
             .demo-item {
-                width: 100%;
-                margin-bottom: 6%;
-                margin-right: 0;
+                width: 90%;
+                margin: 5%;
             }
 
             .demo-item-1st {
-                margin-left: 0;
+                margin-left: 5%;
             }
         }
 
         @media only screen and (max-width: 479px) {
+            .baner:before {
+                padding-bottom: 56.25%;
+            }
             .block-item { 
                 width: 100%;
                 margin-right: 0;
