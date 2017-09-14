@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.title-color {
+    color: #fff;
+}
+
 .navigation-panel {
     position: absolute;
     left: 0px;
@@ -151,7 +155,6 @@ a.menu-show {
     height: 48px;
     font-size: 15px;
     position: relative;
-    background-color: transparent;
 }
 
 .navigation-panel .icon {
@@ -208,7 +211,6 @@ a.menu-show {
     display: none;
     height: 0px;
     overflow: hidden;
-    background-color: transparent;
     position: relative;
 }
 
