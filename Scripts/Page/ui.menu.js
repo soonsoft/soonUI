@@ -2,8 +2,13 @@
     mp.isHomePage = true;
     mp.noMenu = false;
 
+    function onMenuLinkClick(elem) {
+        // 实现点击事件
+    }
+
     var showClass = "menu-show",
         currentClass = "current-menu",
+        lightClass = "head-color",
         itemHeight = 30;
 
     var Menu = ui.define("ctrls.Menu", {
@@ -127,7 +132,7 @@
             this.submenuPanel = $("<div class='submenu-panel' />");
             this.submenuPanel.css({
                 "left": this.menubarNarrowWidth + "px",
-                "width": this.menubarWidth + "px"
+                "width": this.menubarWidth - this.menubarNarrowWidth + "px"
             });
             this.submenuPanel.addClass("title-color");
             this.submenuList = $("<ul class='submenu-list' />");
@@ -194,25 +199,29 @@
             var elem = $(e.target),
                 nodeName;
             while ((nodeName = elem.nodeName()) !== "DT") {
-                if (nodeName === "DL" || nodeName === "A") {
+                if (nodeName === "DL") {
+                    return;
+                }
+                if (nodeName === "A") {
+                    onMenuLinkClick.call(this, elem);
                     return;
                 }
                 elem = elem.parent();
             }
             var openFunc = $.proxy(function () {
                 this.currentMenu = elem;
-                this.currentMenu.addHighlight(currentClass, "background");
+                this.currentMenu.addClass(currentClass).addClass(lightClass);
                 var subElem = this._getSubmenuElement();
                 if (subElem) {
-                    subElem.addHighlight(currentClass, "background");
+                    subElem.addClass(currentClass).addClass(lightClass);
                     this.subShow(subElem, this.hasAnimation);
                 }
             }, this);
 
             var closeFunc = $.proxy(function () {
-                this.currentMenu.removeHighlight(currentClass, "background");
+                this.currentMenu.removeClass(currentClass).removeClass(lightClass);
                 var subElem = this._getSubmenuElement();
-                subElem.removeHighlight(currentClass, "background");
+                subElem.removeClass(currentClass).removeClass(lightClass);
                 subElem.css("display", "none");
                 if (this.currentMenu[0] != elem[0]) {
                     this.currentMenu = null;
@@ -229,7 +238,7 @@
                     this.subHide(subElem, this.hasAnimation, closeFunc);
                     return;
                 } else {
-                    this.currentMenu.removeHighlight(currentClass, "background");
+                    this.currentMenu.removeClass(currentClass).removeClass(lightClass);
                 }
             }
             openFunc();
@@ -239,7 +248,11 @@
             var elem = $(e.target),
                 nodeName;
             while ((nodeName = elem.nodeName()) !== "DT") {
-                if (nodeName === "DL" || nodeName === "A") {
+                if (nodeName === "DL") {
+                    return;
+                }
+                if (nodeName === "A") {
+                    onMenuLinkClick.call(this, elem);
                     return;
                 }
                 elem = elem.parent();
@@ -253,16 +266,16 @@
             var openFunc = $.proxy(function () {
                 var submenuPanel = null;
                 this.currentMenu = elem;
-                this.currentMenu.addHighlight(currentClass, "background");
+                this.currentMenu.addClass(currentClass).addClass(lightClass);
                 submenuPanel = this._getSubmenuElement();
-                submenuPanel.addHighlight(currentClass, "background");
+                submenuPanel.addClass(currentClass).addClass(lightClass);
                 this.subShow(submenuPanel, this.hasAnimation);
             }, this);
 
             var closeFunc = $.proxy(function () {
-                this.currentMenu.removeHighlight(currentClass, "background");
+                this.currentMenu.removeClass(currentClass).removeClass(lightClass);
                 var subElem = this._getSubmenuElement();
-                subElem.removeHighlight(currentClass, "background");
+                subElem.removeClass(currentClass).removeClass(lightClass);
                 subElem.css("display", "none");
                 this.currentMenu = null;
             }, this);
@@ -271,7 +284,7 @@
                 if (this.currentMenu[0] == elem[0]) {
                     this.subHide(this._getSubmenuElement(), this.hasAnimation, closeFunc);
                 } else {
-                    this.currentMenu.removeHighlight(currentClass, "background");
+                    this.currentMenu.removeClass(currentClass).removeClass(lightClass);
                     this.currentMenu = null;
                     openFunc();
                 }
@@ -473,15 +486,16 @@
         },
         // modern
         _menuGrow: function (animation) {
-            var subElem;
+            var subElem = null,
+                that = this;
             if (this.currentMenu) {
                 //展开选中菜单的子菜单
-                this.submenuPanel.removeHighlight(currentClass, "background");
+                this.submenuPanel.removeClass(currentClass).removeClass(lightClass);
                 this.submenuPanel.css("display", "none");
                 this.submenuList.html("");
                 subElem = this._getSubmenuElement(false);
                 if (subElem) {
-                    subElem.addHighlight(currentClass, "background");
+                    subElem.addClass(currentClass).addClass(lightClass);
                     this._submenuUnfold(subElem, false);
                 }
             }
@@ -492,18 +506,19 @@
             this._fireResize();
         },
         _menuNarrow: function (animation) {
-            var subElem,
-                callback;
+            var subElem = null,
+                callback = null,
+                that = this;
             if (this.currentMenu) {
                 //折叠已经展开的子菜单
                 subElem = this._getSubmenuElement(false);
                 if (subElem) {
                     this._submenuFold(subElem, false, function () {
-                        subElem.removeHighlight(currentClass, "background");
+                        subElem.removeClass(currentClass).removeClass(lightClass);
                         subElem.css("display", "none");
                     });
                 }
-                this.currentMenu.removeHighlight(currentClass, "background");
+                this.currentMenu.removeClass(currentClass).removeClass(lightClass);
                 this.currentMenu = null;
             }
 
@@ -573,8 +588,7 @@
             }
         },
         _submenuHide: function (elem, animation, endFunc) {
-            var animator,
-                that;
+            var animator;
             if (this.isShow()) {
                 this._submenuFold.apply(this, arguments);
             } else {
@@ -594,7 +608,7 @@
                 option.end = -(this.menubarWidth - this.menubarNarrowWidth);
 
                 animator.onEnd = endFunc;
-                that = this;
+                var that = this;
                 animator.start().done(function () {
                     that.submenuList.html("");
                 });
@@ -654,9 +668,9 @@
             for (i = 0, len = menus.length; i < len; i++) {
                 m = menus[i];
                 if (ui.str.isNullOrEmpty(parentCode)) {
-                    currClass = m.resourceCode === funcCode ? " class='current-menu background-highlight selected-menu'" : "";
+                    currClass = m.resourceCode === funcCode ? (" class='current-menu " + lightClass + " selected-menu'") : "";
                 } else {
-                    currClass = m.resourceCode === parentCode ? " class='current-menu background-highlight'" : "";
+                    currClass = m.resourceCode === parentCode ? (" class='current-menu " + lightClass + "'") : "";
                 }
                 htmlBuilder.push("<dt", currClass, ">");
                 htmlBuilder.push("<b class='menu-item-background'><b class='menu-item-color'></b></b>");
