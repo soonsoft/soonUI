@@ -3,377 +3,198 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <link type="text/css" href="../dist/theme/light/site.Light.css" rel="stylesheet" />
-    <link id="theme" type="text/css" href="../dist/theme/color/ui.metro.SeaBlue.css" rel="stylesheet" />
+    <title>弹性布局</title>
     <style type="text/css">
-        html {
-            overflow: auto;
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
         }
-
+        h1, h2, h3, h4, h5, h6, header, footer {
+            padding: 0;
+            margin: 0;
+        }
         body {
-            height: auto;
-        }
-
-        .heighter {
-            position: absolute;
-            width: 1px;
-            top: 0;
-            left: 0;
-        }
-
-        .container-item {
-            width: 100%;
-            height: auto;
-            position: relative;
+            font-size: 0.813em;
+            font-family: 'Microsoft YaHei', "Segoe UI", Segoe, Tahoma, Arial, Verdana, sans-serif;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            color: #333333;
             overflow: hidden;
-        }
-
-        .container-item-fixed {
-            position: fixed;
-            top: 0px;
-            left: 0px;
-        }
-
-        .container-item-fixed .container-background {
-            
-        }
-
-        .container-background {
-
-        }
-
-        .container-panel {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
-
-        .head-title {
-            font-size: 2em;
-        }
-
-        .theme-container-item {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .theme-box {
-            width: 240px;
-            height: 240px;
-            border: 2px solid #aaa;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: -121px;
-            margin-left: -121px;
-            border-radius: 10px;
-        }
-
-        .demo-background {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .demo-box {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .demo-group {
-
-        }
-
-        .demo-title {
-
-        }
-
-        .demo-item {
-            display: inline-block;
-            vertical-align: top;
-            height: 32px;
-            line-height: 32px;
-            width: auto;
-            border: 1px solid #000;
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .demo-item:hover {
+        a {
             text-decoration: none;
+            color: #4277C3;
         }
-
-        .demo-item-icon {
-            display: inline-block;
-            vertical-align: top;
-            width: 32px;
-            height: 32px;
-            background-color: #ccc;
+        a:hover {
+            text-decoration: underline;
+        }
+        #head {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            flex: 0 0 48px;
+            background-color: #4277C3;
+            color: #fff;
+        }
+        #body {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            flex: 1 1 auto;
+        }
+        #foot {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            flex: 0 0 24px;
+            background-color: #f1f1f1;
+            text-align: center;
+            justify-content: center;
+        }
+        .head-title {
+            flex: 0 0 240px;
+            overflow: hidden;
+            line-height: 42px;
+            font-weight:normal;
+        }
+        .head-tabs {
+            flex: 1 1 auto;
+        }
+        .head-user {
+            flex: 0 0 48px;
+            height: 100%;
+            overflow: hidden;
+        }
+        .user-portrait {
+            width: 36px;
+            height: 36px;
+            margin-top: 6px;
+            margin-left: 6px;
+            background-color: #999;
             border-radius: 50%;
         }
-
-        .demo-item-text {
-            font-size: 1.1em;
-            margin-right: 16px;
+        .menu-panel {
+            flex: 0 0 240px;
+            background-color: #739BD4;
         }
-
-        .h1 {
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: -50px;
-            margin-left: -50px;
-            font-size: 48pt;
+        .body-content {
+            flex: 1 1 auto;
+            display: flex;
+            overflow: hidden;
+            flex-direction: column;
         }
-    </style>
-    <style type="text/css">
-        @media screen and (min-width:1200px) {
+        .toolbar {
+            flex: 0 0 40px;
+            display: inline-flex;
+            flex-direction: row-reverse;
+            background-color: #f1f1f1;
         }
-
-        @media screen and (min-width: 960px) and (max-width: 1199px) {
+        .tool-button {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            color: #4277C3;
+            text-decoration: none;
+            line-height: 40px;
+            flex: 0 0 auto;
+            text-align: center;
         }
-
-        @media screen and (min-width: 768px) and (max-width: 959px) {
+        .tool-button:hover {
+            background-color: #4277C3;
+            color: #fff;
         }
-
-        @media only screen and (min-width: 480px) and (max-width: 767px) {
+        .grid {
+            display: flex;
+            flex-direction: row;
+            align-content: flex-start;
+            flex: 1 1 auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            overflow: auto;
+            padding-bottom: 10px;
         }
-
-        @media only screen and (max-width: 767px) {
-        }
-
-        @media only screen and (max-width: 479px) {
+        .picture-item {
+            width: 200px;
+            height: 200px;
+            flex: 0 0 200px;
+            background-color: #ccc;
+            margin-top: 10px;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="heighter"></div>
-    <section class="container-item" style="background-color:#f1f1f1;z-index:10;">
-        <div>
-            <h1 class="head-title">SOON.UI III</h1>
-            <p></p>
-            <a href="javascript:void(0)">GitHub</a>
-            <a href="javascript:void(0)">下载</a>
+    <header id="head">
+        <h1 class="head-title">
+            <span style="font-size:18px;margin-left:10px;">系统标题</span>
+        </h1>
+        <div class="head-tabs"></div>
+        <div class="head-user">
+            <img class="user-portrait" />
         </div>
-        
-    </section>
-    <section class="container-item" style="z-index:9;">
-        <div class="theme-container-item" style="background-color:#fff;height:60%;"></div>
-        <div class="theme-container-item" style="top:-18%;height:70%;">
-            <div style="width:100%;height:100%;position:absolute;">
-                <svg viewBox="0 0 2560 2560" preserveAspectRatio="xMidYMid slice" 
-                        xmlns:dc="http://purl.org/dc/elements/1.1/" 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        xmlns:xlink="http://www.w3.org/1999/xlink" 
-                        version="1.1" class="section__svg">
-                    <defs>
-                        <clipPath id="clipPathDark">
-                            <path fill="none" class="section__svg-path" d="M2560,0 0,200 0,2560 2560,2560z"/>
-                        </clipPath>
-                    </defs>
-                    <rect width="100%" height="100%" fill="#1d1f21" clip-path="url(#clipPathDark)" />
-                </svg>
+    </header>
+    <section id="body">
+        <aside class="menu-panel"></aside>
+        <section class="body-content">
+            <div class="toolbar">
+                <a class="tool-button" style="order:1" href="javascript:void(0)">加</a>
+                <a class="tool-button" style="order:1" href="javascript:void(0)">删</a>
+                <a class="tool-button" style="order:1" href="javascript:void(0)">查</a>
             </div>
-            <div style="position:absolute;width:100%;height:80%;top:10%;">
-                <h1>2</h1>
+            <div class="grid">
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
+                <div class="picture-item"></div>
             </div>
-        </div>
-        <div class="theme-box border-highlight theme-panel"></div>
+        </section>
     </section>
-    <section class="container-item" style="background-color:#fff;z-index:8;">
-        <div class="demo-background">
-            <canvas id="colorLines" style="width:100%;height:100%;"></canvas>
-        </div>
-        <div class="demo-box">
-            <h2 class="head-title">DEMO</h2>
-            <dl class="demo-group">
-                <dt class="demo-title"></dt>
-                <dd class="">
-                    <a href="javascript:void(0)" class="demo-item background-highlight">
-                        <i class="demo-item-icon"></i>
-                        <span class="demo-item-text">表格视图</span>
-                    </a>
-                </dd>
-            </dl>
-        </div>
-    </section>
-    <section class="container-item" style="background-color:#ccc;z-index:7;">
-        <h1>4</h1>
-    </section>
-    <section class="container-item" style="background-color:#f1f1f1;z-index:6;">
-        <h1>5</h1>
-    </section>
-    <section class="container-item" style="background-color:#ccc;z-index:5;">
-        <h1>6</h1>
-    </section>
-    <section class="container-item" style="background-color:#f1f1f1;z-index:4;">
-        <h1>7</h1>
-    </section>
-
-    <script type="text/javascript" src="../jquery.js"></script>
-    <script type="text/javascript" src="../dist/ui-core.3.0.0.js"></script>
-    <script type="text/javascript" src="../dist/ui-effects.3.0.0.js"></script>
-    <script type="text/javascript">
-        (function() {
-            var sections,
-                sectionOperators = [],
-                heighter,
-                itemHeight,
-                currentIndex,
-                direction,
-                lastScrollTop,
-                wave,
-                requestAnimationFrame,
-                cancelAnimationFrame;
-
-            function resetFixedItems() {
-                var scrollTop,
-                    i, len, 
-                    operator,
-                    index;
-
-                scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                if(scrollTop > lastScrollTop) {
-                    direction = "down";
-                } else {
-                    direction = "up";
-                }
-                lastScrollTop = scrollTop;
-                index = Math.floor((scrollTop + itemHeight) / itemHeight) - 1;
-                if(currentIndex === index) {
-                    return;
-                }
-
-                sections.removeClass("container-item-fixed");
-                for(i = index + 1, len = sections.length; i < len; i++) {
-                    $(sections[i]).addClass("container-item-fixed");
-                }
-
-                /*
-                currentIndex = index;
-                operator = sectionOperators[currentIndex];
-                if(operator) {
-                    operator.stop();
-                }
-                operator = sectionOperators[index];
-                if(operator) {
-                    operator.start();
-                }
-                */
-            }
-            $(document).ready(function(e) {
-                sections = $(".container-item");
-                heighter = $(".heighter");
-
-                function onResize() {
-                    var sections = $(".container-item"),
-                        height = document.documentElement.clientHeight;
-                    sections.css("height", height + "px");
-                    heighter.css("height", height * sections.length + "px");
-                    itemHeight = document.documentElement.clientHeight;
-
-                    if(wave) {
-                        wave.resize();
-                    }
-                    resetFixedItems();
-                };
-
-                ui.page.resize(onResize);
-                onResize();
-                
-                $(document).on("scroll", function() {
-                    resetFixedItems();
-                });
-
-                setTimeout(function() {
-                    demoSection();
-                });
-            });
-
-            requestAnimationFrame = ui.getRequestAnimationFrame();
-            cancelAnimationFrame = ui.getCancelAnimationFrame();
-
-            function demoSection() {
-                initWave();
-                wave.resize();
-                wave.start();
-                sectionOperators[2] = {
-                    start: function() {
-                        wave.start();
-                    },
-                    stop: function() {
-                        wave.stop();
-                    }
-                };
-            }
-
-            function initWave() {
-                var canvas = $("#colorLines"),
-                    width = canvas.width(),
-                    height = canvas.height(),
-                    resize;
-
-                wave = ui.effect.Wave(canvas.get(0), width, height);
-                resize = wave.resize;
-                wave.resize = function() {
-                    var div, 
-                        section,
-                        width, height,
-                        top, left;
-
-                    div = canvas.parent();
-                    section = div.parent();
-                    width = section.width();
-                    height = section.height();
-
-                    left = width - (width * Math.sin(75 * Math.PI / 180));
-                    top = height - (width * Math.sin(15 * Math.PI / 180));
-
-                    div.css("transform", "rotate(-30deg) translate(" + left + "px, " + top + "px)");
-                };
-                wave.push(
-                    ui.effect.WaveArea({
-                        context: wave.context,
-                        speed: 0.02,
-                        deep: .6,
-                        level: 0.08,
-                        waveMax: 1.2,
-                        attenuation: .6,
-                        K: 1.5,
-                        F: 8,
-                        width: width,
-                        height: height,
-                        thin: 4,
-                        color: "rgba(232,113,141,.3)",
-                        bgColor: "rgba(255,255,255,1)"
-                    })
-                    , ui.effect.WaveArea({
-                        context: wave.context,
-                        speed: 0.01,
-                        deep: 1,
-                        level: 0.07,
-                        waveMax: 3,
-                        attenuation: 1,
-                        K: 1,
-                        F: 8,
-                        width: width,
-                        height: height,
-                        thin: 4,
-                        color: "rgba(1,170,167,.3)",
-                        bgColor:"rgba(255,255,255,1)"
-                    })
-                );
-            }
-
-        })();
-    </script>
+    <footer id="foot">
+        <a href="http://www.yzgit.com">南京云之国信息技术有限公司</a>
+    </footer>
 </body>
 </html>
