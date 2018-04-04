@@ -134,3 +134,39 @@ SQL设计规范
     对特别重要的库表，提前与DBA沟通确定维护和备份优先级
     不在业务高峰期批量更新、查询数据库
     提交线上建表需求，必须详细注明所有相关SQL
+
+
+<bean id="dataSource" class="com.huawei.vmall.order.core.dataSource.DruidDataSource" init-method="init"
+		destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="filters" value="stat" />
+
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+		<property name="validationQuery" value="select 1 from dual" />
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testWhileIdle" value="true" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="${jdbc.maxPoolPreparedStatementPerConnectionSize}" />
+		<!--连接泄漏处理。Druid提供了RemoveAbandanded相关配置，用来关闭长时间不使用的连接。 -->
+		<property name="removeAbandoned" value="true" /> <!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandonedTimeout" value="1800" /> <!-- 1800秒，也就是30分钟 -->
+		<property name="logAbandoned" value="true" /> <!-- 关闭abanded连接时输出错误日志 -->
+	</bean>
+    
+    order.jdbc.url=jdbc:mysql://10.41.69.226:3306/vmall_order?autoReconnect=true&characterEncoding=utf8&useUnicode=true
+order.jdbc.username=MxIQI6exN/x3D8XALRXDxg==
+order.jdbc.password=MxIQI6exN/x3D8XALRXDxg==
+order.jdbc.initialSize=2
+order.jdbc.maxActive=20
+order.jdbc.maxWait=5000
+order.jdbc.timeBetweenEvictionRunsMillis=9000
+order.jdbc.minEvictableIdleTimeMillis=300000
+order.jdbc.maxPoolPreparedStatementPerConnectionSize=20
